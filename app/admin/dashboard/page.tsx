@@ -3,9 +3,8 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Building2, FileCheck, FileText, Loader2, LogOut, Users } from "lucide-react"
+import { BarChart2, BookOpen, Building2, FileCheck, FileText, Loader2, LogOut, Newspaper, Store, Users } from "lucide-react"
 import { logoutAdmin, subscribeAuthState, type User } from "@/lib/firebase/auth-client"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -61,74 +60,34 @@ export default function AdminDashboardPage() {
         <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
 
         {/* Grid de navegación */}
-        <div className="grid md:grid-cols-4 gap-6 mb-12">
-          {/* Reportes Ciudadanos */}
-          <Link href="/admin/reportes" className="group">
-            <Card className="h-full transition-shadow group-hover:shadow-md cursor-pointer border-primary/20">
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <FileCheck className="h-8 w-8 text-primary" />
-                </div>
-                <CardTitle className="text-lg mt-3">Reportes Ciudadanos</CardTitle>
-                <CardDescription>Revisar y aprobar reportes pendientes</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <span className="text-sm text-primary font-medium group-hover:underline">
-                  Ir a reportes →
-                </span>
-              </CardContent>
-            </Card>
-          </Link>
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mb-12">
 
-          {/* Usuarios internos */}
-          <Link href="/admin/usuarios" className="group">
-            <Card className="h-full transition-shadow group-hover:shadow-md cursor-pointer border-primary/20">
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <Users className="h-8 w-8 text-primary" />
-                </div>
-                <CardTitle className="text-lg mt-3">Usuarios</CardTitle>
-                <CardDescription>Gestión de usuarios administradores</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <span className="text-sm text-primary font-medium group-hover:underline">
-                  Ir a usuarios →
-                </span>
-              </CardContent>
-            </Card>
-          </Link>
+          {[
+            { href: "/admin/reportes", icon: FileCheck, titulo: "Reportes Ciudadanos", desc: "Revisar y aprobar reportes pendientes" },
+            { href: "/admin/obras", icon: Building2, titulo: "Obras Públicas", desc: "Alta y edición de obras municipales" },
+            { href: "/admin/pedidos", icon: FileText, titulo: "Pedidos de Información", desc: "Seguimiento de solicitudes de acceso a la información" },
+            { href: "/admin/medios", icon: Newspaper, titulo: "Medios y Pautas", desc: "Gestión de medios y pauta oficial" },
+            { href: "/admin/proveedores", icon: Store, titulo: "Proveedores del Estado", desc: "Contrataciones y proveedores municipales" },
+            { href: "/admin/publicaciones", icon: BookOpen, titulo: "Publicaciones", desc: "Noticias y artículos del observatorio" },
+            { href: "/admin/ranking", icon: BarChart2, titulo: "Ranking de Transparencia", desc: "Editor del índice por municipio" },
+            { href: "/admin/usuarios", icon: Users, titulo: "Usuarios", desc: "Gestión de usuarios administradores" },
+          ].map(({ href, icon: Icon, titulo, desc }) => (
+            <Link key={href} href={href} className="group">
+              <Card className="h-full transition-shadow group-hover:shadow-md cursor-pointer border-primary/20">
+                <CardHeader className="pb-3">
+                  <Icon className="h-8 w-8 text-primary" />
+                  <CardTitle className="text-base mt-3">{titulo}</CardTitle>
+                  <CardDescription className="text-xs">{desc}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <span className="text-sm text-primary font-medium group-hover:underline">
+                    Abrir →
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
 
-          {/* Obras Públicas */}
-          <Card className="h-full opacity-70 border-dashed">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <Building2 className="h-8 w-8 text-muted-foreground" />
-                <Badge variant="secondary">Próximamente</Badge>
-              </div>
-              <CardTitle className="text-lg mt-3 text-muted-foreground">Obras Públicas</CardTitle>
-              <CardDescription>Gestión de obras y proyectos municipales</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <span className="text-sm text-muted-foreground">No disponible aún</span>
-            </CardContent>
-          </Card>
-
-          {/* Pedidos de Información */}
-          <Card className="h-full opacity-70 border-dashed">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <FileText className="h-8 w-8 text-muted-foreground" />
-                <Badge variant="secondary">Próximamente</Badge>
-              </div>
-              <CardTitle className="text-lg mt-3 text-muted-foreground">
-                Pedidos de Información
-              </CardTitle>
-              <CardDescription>Seguimiento de solicitudes de acceso a la información</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <span className="text-sm text-muted-foreground">No disponible aún</span>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Accesos rápidos */}
