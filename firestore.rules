@@ -6,6 +6,8 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    // --- Colecciones existentes ---
+
     match /publicaciones/{document=**} {
       allow read: if true;
       allow write: if isAuthenticated();
@@ -26,6 +28,62 @@ service cloud.firestore {
       allow read, update, delete: if isAuthenticated();
     }
 
+    // --- Colecciones nuevas del observatorio ---
+    // Lectura pública + escritura autenticada.
+    // El filtrado por visibilidadPublica / estadoEditorial lo hace el cliente.
+
+    match /obras_publicas/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /accidentes/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /reclamos_salud/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /pedidos_informacion/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /medios/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /pauta_oficial/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /proveedores_estado/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /ranking_municipios/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // Reportes ciudadanos: creación anónima, gestión solo autenticada.
+    match /reportes_ciudadanos/{document=**} {
+      allow create: if true;
+      allow read, update, delete: if isAuthenticated();
+    }
+
+    // Datos de contacto de reportes: PRIVADO — solo acceso autenticado.
+    match /reportes_contactos/{document=**} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Catch-all: denegar todo lo no declarado explícitamente.
     match /{document=**} {
       allow read, write: if false;
     }

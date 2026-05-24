@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { AlertCircle, FileText, Users } from "lucide-react"
+import { AlertCircle, FileText, Users, Building2, MapPin, Shield, Heart, BarChart2, Newspaper, Briefcase } from "lucide-react"
 
 import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
@@ -155,6 +155,94 @@ export default function HomePage() {
               <Link href="/denuncias"><Button size="lg" variant="secondary" className="w-full sm:w-auto">Hacer una Denuncia</Button></Link>
               <Link href="/sumate"><Button size="lg" variant="outline" className="w-full sm:w-auto bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary">Sumate al Proyecto</Button></Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-3">Módulos del Observatorio</h2>
+            <p className="text-muted-foreground text-lg">Herramientas para el control ciudadano del Estado</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Link href="/obras-publicas">
+              <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="pt-6">
+                  <Building2 className="h-8 w-8 text-primary mb-3" />
+                  <h3 className="font-semibold text-lg mb-1">Obras Públicas</h3>
+                  <p className="text-sm text-muted-foreground">Seguimiento de obras por municipio, estado y ejecutor</p>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/mapa-ciudadano">
+              <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="pt-6">
+                  <MapPin className="h-8 w-8 text-primary mb-3" />
+                  <h3 className="font-semibold text-lg mb-1">Mapa Ciudadano</h3>
+                  <p className="text-sm text-muted-foreground">Visualizá obras y reportes en el mapa interactivo</p>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/accidentes-seguridad">
+              <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="pt-6">
+                  <Shield className="h-8 w-8 text-primary mb-3" />
+                  <h3 className="font-semibold text-lg mb-1">Seguridad y Accidentes</h3>
+                  <p className="text-sm text-muted-foreground">Reportes anonimizados de hechos de inseguridad</p>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/salud-hospital">
+              <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="pt-6">
+                  <Heart className="h-8 w-8 text-primary mb-3" />
+                  <h3 className="font-semibold text-lg mb-1">Salud / Hospital</h3>
+                  <p className="text-sm text-muted-foreground">Reclamos ciudadanos sobre el sistema de salud</p>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/pedidos-informacion">
+              <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="pt-6">
+                  <FileText className="h-8 w-8 text-primary mb-3" />
+                  <h3 className="font-semibold text-lg mb-1">Pedidos de Información</h3>
+                  <p className="text-sm text-muted-foreground">Seguimiento de pedidos de acceso a información pública</p>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/ranking-transparencia">
+              <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="pt-6">
+                  <BarChart2 className="h-8 w-8 text-primary mb-3" />
+                  <h3 className="font-semibold text-lg mb-1">Ranking de Transparencia</h3>
+                  <p className="text-sm text-muted-foreground">Índice comparativo 0-100 por municipio</p>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/medios">
+              <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="pt-6">
+                  <Newspaper className="h-8 w-8 text-primary mb-3" />
+                  <h3 className="font-semibold text-lg mb-1">Medios y Pauta Oficial</h3>
+                  <p className="text-sm text-muted-foreground">Observatorio de pauta oficial y medios locales</p>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/proveedores-estado">
+              <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="pt-6">
+                  <Briefcase className="h-8 w-8 text-primary mb-3" />
+                  <h3 className="font-semibold text-lg mb-1">Proveedores del Estado</h3>
+                  <p className="text-sm text-muted-foreground">Contratistas y proveedores del Estado identificados</p>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
+          <div className="text-center mt-10">
+            <Link href="/cargar-reporte">
+              <Button size="lg">Cargar un Reporte Ciudadano</Button>
+            </Link>
           </div>
         </div>
       </section>

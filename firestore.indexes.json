@@ -1,4 +1,157 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionGroup": "obras_publicas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoEditorial", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "obras_publicas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "municipioSlug", "order": "ASCENDING" },
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoEditorial", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "accidentes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoInterno", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "accidentes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "municipioSlug", "order": "ASCENDING" },
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoInterno", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "reclamos_salud",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoInterno", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "reclamos_salud",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "municipioSlug", "order": "ASCENDING" },
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoInterno", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "reportes_ciudadanos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "estadoInterno", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "reportes_ciudadanos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoInterno", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "pedidos_informacion",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoEditorial", "order": "ASCENDING" },
+        { "fieldPath": "fechaISO", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "pedidos_informacion",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "municipioSlug", "order": "ASCENDING" },
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoEditorial", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "medios",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoEditorial", "order": "ASCENDING" },
+        { "fieldPath": "nombre", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "medios",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "ciudadSlug", "order": "ASCENDING" },
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoEditorial", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "pauta_oficial",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoEditorial", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "pauta_oficial",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "medioId", "order": "ASCENDING" },
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "proveedores_estado",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoEditorial", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "proveedores_estado",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "ciudadSlug", "order": "ASCENDING" },
+        { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
+        { "fieldPath": "estadoEditorial", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "ranking_municipios",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "puntajeTotal", "order": "DESCENDING" }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }
