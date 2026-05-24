@@ -1,96 +1,93 @@
 # HANDOFF ACTUAL
 
 ## Proyecto
-- Repo local: `Web Site transparencia`
-- Rama esperada: `main`
-- Tipo: sitio publico institucional sobre transparencia y rendicion de cuentas municipal
+- Repo: `transparencia-chaco-website` (GitHub)
+- Rama: `main`
+- Deploy: Vercel (configurado)
+- Firebase: `transparencia-chaco-website` (us-central1)
 
-## Estado actual
-- Proyecto Next.js 16 exportado desde base visual tipo `v0`, ya funcional en local con `pnpm dev`.
-- No tenia repositorio Git inicializado al comenzar esta sesion.
-- No tenia handoff, README ni scaffolding Firebase propio.
+## Estado actual — 2026-05-24
 
-## Ultimo trabajo completado
-- Instalacion local validada con `pnpm install`.
-- Arranque local validado con `pnpm dev`.
-- Se preparo la base del proyecto para trabajo ordenado:
-  - `README.md`
-  - `reports/HANDOFF_ACTUAL.md`
-  - archivos base Firebase
-  - estandar Node/pnpm
+**El proyecto está completo en código.** Sitio público + panel admin backoffice CMS 100% implementados.
 
-## Ultimo trabajo completado (sesion 2026-05-24)
-**Ola 1 y Ola 2 ejecutadas con 7 agentes en paralelo — COMPLETADAS sin errores TypeScript.**
+### Último commit
+`fd5bf2a` — feat: complete admin backoffice CMS — 6 content modules
 
-Ola 1 (tipos + servicios Firebase):
-- `types/obras.ts` — ObraPublica, ObraFiltros, ObraResumen, enums
-- `types/reportes.ts` — ReporteCiudadano, ReporteAccidente, ReporteSalud, payloads
-- `types/transparencia.ts` — PedidoInformacion, Medio, PautaOficial, ProveedorEstado, RankingMunicipio, calcularPuntajeRanking
-- `lib/fallback/obras-fallback.ts` — 6 obras de ejemplo (solo dev local)
-- `lib/fallback/reportes-fallback.ts` — 14 reportes ejemplo
-- `lib/fallback/transparencia-fallback.ts` — pedidos, medios, pautas, proveedores, ranking
-- `lib/firebase/obras.ts` + `reportes.ts` + `transparencia.ts` — servicios con patrón fallback
+### Commits recientes
+- `fd5bf2a` — backoffice CMS completo (6 módulos + API routes)
+- `3544280` — rediseño homepage (Codex)
+- `33c48d1` — Observatorio Ciudadano 6 olas completas
 
-Ola 2 (páginas públicas de lectura):
-- `app/obras-publicas/page.tsx` + `[id]/page.tsx` + `loading.tsx`
-- `app/accidentes-seguridad/page.tsx` + `loading.tsx` (con banner legal)
-- `app/salud-hospital/page.tsx` + `loading.tsx` (con banner privacidad médica)
-- `app/pedidos-informacion/page.tsx` + `loading.tsx` (con semáforo de estados)
+---
 
-## Ultimo trabajo completado (sesion 2026-05-24 continuacion)
-**Olas 3, 4, 5 y 6 ejecutadas — TODAS COMPLETADAS sin errores TypeScript.**
+## Lo que está hecho
 
-Ola 3 (páginas análisis + formulario):
-- app/ranking-transparencia/ — índice 0-100 con BarChart Recharts + tabla de criterios
-- app/medios/ + app/medios/[id]/ — observatorio de medios con semáforo y derecho a respuesta
-- app/cargar-reporte/ + app/api/reportes/route.ts — formulario ciudadano con API Route (Zod + sanitización)
-- app/proveedores-estado/ — ranking de concentración de contrataciones
+### Sitio público (100%)
+- `/` — homepage rediseñada con hero oscuro, métricas, módulos del observatorio
+- `/obras-publicas` + `/obras-publicas/[id]`
+- `/accidentes-seguridad`
+- `/salud-hospital`
+- `/pedidos-informacion`
+- `/ranking-transparencia`
+- `/medios` + `/medios/[id]`
+- `/proveedores-estado`
+- `/cargar-reporte` — formulario ciudadano (POST a API Route)
+- `/mapa-ciudadano` — mapa Leaflet
+- Navbar + Footer actualizados
 
-Ola 4 (mapa + integración):
-- components/mapa/mapa-ciudadano.tsx + app/mapa-ciudadano/ — mapa Leaflet instalado (react-leaflet@5)
-- navbar.tsx actualizado con dropdown "Observatorio" + botón "Cargar Reporte" destacado
-- footer.tsx actualizado con columnas "Observatorio" y "Participá"
-- app/page.tsx actualizado con sección "Módulos del Observatorio" (8 cards + CTA)
+### Panel Admin (100%)
+- `/admin` — login Firebase Auth
+- `/admin/dashboard` — 8 cards con todos los módulos
+- `/admin/reportes` — gestión de reportes ciudadanos
+- `/admin/usuarios` — ABM usuarios Firebase Auth
+- `/admin/obras` — ABM obras públicas
+- `/admin/pedidos` — ABM pedidos de información
+- `/admin/medios` — ABM medios + pautas (2 tabs)
+- `/admin/proveedores` — ABM proveedores del estado
+- `/admin/publicaciones` — ABM noticias con ciclo editorial
+- `/admin/ranking` — editor de ranking por municipio (4 cards)
 
-Ola 5 (hardening Firebase):
-- firestore.rules actualizado — 10 colecciones nuevas cubiertas, reportes_contactos privado
-- firestore.indexes.json actualizado — 17 índices compuestos
+### API Routes (todas protegidas con Bearer token)
+- `/api/reportes` — intake público de reportes ciudadanos
+- `/api/admin/usuarios` + `[uid]`
+- `/api/admin/obras` + `[id]`
+- `/api/admin/pedidos` + `[id]`
+- `/api/admin/medios` + `[id]`
+- `/api/admin/pautas` + `[id]`
+- `/api/admin/proveedores` + `[id]`
+- `/api/admin/publicaciones` + `[id]`
+- `/api/admin/ranking` + `[municipioSlug]`
 
-Ola 6 (panel admin):
-- lib/firebase/auth-client.ts — Firebase Auth con loginAdmin/logoutAdmin/subscribeAuthState
-- app/admin/page.tsx — login con manejo de errores
-- app/admin/dashboard/page.tsx — panel protegido con redirección si no autenticado
-- lib/firebase/admin-data.ts — getReportesPendientes() + actualizarReporte()
-- app/admin/reportes/page.tsx — gestión inline de reportes (estado, verificación, publicar)
+### Infraestructura
+- Firebase Admin SDK configurado (`lib/firebase/admin-sdk.ts`)
+- Firebase Auth cliente (`lib/firebase/auth-client.ts`)
+- Firestore rules + indexes actualizados
+- `.env.local` completo con credenciales de producción
 
-## Pendientes inmediatos (siguiente sesion)
-- Revisar visualmente en navegador el nuevo rediseño de home si se quiere ajustar pixel fino contra las capturas de referencia.
-- Configurar variables de entorno Firebase (.env.local) con credenciales reales
-- Habilitar Email/Password en Firebase Console → Authentication
-- Ejecutar: firebase deploy --only firestore:rules,firestore:indexes
-- Verificar el sitio en producción: pnpm build (puede haber advertencias menores de SSR)
-- Crear primer usuario admin desde Firebase Console → Authentication → Add user
-- Poblar colecciones con contenido real desde el panel admin
+---
 
-## Riesgos
-- react-leaflet instalado; si pnpm build falla por SSR, verificar que dynamic({ ssr: false }) esté correcto
-- @hookform/resolvers debe estar en package.json para el formulario cargar-reporte (fue verificado)
-- Las páginas admin/obras y admin/pedidos están como "Próximamente" — no tienen rutas reales aún
+## Pendientes para que funcione en producción
 
-## Riesgos
-- Varias secciones siguen con datos de ejemplo (fallback hardcodeado).
-- El plan original abría demasiado pronto la escritura pública directa a Firestore; quedó corregido y debe respetarse.
-- Leaflet requiere import dinámico `{ ssr: false }` en Ola 4.
-- El panel admin no debe salir sin control de acceso explícito.
-- La sección interna debe cubrir al menos publicaciones/noticias y altas de registros no públicos.
-- Nombres canónicos de ciudades: `Las Breñas`, `Corzuela`, `Presidencia Roque Sáenz Peña`.
+1. **Deploy de reglas Firestore** (una sola vez):
+   ```bash
+   firebase deploy --only firestore:rules,firestore:indexes
+   ```
 
-## Archivo de plan activo
-- `reports/PLAN_OBSERVATORIO_TRANSPARENCIA.md` — plan corregido a 6 olas con hardening previo y sección interna editorial/operativa
+2. **Crear primer usuario admin** desde Firebase Console → Authentication → Users → Add user
 
-## Ultimo trabajo completado (sesion 2026-05-24 rediseño visual)
-- Rediseño de `app/page.tsx` tomando como referencia las capturas adjuntas: hero oscuro con imagen principal, metricas, municipios destacados, publicaciones, herramientas del Observatorio y CTA final.
-- Actualizacion de `components/navbar.tsx` con marca mas compacta, navegacion principal limpia, dropdown Observatorio y menu mobile con titulo accesible.
-- Actualizacion de `components/footer.tsx` para acompañar la nueva identidad visual y simplificar columnas.
-- Asset nuevo copiado a `public/hero-transparency-glass.png` desde el PNG transparente provisto por el usuario.
-- Validacion corrida: `pnpm type-check` y `pnpm build`, ambos OK. Build solo mostro advertencia no bloqueante de `baseline-browser-mapping` desactualizado.
+3. **Poblar colecciones** con contenido real usando el panel admin (`/admin/dashboard`)
+
+4. **Verificar Vercel env vars**: asegurarse de que las variables FIREBASE_* estén configuradas en Vercel
+
+---
+
+## Próximos pasos opcionales
+
+Ver `reports/PLAN_FRONTEND_MEJORAS.md` — plan para mejoras visuales y funcionales del sitio público.
+
+---
+
+## Riesgos activos
+- Las páginas públicas muestran datos de fallback (hardcodeados) hasta que se cargue contenido real en Firestore
+- Leaflet en el mapa requiere browser (SSR deshabilitado) — verificar que el build de Vercel no falle
+- Las API routes de admin no tienen rate limiting (aceptable para uso interno)
