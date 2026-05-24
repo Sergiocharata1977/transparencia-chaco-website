@@ -1,0 +1,33 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    match /publicaciones/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /municipios/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /denuncias/{document=**} {
+      allow create: if true;
+      allow read, update, delete: if isAuthenticated();
+    }
+
+    match /voluntarios/{document=**} {
+      allow create: if true;
+      allow read, update, delete: if isAuthenticated();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
