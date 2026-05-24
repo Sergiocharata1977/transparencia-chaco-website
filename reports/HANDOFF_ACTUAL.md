@@ -64,6 +64,7 @@ Ola 6 (panel admin):
 - app/admin/reportes/page.tsx — gestión inline de reportes (estado, verificación, publicar)
 
 ## Pendientes inmediatos (siguiente sesion)
+- Revisar visualmente en navegador el nuevo rediseño de home si se quiere ajustar pixel fino contra las capturas de referencia.
 - Configurar variables de entorno Firebase (.env.local) con credenciales reales
 - Habilitar Email/Password en Firebase Console → Authentication
 - Ejecutar: firebase deploy --only firestore:rules,firestore:indexes
@@ -86,3 +87,10 @@ Ola 6 (panel admin):
 
 ## Archivo de plan activo
 - `reports/PLAN_OBSERVATORIO_TRANSPARENCIA.md` — plan corregido a 6 olas con hardening previo y sección interna editorial/operativa
+
+## Ultimo trabajo completado (sesion 2026-05-24 rediseño visual)
+- Rediseño de `app/page.tsx` tomando como referencia las capturas adjuntas: hero oscuro con imagen principal, metricas, municipios destacados, publicaciones, herramientas del Observatorio y CTA final.
+- Actualizacion de `components/navbar.tsx` con marca mas compacta, navegacion principal limpia, dropdown Observatorio y menu mobile con titulo accesible.
+- Actualizacion de `components/footer.tsx` para acompañar la nueva identidad visual y simplificar columnas.
+- Asset nuevo copiado a `public/hero-transparency-glass.png` desde el PNG transparente provisto por el usuario.
+- Validacion corrida: `pnpm type-check` y `pnpm build`, ambos OK. Build solo mostro advertencia no bloqueante de `baseline-browser-mapping` desactualizado.
