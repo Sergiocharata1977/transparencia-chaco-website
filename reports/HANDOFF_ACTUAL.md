@@ -1,5 +1,10 @@
 # HANDOFF ACTUAL
 
+## Actualizacion rapida - 2026-05-25
+- Home: se corrigio la imagen principal del hero para usar `/foto-principal.png` en lugar de `/hero-transparency-glass.png`.
+- Validacion: `npx tsc --noEmit` paso sin errores.
+- Verificacion visual local: bloqueada por conflicto preexistente de rutas dinamicas `app/publicaciones/[id]` y `app/publicaciones/[slug]`.
+
 ## Proyecto
 - Repo: `transparencia-chaco-website` (GitHub)
 - Rama: `main`

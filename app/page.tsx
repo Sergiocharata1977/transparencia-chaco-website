@@ -128,7 +128,7 @@ export default function HomePage() {
             <div className="absolute h-72 w-72 rounded-full bg-cyan-200/20 blur-3xl md:h-96 md:w-96" />
             <div className="absolute right-12 top-12 h-20 w-20 rounded-full border border-cyan-100/25" />
             <Image
-              src="/hero-transparency-glass.png"
+              src="/foto-principal.png"
               width={428}
               height={583}
               alt="Mano sosteniendo un vidrio transparente"
@@ -305,4 +305,3 @@ export default function HomePage() {
     </div>
   )
 }
-
