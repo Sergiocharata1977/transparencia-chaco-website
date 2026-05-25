@@ -14,7 +14,7 @@ const primaryLinks = [
   { href: "/", label: "Inicio" },
   { href: "/municipios", label: "Municipios" },
   { href: "/rendicion", label: "Rendicion de Cuentas" },
-  { href: "/publicaciones", label: "Publicaciones" },
+  { href: "/publicaciones", label: "Noticias" },
   { href: "/denuncias", label: "Denuncias" },
 ]
 

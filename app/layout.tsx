@@ -8,10 +8,18 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Transparencia Chaco | Iniciativa Ciudadana",
-  description:
-    "Iniciativa comunitaria para que los gobiernos municipales rindan cuentas a la ciudadanía. Monitoreamos la transparencia en municipios del sudoeste chaqueño.",
-  keywords: ["transparencia", "chaco", "municipios", "rendición de cuentas", "charata", "argentina"],
+  title: {
+    default: "Observatorio Ciudadano de Transparencia | Chaco",
+    template: "%s | Observatorio Transparencia Chaco"
+  },
+  description: "Monitoreamos obras públicas, reportes ciudadanos, pedidos de información y transparencia institucional en Charata, Las Breñas, Corzuela y Presidencia Roque Sáenz Peña.",
+  keywords: ["transparencia", "chaco", "municipios", "obras públicas", "charata", "rendición de cuentas", "argentina"],
+  openGraph: {
+    type: "website",
+    locale: "es_AR",
+    siteName: "Observatorio Transparencia Chaco",
+    description: "Monitoreamos obras públicas, reportes ciudadanos y transparencia institucional en municipios del sudoeste chaqueño.",
+  },
   icons: {
     icon: "/logo-modelo1.png",
     apple: "/logo-modelo1.png",

@@ -1,9 +1,6 @@
-"use client"
-
-import { useEffect, useState } from "react"
+import type { Metadata } from "next"
 import Link from "next/link"
-import { useParams } from "next/navigation"
-import { ArrowLeft, CheckCircle, FileText } from "lucide-react"
+import { ArrowLeft, CheckCircle, FileText, MapPin } from "lucide-react"
 
 import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
@@ -12,6 +9,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getObraById } from "@/lib/firebase/obras"
 import type { ObraEstado, ObraPublica } from "@/types/obras"
+
+// ─── helpers ───────────────────────────────────────────────────────────────
 
 function colorEstado(estado: ObraEstado): string {
   const map: Record<ObraEstado, string> = {
@@ -100,17 +99,20 @@ function Campo({ label, value }: { label: string; value?: string | null }) {
   )
 }
 
-export default function ObraDetallePage() {
-  const params = useParams()
-  const [obra, setObra] = useState<ObraPublica | null>(null)
-  const [loading, setLoading] = useState(true)
+// ─── generateMetadata ───────────────────────────────────────────────────────
 
-  useEffect(() => {
-    getObraById(String(params.id)).then((data) => {
-      setObra(data)
-      setLoading(false)
-    })
-  }, [params.id])
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const obra = await getObraById((await params).id)
+  return {
+    title: obra?.nombre ?? "Obra pública",
+    description: obra?.descripcion?.slice(0, 160) ?? "Detalle de obra pública",
+  }
+}
+
+// ─── page ───────────────────────────────────────────────────────────────────
+
+export default async function ObraDetallePage({ params }: { params: Promise<{ id: string }> }) {
+  const obra = await getObraById((await params).id)
 
   return (
     <div className="min-h-screen bg-background">
@@ -134,21 +136,8 @@ export default function ObraDetallePage() {
           )}
         </nav>
 
-        {/* Estado de carga */}
-        {loading && (
-          <div className="space-y-4">
-            <div className="h-8 w-1/3 rounded bg-muted animate-pulse" />
-            <div className="h-4 w-1/2 rounded bg-muted animate-pulse" />
-            <div className="grid lg:grid-cols-2 gap-6 mt-8">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="h-48 rounded-xl bg-muted animate-pulse" />
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Obra no encontrada */}
-        {!loading && obra === null && (
+        {obra === null && (
           <Card className="max-w-md mx-auto text-center">
             <CardContent className="py-12">
               <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
@@ -164,7 +153,7 @@ export default function ObraDetallePage() {
         )}
 
         {/* Ficha de obra */}
-        {!loading && obra !== null && (
+        {obra !== null && (
           <div className="space-y-8">
             {/* Header */}
             <section>
@@ -184,6 +173,22 @@ export default function ObraDetallePage() {
               </p>
               {obra.descripcion && (
                 <p className="mt-3 text-muted-foreground leading-relaxed">{obra.descripcion}</p>
+              )}
+
+              {/* Link a mapa si hay coordenadas */}
+              {obra.coordenadas && (
+                <div className="mt-4">
+                  <a
+                    href={`https://www.openstreetmap.org/?mlat=${obra.coordenadas.lat}&mlon=${obra.coordenadas.lng}&zoom=16`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button variant="outline" size="sm" className="gap-2 bg-transparent">
+                      <MapPin className="h-4 w-4" />
+                      Ver en mapa →
+                    </Button>
+                  </a>
+                </div>
               )}
             </section>
 

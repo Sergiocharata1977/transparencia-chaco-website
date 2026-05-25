@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { getMunicipios, getPublicaciones } from "@/lib/firebase/public-site"
+import { StatsObservatorio } from "@/components/home/stats-observatorio"
 import type { Municipio, Publicacion } from "@/types/site"
 
 const estadoConfig = {
@@ -68,19 +69,6 @@ const observatorioHighlights = [
   },
 ]
 
-function getDisplayStats(municipios: Municipio[]) {
-  if (municipios.length >= 10) {
-    return {
-      total: municipios.length,
-      cumple: municipios.filter((item) => item.estado === "cumple").length,
-      parcial: municipios.filter((item) => item.estado === "parcial").length,
-      noCumple: municipios.filter((item) => item.estado === "no-cumple").length,
-    }
-  }
-
-  return { total: 32, cumple: 12, parcial: 8, noCumple: 12 }
-}
-
 export default function HomePage() {
   const [municipios, setMunicipios] = useState<Municipio[]>([])
   const [ultimosInformes, setUltimosInformes] = useState<Publicacion[]>([])
@@ -92,8 +80,6 @@ export default function HomePage() {
       setUltimosInformes(publicacionesData.slice(0, 3))
     })()
   }, [])
-
-  const stats = getDisplayStats(municipios)
 
   return (
     <div className="min-h-screen bg-[#f7f9fa] text-slate-950">
@@ -163,11 +149,8 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mx-auto mt-10 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Total municipios" value={stats.total} className="border-l-slate-300" />
-            <StatCard label="Cumplen" value={stats.cumple} className="border-l-emerald-500 text-emerald-600" />
-            <StatCard label="Parcial" value={stats.parcial} className="border-l-orange-500 text-orange-600" />
-            <StatCard label="No cumplen" value={stats.noCumple} className="border-l-red-500 text-red-600" />
+          <div className="mx-auto mt-10 max-w-5xl">
+            <StatsObservatorio />
           </div>
         </div>
       </section>
@@ -323,13 +306,3 @@ export default function HomePage() {
   )
 }
 
-function StatCard({ label, value, className }: { label: string; value: number; className: string }) {
-  return (
-    <Card className={`border-l-4 bg-white shadow-sm ${className}`}>
-      <CardContent className="p-7 text-center">
-        <p className="text-4xl font-black tabular-nums">{value}</p>
-        <p className="mt-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{label}</p>
-      </CardContent>
-    </Card>
-  )
-}
