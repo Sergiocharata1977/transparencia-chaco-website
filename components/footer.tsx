@@ -3,31 +3,29 @@ import { Scale } from "lucide-react"
 
 const footerGroups = [
   {
-    title: "Navegacion",
+    title: "Explorar",
     links: [
-      { href: "/municipios", label: "Municipios" },
-      { href: "/rendicion", label: "Rendicion de Cuentas" },
-      { href: "/publicaciones", label: "Publicaciones" },
-      { href: "/quienes-somos", label: "Quienes Somos" },
-      { href: "/marco-legal", label: "Marco Legal" },
+      { href: "/obras-publicas", label: "Obras Publicas" },
+      { href: "/publicaciones", label: "Noticias" },
+      { href: "/buscar", label: "Buscar" },
+      { href: "/ranking-transparencia", label: "Ranking de Transparencia" },
     ],
   },
   {
-    title: "Observatorio",
+    title: "Municipios",
     links: [
-      { href: "/ranking-transparencia", label: "Ranking" },
-      { href: "/obras-publicas", label: "Obras Publicas" },
-      { href: "/mapa-ciudadano", label: "Mapa Ciudadano" },
-      { href: "/pedidos-informacion", label: "Pedidos de Informacion" },
-      { href: "/medios", label: "Medios y Pauta" },
+      { href: "/municipios/charata/observatorio", label: "Charata" },
+      { href: "/municipios/las-brenas/observatorio", label: "Las Breñas" },
+      { href: "/municipios/corzuela/observatorio", label: "Corzuela" },
+      { href: "/municipios/presidencia-roque-saenz-pena/observatorio", label: "Pres. R. S. Peña" },
     ],
   },
   {
     title: "Participa",
     links: [
       { href: "/cargar-reporte", label: "Cargar Reporte" },
-      { href: "/denuncias", label: "Denuncias" },
-      { href: "/sumate", label: "Sumate" },
+      { href: "/pedidos-informacion", label: "Pedidos de Informacion" },
+      { href: "/mapa-ciudadano", label: "Mapa Ciudadano" },
     ],
   },
 ]

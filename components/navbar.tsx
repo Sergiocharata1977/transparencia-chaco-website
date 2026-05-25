@@ -6,16 +6,24 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { BuscadorGlobal } from "@/components/busqueda/buscador-global"
 
 const primaryLinks = [
   { href: "/", label: "Inicio" },
-  { href: "/municipios", label: "Municipios" },
   { href: "/rendicion", label: "Rendicion de Cuentas" },
   { href: "/publicaciones", label: "Noticias" },
   { href: "/denuncias", label: "Denuncias" },
+]
+
+const municipiosLinks = [
+  { href: "/municipios/charata/observatorio", label: "Charata" },
+  { href: "/municipios/las-brenas/observatorio", label: "Las Breñas" },
+  { href: "/municipios/corzuela/observatorio", label: "Corzuela" },
+  { href: "/municipios/presidencia-roque-saenz-pena/observatorio", label: "Pres. R. S. Peña" },
 ]
 
 const observatorioLinks = [
@@ -62,6 +70,25 @@ export function Navbar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-[#08707b]">
+                  Municipios <ChevronDown className="h-4 w-4" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56">
+                {municipiosLinks.map((link) => (
+                  <DropdownMenuItem key={link.href} asChild>
+                    <Link href={link.href}>{link.label}</Link>
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/municipios">Ver todos los municipios</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-[#08707b]">
                   Observatorio <ChevronDown className="h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
@@ -76,6 +103,7 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
+            <BuscadorGlobal />
             <Link href="/sumate" className="hidden lg:block">
               <Button size="sm" className="bg-[#024852] px-5 hover:bg-[#08707b]">
                 Sumate
@@ -113,6 +141,21 @@ export function Navbar() {
                   <Link href="/marco-legal" className="text-lg font-semibold transition-colors hover:text-[#08707b]">
                     Marco Legal
                   </Link>
+
+                  <div className="border-t pt-5">
+                    <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">
+                      Municipios
+                    </p>
+                    {municipiosLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="block py-2 text-base font-medium transition-colors hover:text-[#08707b]"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
 
                   <div className="border-t pt-5">
                     <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">
