@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { ArrowLeft, Loader2, LogOut, Pencil, Plus, Trash2, Eye, EyeOff } from "lucide-react"
 import { logoutAdmin, subscribeAuthState, getIdToken, type User } from "@/lib/firebase/auth-client"
+import { getCiudadesActivas, CIUDADES_FALLBACK, type Ciudad } from "@/lib/firebase/ciudades"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -78,7 +79,7 @@ interface ObraAdmin {
 // ─── Zod schema ───────────────────────────────────────────────────────────────
 
 const obraFormSchema = z.object({
-  municipioSlug: z.enum(["charata", "las-brenas", "corzuela", "presidencia-roque-saenz-pena"]),
+  municipioSlug: z.string().min(1, "Seleccioná un municipio"),
   nombre: z.string().min(3, "Mínimo 3 caracteres").max(150),
   descripcion: z.string().min(10, "Mínimo 10 caracteres").max(1000),
   tipo: z.enum(["pavimento", "ripio", "iluminacion", "cloacas", "edificio-publico", "obra-hidraulica", "plaza", "parque", "otro"]),
@@ -101,12 +102,6 @@ type ObraForm = z.infer<typeof obraFormSchema>
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const MUNICIPIOS = [
-  { slug: "charata", label: "Charata" },
-  { slug: "las-brenas", label: "Las Breñas" },
-  { slug: "corzuela", label: "Corzuela" },
-  { slug: "presidencia-roque-saenz-pena", label: "Presidencia Roque Sáenz Peña" },
-] as const
 
 const TIPOS_OBRA = [
   { value: "pavimento", label: "Pavimento" },
@@ -181,8 +176,8 @@ async function authHeaders(): Promise<HeadersInit> {
     : { "Content-Type": "application/json" }
 }
 
-function municipioLabel(slug: string): string {
-  return MUNICIPIOS.find(m => m.slug === slug)?.label ?? slug
+function municipioLabel(slug: string, lista: Ciudad[]): string {
+  return lista.find(c => c.slug === slug)?.nombre ?? slug
 }
 
 // ─── Badge helpers ────────────────────────────────────────────────────────────
@@ -207,6 +202,7 @@ function BadgeEstadoObra({ estado }: { estado: string }) {
 export default function AdminObrasPage() {
   const [user, setUser] = useState<User | null>(null)
   const [authChecking, setAuthChecking] = useState(true)
+  const [ciudades, setCiudades] = useState<Ciudad[]>(CIUDADES_FALLBACK)
   const [obras, setObras] = useState<ObraAdmin[]>([])
   const [cargando, setCargando] = useState(false)
   const [errorGlobal, setErrorGlobal] = useState<string | null>(null)
@@ -259,7 +255,10 @@ export default function AdminObrasPage() {
   }, [])
 
   useEffect(() => {
-    if (user) cargarObras()
+    if (user) {
+      cargarObras()
+      getCiudadesActivas().then(setCiudades).catch(() => {})
+    }
   }, [user, cargarObras])
 
   // ── Handlers ──────────────────────────────────────────────────────────────
@@ -271,7 +270,7 @@ export default function AdminObrasPage() {
       const headers = await authHeaders()
       const payload = {
         ...values,
-        municipio: municipioLabel(values.municipioSlug),
+        municipio: municipioLabel(values.municipioSlug, ciudades),
       }
 
       let res: Response
@@ -444,8 +443,8 @@ export default function AdminObrasPage() {
                           <SelectValue placeholder="Seleccionar municipio" />
                         </SelectTrigger>
                         <SelectContent>
-                          {MUNICIPIOS.map(m => (
-                            <SelectItem key={m.slug} value={m.slug}>{m.label}</SelectItem>
+                          {ciudades.map(c => (
+                            <SelectItem key={c.slug} value={c.slug}>{c.nombre}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
@@ -725,7 +724,7 @@ export default function AdminObrasPage() {
                       <TableRow key={obra.id}>
                         <TableCell className="font-medium max-w-[200px] truncate">{obra.nombre}</TableCell>
                         <TableCell className="text-muted-foreground whitespace-nowrap">
-                          {municipioLabel(obra.municipioSlug)}
+                          {municipioLabel(obra.municipioSlug, ciudades)}
                         </TableCell>
                         <TableCell className="text-muted-foreground capitalize">
                           {TIPOS_OBRA.find(t => t.value === obra.tipo)?.label ?? obra.tipo}

@@ -14,7 +14,7 @@ const actualizarPautaSchema = z.object({
   medioNombre: z.string().min(2).max(100).optional(),
   organismo: z.string().min(2).max(150).optional(),
   municipio: z.string().min(2).max(60).optional(),
-  municipioSlug: z.enum(["charata","las-brenas","corzuela","presidencia-roque-saenz-pena"]).optional(),
+  municipioSlug: z.string().min(2).max(60).optional(),
   periodo: z.string().min(3).max(50).optional(),
   monto: z.string().max(50).optional(),
   concepto: z.string().max(300).optional(),

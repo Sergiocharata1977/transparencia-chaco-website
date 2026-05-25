@@ -8,6 +8,7 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { logoutAdmin, subscribeAuthState, getIdToken, type User } from "@/lib/firebase/auth-client"
+import { getCiudadesActivas, CIUDADES_FALLBACK, type Ciudad } from "@/lib/firebase/ciudades"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -70,13 +71,6 @@ interface PublicacionAdmin {
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const MUNICIPIOS = [
-  { slug: "todos", label: "Todos los municipios" },
-  { slug: "charata", label: "Charata" },
-  { slug: "las-brenas", label: "Las Breñas" },
-  { slug: "corzuela", label: "Corzuela" },
-  { slug: "presidencia-roque-saenz-pena", label: "Presidencia Roque Sáenz Peña" },
-]
 
 const CATEGORIAS = [
   { value: "obras", label: "Obras" },
@@ -103,13 +97,7 @@ const pubFormSchema = z.object({
   categoria: z
     .enum(["obras", "transparencia", "reportes", "salud", "seguridad", "general"])
     .default("general"),
-  municipioSlug: z.enum([
-    "charata",
-    "las-brenas",
-    "corzuela",
-    "presidencia-roque-saenz-pena",
-    "todos",
-  ]),
+  municipioSlug: z.string().min(1, "Seleccioná un municipio"),
   estadoEditorial: z
     .enum(["draft", "review", "published", "archived"])
     .default("draft"),
@@ -179,6 +167,7 @@ function estadoBadge(estado: string) {
 export default function AdminPublicacionesPage() {
   const [user, setUser] = useState<User | null>(null)
   const [authChecking, setAuthChecking] = useState(true)
+  const [ciudades, setCiudades] = useState<Ciudad[]>(CIUDADES_FALLBACK)
   const [publicaciones, setPublicaciones] = useState<PublicacionAdmin[]>([])
   const [cargando, setCargando] = useState(false)
   const [errorGlobal, setErrorGlobal] = useState<string | null>(null)
@@ -241,7 +230,10 @@ export default function AdminPublicacionesPage() {
   }, [router])
 
   useEffect(() => {
-    if (user) cargarPublicaciones()
+    if (user) {
+      cargarPublicaciones()
+      getCiudadesActivas().then(setCiudades).catch(() => {})
+    }
   }, [user, cargarPublicaciones])
 
   // ── Handlers ─────────────────────────────────────────────────────────────
@@ -285,7 +277,7 @@ export default function AdminPublicacionesPage() {
     setGuardando(true)
     try {
       const municipioLabel =
-        MUNICIPIOS.find(m => m.slug === data.municipioSlug)?.label ?? data.municipioSlug
+        ciudades.find(c => c.slug === data.municipioSlug)?.nombre ?? data.municipioSlug
       const payload = { ...data, municipio: municipioLabel }
       const headers = await authHeaders()
 
@@ -650,9 +642,10 @@ export default function AdminPublicacionesPage() {
                     <SelectValue placeholder="Seleccionar municipio" />
                   </SelectTrigger>
                   <SelectContent>
-                    {MUNICIPIOS.map(m => (
-                      <SelectItem key={m.slug} value={m.slug}>
-                        {m.label}
+                    <SelectItem value="todos">Todos los municipios</SelectItem>
+                    {ciudades.map(c => (
+                      <SelectItem key={c.slug} value={c.slug}>
+                        {c.nombre}
                       </SelectItem>
                     ))}
                   </SelectContent>

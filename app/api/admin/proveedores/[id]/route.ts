@@ -13,7 +13,7 @@ const actualizarProveedorSchema = z.object({
   nombre: z.string().min(2).max(150).optional(),
   rubro: z.string().min(2).max(100).optional(),
   ciudad: z.string().min(2).max(60).optional(),
-  ciudadSlug: z.enum(["charata","las-brenas","corzuela","presidencia-roque-saenz-pena"]).optional(),
+  ciudadSlug: z.string().min(2).max(60).optional(),
   organismoContratante: z.string().min(2).max(150).optional(),
   tipoContratacion: z.enum(["licitacion","contratacion-directa","concurso","convenio","desconocido"]).optional(),
   objeto: z.string().max(500).optional(),

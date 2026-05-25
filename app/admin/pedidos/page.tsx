@@ -15,6 +15,7 @@ import {
   Trash2,
 } from "lucide-react"
 import { logoutAdmin, subscribeAuthState, getIdToken, type User } from "@/lib/firebase/auth-client"
+import { getCiudadesActivas, CIUDADES_FALLBACK, type Ciudad } from "@/lib/firebase/ciudades"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -81,19 +82,13 @@ interface PedidoAdmin {
 // Constants
 // ---------------------------------------------------------------------------
 
-const MUNICIPIOS = [
-  { slug: "charata", label: "Charata" },
-  { slug: "las-brenas", label: "Las Breñas" },
-  { slug: "corzuela", label: "Corzuela" },
-  { slug: "presidencia-roque-saenz-pena", label: "Presidencia Roque Sáenz Peña" },
-]
 
 // ---------------------------------------------------------------------------
 // Zod schema
 // ---------------------------------------------------------------------------
 
 const pedidoFormSchema = z.object({
-  municipioSlug: z.enum(["charata", "las-brenas", "corzuela", "presidencia-roque-saenz-pena"]),
+  municipioSlug: z.string().min(1, "Seleccioná un municipio"),
   organismo: z.string().min(3).max(150),
   tema: z.string().min(5).max(200),
   fechaISO: z.string().min(1, "Requerido"),
@@ -128,8 +123,8 @@ function formatFecha(iso: string | undefined | null) {
   })
 }
 
-function municipioLabel(slug: string) {
-  return MUNICIPIOS.find((m) => m.slug === slug)?.label ?? slug
+function municipioLabel(slug: string, lista: Ciudad[]): string {
+  return lista.find(c => c.slug === slug)?.nombre ?? slug
 }
 
 // ---------------------------------------------------------------------------
@@ -175,6 +170,7 @@ function badgeEditorial(estado: string): { label: string; variant: BadgeVariant 
 export default function AdminPedidosPage() {
   const [user, setUser] = useState<User | null>(null)
   const [authChecking, setAuthChecking] = useState(true)
+  const [ciudades, setCiudades] = useState<Ciudad[]>(CIUDADES_FALLBACK)
   const [pedidos, setPedidos] = useState<PedidoAdmin[]>([])
   const [cargando, setCargando] = useState(false)
   const [errorGlobal, setErrorGlobal] = useState<string | null>(null)
@@ -241,7 +237,10 @@ export default function AdminPedidosPage() {
   }, [])
 
   useEffect(() => {
-    if (user) cargarPedidos()
+    if (user) {
+      cargarPedidos()
+      getCiudadesActivas().then(setCiudades).catch(() => {})
+    }
   }, [user, cargarPedidos])
 
   // ---------------------------------------------------------------------------
@@ -458,7 +457,7 @@ export default function AdminPedidosPage() {
                             {pedido.organismo}
                           </TableCell>
                           <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
-                            {municipioLabel(pedido.municipioSlug)}
+                            {municipioLabel(pedido.municipioSlug, ciudades)}
                           </TableCell>
                           <TableCell className="max-w-[220px] truncate text-sm">
                             {pedido.tema}
@@ -590,9 +589,9 @@ export default function AdminPedidosPage() {
                     <SelectValue placeholder="Seleccioná municipio" />
                   </SelectTrigger>
                   <SelectContent>
-                    {MUNICIPIOS.map((m) => (
-                      <SelectItem key={m.slug} value={m.slug}>
-                        {m.label}
+                    {ciudades.map(c => (
+                      <SelectItem key={c.slug} value={c.slug}>
+                        {c.nombre}
                       </SelectItem>
                     ))}
                   </SelectContent>

@@ -15,7 +15,7 @@ const actualizarPublicacionSchema = z.object({
   contenido: z.string().min(20).max(10000).optional(),
   categoria: z.enum(["obras","transparencia","reportes","salud","seguridad","general"]).optional(),
   municipio: z.string().min(2).max(60).optional(),
-  municipioSlug: z.enum(["charata","las-brenas","corzuela","presidencia-roque-saenz-pena","todos"]).optional(),
+  municipioSlug: z.string().min(2).max(60).optional(),
   autor: z.string().max(100).optional(),
   imagen: z.string().url().optional().or(z.literal("")),
   estadoEditorial: z.enum(["draft","review","published","archived"]).optional(),

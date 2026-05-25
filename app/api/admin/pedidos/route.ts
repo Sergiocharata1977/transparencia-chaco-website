@@ -11,7 +11,7 @@ async function verificarAutenticado(req: NextRequest): Promise<boolean> {
 
 const crearPedidoSchema = z.object({
   municipio: z.string().min(2).max(60),
-  municipioSlug: z.enum(["charata","las-brenas","corzuela","presidencia-roque-saenz-pena"]),
+  municipioSlug: z.string().min(2).max(60),
   organismo: z.string().min(3).max(150),
   tema: z.string().min(5).max(200),
   textoPedido: z.string().max(2000).optional(),

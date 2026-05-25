@@ -15,7 +15,7 @@ const crearPublicacionSchema = z.object({
   contenido: z.string().min(20).max(10000),
   categoria: z.enum(["obras","transparencia","reportes","salud","seguridad","general"]).default("general"),
   municipio: z.string().min(2).max(60),
-  municipioSlug: z.enum(["charata","las-brenas","corzuela","presidencia-roque-saenz-pena","todos"]),
+  municipioSlug: z.string().min(2).max(60),
   autor: z.string().max(100).optional(),
   imagen: z.string().url().optional().or(z.literal("")),
   estadoEditorial: z.enum(["draft","review","published","archived"]).default("draft"),

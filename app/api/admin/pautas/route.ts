@@ -14,7 +14,7 @@ const crearPautaSchema = z.object({
   medioNombre: z.string().min(2).max(100),
   organismo: z.string().min(2).max(150),
   municipio: z.string().min(2).max(60),
-  municipioSlug: z.enum(["charata","las-brenas","corzuela","presidencia-roque-saenz-pena"]),
+  municipioSlug: z.string().min(2).max(60),
   periodo: z.string().min(3).max(50),
   monto: z.string().max(50).optional(),
   concepto: z.string().max(300).optional(),

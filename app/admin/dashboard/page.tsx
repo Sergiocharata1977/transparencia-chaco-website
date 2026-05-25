@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { BarChart2, BookOpen, Building2, FileCheck, FileText, Loader2, LogOut, Newspaper, Store, Users } from "lucide-react"
+import { BarChart2, BookOpen, Building2, FileCheck, FileText, Loader2, LogOut, MapPin, Newspaper, Store, Users } from "lucide-react"
 import { logoutAdmin, subscribeAuthState, type User } from "@/lib/firebase/auth-client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -63,6 +63,7 @@ export default function AdminDashboardPage() {
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mb-12">
 
           {[
+            { href: "/admin/ciudades", icon: MapPin, titulo: "Ciudades Cubiertas", desc: "Alta y gestión de municipios del observatorio" },
             { href: "/admin/reportes", icon: FileCheck, titulo: "Reportes Ciudadanos", desc: "Revisar y aprobar reportes pendientes" },
             { href: "/admin/obras", icon: Building2, titulo: "Obras Públicas", desc: "Alta y edición de obras municipales" },
             { href: "/admin/pedidos", icon: FileText, titulo: "Pedidos de Información", desc: "Seguimiento de solicitudes de acceso a la información" },

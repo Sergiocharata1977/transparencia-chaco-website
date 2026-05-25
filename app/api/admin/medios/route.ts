@@ -12,7 +12,7 @@ async function verificarAutenticado(req: NextRequest): Promise<boolean> {
 const crearMedioSchema = z.object({
   nombre: z.string().min(2).max(100),
   ciudadPrincipal: z.string().min(2).max(60),
-  ciudadSlug: z.enum(["charata","las-brenas","corzuela","presidencia-roque-saenz-pena"]),
+  ciudadSlug: z.string().min(2).max(60),
   tipo: z.enum(["radio","portal-web","canal-tv","streaming","grafica","red-social","otro"]),
   sitioWeb: z.string().url().optional().or(z.literal("")),
   descripcion: z.string().max(500).optional(),

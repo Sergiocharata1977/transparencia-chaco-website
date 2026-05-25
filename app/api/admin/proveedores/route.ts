@@ -13,7 +13,7 @@ const crearProveedorSchema = z.object({
   nombre: z.string().min(2).max(150),
   rubro: z.string().min(2).max(100),
   ciudad: z.string().min(2).max(60),
-  ciudadSlug: z.enum(["charata","las-brenas","corzuela","presidencia-roque-saenz-pena"]),
+  ciudadSlug: z.string().min(2).max(60),
   organismoContratante: z.string().min(2).max(150),
   tipoContratacion: z.enum(["licitacion","contratacion-directa","concurso","convenio","desconocido"]),
   objeto: z.string().max(500).optional(),

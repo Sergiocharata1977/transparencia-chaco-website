@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowLeft, Loader2, LogOut, Pencil, Plus, Trash2 } from "lucide-react"
 import { logoutAdmin, subscribeAuthState, getIdToken, type User } from "@/lib/firebase/auth-client"
+import { getCiudadesActivas, CIUDADES_FALLBACK, type Ciudad } from "@/lib/firebase/ciudades"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -84,7 +85,7 @@ interface ProveedorAdmin {
 const proveedorFormSchema = z.object({
   nombre: z.string().min(2).max(150),
   rubro: z.string().min(2).max(100),
-  ciudadSlug: z.enum(["charata", "las-brenas", "corzuela", "presidencia-roque-saenz-pena"]),
+  ciudadSlug: z.string().min(1, "Seleccioná una ciudad"),
   organismoContratante: z.string().min(2).max(150),
   tipoContratacion: z.enum(["licitacion", "contratacion-directa", "concurso", "convenio", "desconocido"]),
   estadoCumplimiento: z.enum(["sin-evaluar", "en-ejecucion", "cumplido", "observado"]).default("sin-evaluar"),
@@ -101,12 +102,6 @@ type ProveedorFormValues = z.infer<typeof proveedorFormSchema>
 
 // ─── constantes ──────────────────────────────────────────────────────────────
 
-const MUNICIPIOS = [
-  { slug: "charata", label: "Charata" },
-  { slug: "las-brenas", label: "Las Breñas" },
-  { slug: "corzuela", label: "Corzuela" },
-  { slug: "presidencia-roque-saenz-pena", label: "Presidencia Roque Sáenz Peña" },
-]
 
 const TIPOS_CONTRATACION: { value: string; label: string }[] = [
   { value: "licitacion", label: "Licitación" },
@@ -179,8 +174,8 @@ function BadgeSemaforo({ semaforo }: { semaforo?: string }) {
   )
 }
 
-function ciudadLabel(slug: string): string {
-  return MUNICIPIOS.find(m => m.slug === slug)?.label ?? slug
+function ciudadLabel(slug: string, lista: Ciudad[]): string {
+  return lista.find(c => c.slug === slug)?.nombre ?? slug
 }
 
 // ─── componente principal ─────────────────────────────────────────────────────
@@ -188,6 +183,7 @@ function ciudadLabel(slug: string): string {
 export default function AdminProveedoresPage() {
   const [user, setUser] = useState<User | null>(null)
   const [authChecking, setAuthChecking] = useState(true)
+  const [ciudades, setCiudades] = useState<Ciudad[]>(CIUDADES_FALLBACK)
   const [proveedores, setProveedores] = useState<ProveedorAdmin[]>([])
   const [cargando, setCargando] = useState(false)
   const [errorGlobal, setErrorGlobal] = useState<string | null>(null)
@@ -249,7 +245,10 @@ export default function AdminProveedoresPage() {
   }, [])
 
   useEffect(() => {
-    if (user) cargarProveedores()
+    if (user) {
+      cargarProveedores()
+      getCiudadesActivas().then(setCiudades).catch(() => {})
+    }
   }, [user, cargarProveedores])
 
   // ── abrir dialog ──────────────────────────────────────────────────────────
@@ -303,7 +302,7 @@ export default function AdminProveedoresPage() {
     setGuardando(true)
     try {
       const headers = await authHeaders()
-      const ciudad = ciudadLabel(values.ciudadSlug)
+      const ciudad = ciudadLabel(values.ciudadSlug, ciudades)
       const payload = { ...values, ciudad }
 
       const res = editando
@@ -456,8 +455,8 @@ export default function AdminProveedoresPage() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {MUNICIPIOS.map(m => (
-                              <SelectItem key={m.slug} value={m.slug}>{m.label}</SelectItem>
+                            {ciudades.map(c => (
+                              <SelectItem key={c.slug} value={c.slug}>{c.nombre}</SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
@@ -728,7 +727,7 @@ export default function AdminProveedoresPage() {
                       <TableRow key={p.id}>
                         <TableCell className="font-medium">{p.nombre}</TableCell>
                         <TableCell className="text-muted-foreground text-sm">
-                          {ciudadLabel(p.ciudadSlug)}
+                          {ciudadLabel(p.ciudadSlug, ciudades)}
                         </TableCell>
                         <TableCell className="text-sm">{p.organismoContratante}</TableCell>
                         <TableCell className="text-sm text-muted-foreground">

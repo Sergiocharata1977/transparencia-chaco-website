@@ -17,6 +17,7 @@ import {
   Trash2,
 } from "lucide-react"
 import { logoutAdmin, subscribeAuthState, getIdToken, type User } from "@/lib/firebase/auth-client"
+import { getCiudadesActivas, CIUDADES_FALLBACK, type Ciudad } from "@/lib/firebase/ciudades"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -97,7 +98,7 @@ interface PautaAdmin {
 
 const medioFormSchema = z.object({
   nombre: z.string().min(2).max(100),
-  ciudadSlug: z.enum(["charata", "las-brenas", "corzuela", "presidencia-roque-saenz-pena"]),
+  ciudadSlug: z.string().min(1, "Seleccioná una ciudad"),
   tipo: z.enum(["radio", "portal-web", "canal-tv", "streaming", "grafica", "red-social", "otro"]),
   estado: z.enum(["activo", "inactivo", "sin-verificar"]).default("sin-verificar"),
   estadoEditorial: z.enum(["draft", "review", "published", "archived"]).default("draft"),
@@ -112,7 +113,7 @@ const pautaFormSchema = z.object({
   medioId: z.string().min(1, "Requerido"),
   medioNombre: z.string().min(2).max(100),
   organismo: z.string().min(2).max(150),
-  municipioSlug: z.enum(["charata", "las-brenas", "corzuela", "presidencia-roque-saenz-pena"]),
+  municipioSlug: z.string().min(1, "Seleccioná un municipio"),
   periodo: z.string().min(3).max(50),
   estadoVerificacion: z
     .enum(["sin-verificar", "con-documento", "confirmado", "observado"])
@@ -130,12 +131,6 @@ type PautaFormValues = z.infer<typeof pautaFormSchema>
 
 // ─── Constantes ────────────────────────────────────────────────────────────────
 
-const MUNICIPIOS = [
-  { slug: "charata", label: "Charata" },
-  { slug: "las-brenas", label: "Las Breñas" },
-  { slug: "corzuela", label: "Corzuela" },
-  { slug: "presidencia-roque-saenz-pena", label: "Presidencia Roque Sáenz Peña" },
-]
 
 // ─── Auth helper ───────────────────────────────────────────────────────────────
 
@@ -187,6 +182,7 @@ export default function AdminMediosPage() {
   const [errorGlobal, setErrorGlobal] = useState<string | null>(null)
 
   // Estado medios
+  const [ciudades, setCiudades] = useState<Ciudad[]>(CIUDADES_FALLBACK)
   const [medios, setMedios] = useState<MedioAdmin[]>([])
   const [cargandoMedios, setCargandoMedios] = useState(false)
   const [dialogMedioOpen, setDialogMedioOpen] = useState(false)
@@ -288,6 +284,7 @@ export default function AdminMediosPage() {
     if (user) {
       cargarMedios()
       cargarPautas()
+      getCiudadesActivas().then(setCiudades).catch(() => {})
     }
   }, [user, cargarMedios, cargarPautas])
 
@@ -495,7 +492,7 @@ export default function AdminMediosPage() {
   // ─── Helpers ──────────────────────────────────────────────────────────────────
 
   function labelMunicipio(slug: string) {
-    return MUNICIPIOS.find(m => m.slug === slug)?.label ?? slug
+    return ciudades.find(c => c.slug === slug)?.nombre ?? slug
   }
 
   // ─── Loading / guard ──────────────────────────────────────────────────────────
@@ -829,8 +826,8 @@ export default function AdminMediosPage() {
                   <SelectValue placeholder="Seleccioná ciudad" />
                 </SelectTrigger>
                 <SelectContent>
-                  {MUNICIPIOS.map(m => (
-                    <SelectItem key={m.slug} value={m.slug}>{m.label}</SelectItem>
+                  {ciudades.map(c => (
+                    <SelectItem key={c.slug} value={c.slug}>{c.nombre}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -1045,8 +1042,8 @@ export default function AdminMediosPage() {
                   <SelectValue placeholder="Seleccioná municipio" />
                 </SelectTrigger>
                 <SelectContent>
-                  {MUNICIPIOS.map(m => (
-                    <SelectItem key={m.slug} value={m.slug}>{m.label}</SelectItem>
+                  {ciudades.map(c => (
+                    <SelectItem key={c.slug} value={c.slug}>{c.nombre}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

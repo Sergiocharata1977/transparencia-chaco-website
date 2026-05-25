@@ -11,7 +11,7 @@ async function verificarAutenticado(req: NextRequest): Promise<boolean> {
 
 const crearObraSchema = z.object({
   municipio: z.string().min(2).max(60),
-  municipioSlug: z.enum(["charata","las-brenas","corzuela","presidencia-roque-saenz-pena"]),
+  municipioSlug: z.string().min(2).max(60),
   nombre: z.string().min(3).max(150),
   descripcion: z.string().min(10).max(1000),
   ubicacionTexto: z.string().max(200).optional(),

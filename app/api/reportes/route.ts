@@ -4,7 +4,7 @@ import { FieldValue } from "firebase-admin/firestore"
 import { getAdminDb } from "@/lib/firebase/admin-sdk"
 
 const reporteSchema = z.object({
-  municipioSlug: z.enum(["charata", "las-brenas", "corzuela", "presidencia-roque-saenz-pena"]),
+  municipioSlug: z.string().min(2).max(60),
   tipo: z.enum(["obra-publica", "accidente", "inseguridad", "hospital", "bache", "iluminacion", "calle", "otro"]),
   titulo: z.string().min(5).max(100).transform((s) => s.trim()),
   descripcion: z.string().min(20).max(500).transform((s) => s.trim()),
