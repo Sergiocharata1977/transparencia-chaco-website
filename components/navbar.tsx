@@ -15,6 +15,7 @@ import { BuscadorGlobal } from "@/components/busqueda/buscador-global"
 
 const primaryLinks = [
   { href: "/", label: "Inicio" },
+  { href: "/acuerdos", label: "Acuerdos" },
   { href: "/rendicion", label: "Rendicion de Cuentas" },
   { href: "/publicaciones", label: "Noticias" },
   { href: "/denuncias", label: "Denuncias" },
