@@ -6,11 +6,9 @@ import { useRouter } from "next/navigation"
 import {
   CheckCircle,
   Loader2,
-  ArrowLeft,
-  LogOut,
   ClipboardList,
 } from "lucide-react"
-import { subscribeAuthState, logoutAdmin, type User } from "@/lib/firebase/auth-client"
+import { subscribeAuthState, type User } from "@/lib/firebase/auth-client"
 import { getReportesPendientes, actualizarReporte } from "@/lib/firebase/admin-data"
 import type { ReporteCiudadano, ReporteEstado, NivelVerificacion } from "@/types/reportes"
 import { Button } from "@/components/ui/button"
@@ -187,37 +185,7 @@ export default function AdminReportesPage() {
 
   // ── Render principal ────────────────────────
   return (
-    <div className="min-h-screen bg-background">
-      {/* ── Header ── */}
-      <header className="border-b bg-card">
-        <div className="container flex items-center justify-between py-4 gap-4 flex-wrap">
-          <div>
-            <h1 className="text-lg font-semibold leading-tight">
-              Panel Admin — Reportes Ciudadanos
-            </h1>
-            <p className="text-xs text-muted-foreground">{user.email}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/admin/dashboard">
-                <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
-                Dashboard
-              </Link>
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={async () => {
-                await logoutAdmin()
-                router.replace("/admin")
-              }}
-            >
-              <LogOut className="mr-1.5 h-3.5 w-3.5" />
-              Cerrar sesión
-            </Button>
-          </div>
-        </div>
-      </header>
+    <div className="bg-background min-h-full">
 
       {/* ── Stats bar ── */}
       <div className="bg-muted/30 py-4 border-b">

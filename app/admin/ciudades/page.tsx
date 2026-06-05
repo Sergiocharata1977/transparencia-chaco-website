@@ -1,13 +1,12 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { ArrowLeft, Loader2, LogOut, Pencil, Plus, Trash2, MapPin } from "lucide-react"
-import { logoutAdmin, subscribeAuthState, getIdToken, type User } from "@/lib/firebase/auth-client"
+import { Loader2, Pencil, Plus, Trash2, MapPin } from "lucide-react"
+import { subscribeAuthState, getIdToken, type User } from "@/lib/firebase/auth-client"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -230,11 +229,6 @@ export default function AdminCiudadesPage() {
     }
   }
 
-  async function handleLogout() {
-    await logoutAdmin()
-    router.replace("/admin")
-  }
-
   // ─── Render guards ────────────────────────────────────────────────────────────
 
   if (authChecking) {
@@ -250,32 +244,7 @@ export default function AdminCiudadesPage() {
   const inactivas = ciudades.filter(c => !c.activa).length
 
   return (
-    <div className="min-h-screen bg-muted/20">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-slate-900 text-white">
-        <div className="container mx-auto px-4 h-14 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <Link href="/admin/dashboard">
-              <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 h-8 px-2">
-                <ArrowLeft className="h-4 w-4 mr-1" />
-                Dashboard
-              </Button>
-            </Link>
-            <span className="text-white font-semibold text-sm hidden sm:block">
-              Ciudades Cubiertas
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-white/70 hidden sm:block">{user.email}</span>
-            <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 h-8" onClick={handleLogout}>
-              <LogOut className="h-4 w-4 mr-1" />
-              Salir
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <main className="container mx-auto px-4 py-8 space-y-6">
+    <main className="px-6 py-8 space-y-6">
         {/* Title row */}
         <div className="flex items-center justify-between">
           <div>
@@ -424,7 +393,6 @@ export default function AdminCiudadesPage() {
             )}
           </CardContent>
         </Card>
-      </main>
 
       {/* Dialog crear/editar */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -531,6 +499,6 @@ export default function AdminCiudadesPage() {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+  </main>
   )
 }

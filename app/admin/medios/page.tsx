@@ -1,22 +1,19 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import {
-  ArrowLeft,
   Eye,
   EyeOff,
   Loader2,
-  LogOut,
   Pencil,
   Plus,
   Trash2,
 } from "lucide-react"
-import { logoutAdmin, subscribeAuthState, getIdToken, type User } from "@/lib/firebase/auth-client"
+import { subscribeAuthState, getIdToken, type User } from "@/lib/firebase/auth-client"
 import { getCiudadesActivas, CIUDADES_FALLBACK, type Ciudad } from "@/lib/firebase/ciudades"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -290,11 +287,6 @@ export default function AdminMediosPage() {
 
   // ─── Logout ───────────────────────────────────────────────────────────────────
 
-  async function handleLogout() {
-    await logoutAdmin()
-    router.replace("/admin")
-  }
-
   // ─── CRUD Medios ──────────────────────────────────────────────────────────────
 
   function abrirNuevoMedio() {
@@ -510,25 +502,7 @@ export default function AdminMediosPage() {
   // ─── Render ───────────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-muted/20">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white border-b shadow-sm">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <Link href="/admin/dashboard" className="text-muted-foreground hover:text-foreground">
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
-            <span className="font-semibold text-base">Medios y Pautas</span>
-          </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <span className="text-sm text-muted-foreground hidden sm:block">{user.email}</span>
-            <Button variant="outline" size="sm" onClick={handleLogout}>
-              <LogOut className="h-4 w-4 mr-1.5" />
-              Cerrar sesión
-            </Button>
-          </div>
-        </div>
-      </header>
+    <>
 
       <main className="container mx-auto px-4 py-10">
         <h1 className="text-2xl font-bold mb-6">Medios de comunicación y Pautas oficiales</h1>
@@ -1173,6 +1147,6 @@ export default function AdminMediosPage() {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   )
 }

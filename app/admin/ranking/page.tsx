@@ -1,10 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Loader2, LogOut, Save } from "lucide-react"
-import { logoutAdmin, subscribeAuthState, getIdToken, type User } from "@/lib/firebase/auth-client"
+import { Loader2, Save } from "lucide-react"
+import { subscribeAuthState, getIdToken, type User } from "@/lib/firebase/auth-client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -245,11 +244,6 @@ export default function AdminRankingPage() {
   // Auth loading state
   // ---------------------------------------------------------------------------
 
-  async function handleLogout() {
-    await logoutAdmin()
-    router.replace("/admin")
-  }
-
   if (authChecking) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30">
@@ -265,27 +259,7 @@ export default function AdminRankingPage() {
   // ---------------------------------------------------------------------------
 
   return (
-    <div className="min-h-screen bg-muted/20">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white border-b shadow-sm">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <Link href="/admin/dashboard" className="text-muted-foreground hover:text-foreground">
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
-            <span className="font-semibold text-base">Ranking de Transparencia</span>
-          </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <span className="text-sm text-muted-foreground hidden sm:block">{user.email}</span>
-            <Button variant="outline" size="sm" onClick={handleLogout}>
-              <LogOut className="h-4 w-4 mr-1.5" />
-              Cerrar sesión
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <main className="container mx-auto px-4 py-10">
+    <main className="px-6 py-8">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Editor de ranking por municipio</h1>
         </div>
@@ -383,7 +357,6 @@ export default function AdminRankingPage() {
             ))}
           </div>
         )}
-      </main>
-    </div>
+  </main>
   )
 }
