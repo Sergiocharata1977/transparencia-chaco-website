@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -95,13 +96,68 @@ export default function RendicionPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="bg-primary text-primary-foreground py-16">
+      <section className="relative isolate overflow-hidden bg-[#024852] py-16 text-white md:py-20">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_40%,rgba(81,188,205,0.25),transparent_50%),linear-gradient(135deg,#013d46_0%,#075c66_60%,#03414a_100%)]" />
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">
+            Iniciativa Transparencia Charata
+          </p>
+          <h1 className="mt-4 text-4xl font-black tracking-tight drop-shadow-sm md:text-6xl">Nosotros</h1>
+          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-8 text-cyan-50/80 md:text-lg">
+            Una iniciativa ciudadana independiente que monitorea el cumplimiento de las obligaciones de transparencia en los municipios del sudoeste chaqueño.
+          </p>
+        </div>
+      </section>
+
+      {/* Quiénes somos — foto + frase */}
+      <section className="bg-white py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-balance">Rendición de Cuentas</h1>
-            <p className="text-lg text-primary-foreground/90">
-              Información clara sobre qué deben publicar los municipios y cómo cumplir con la transparencia
-            </p>
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            {/* Foto del equipo — guardar como /foto-nosotros.jpg */}
+            <div className="relative min-h-[340px] overflow-hidden rounded-3xl bg-slate-100 shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
+              <Image
+                src="/foto-nosotros.jpg"
+                alt="Equipo Transparencia Charata"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+              {/* Fallback si la foto no está todavía */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#eef7f8]">
+                <Users className="h-16 w-16 text-[#08707b]/40" />
+                <p className="text-sm text-slate-400">Foto del equipo — próximamente</p>
+              </div>
+            </div>
+
+            {/* Texto */}
+            <div className="flex flex-col gap-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#08707b]">
+                Por qué existimos
+              </p>
+              <blockquote className="border-l-4 border-[#08707b] pl-6">
+                <p className="text-2xl font-black leading-tight tracking-tight text-slate-900 md:text-3xl">
+                  "Somos cuerdos en un mundo que normalizó la opacidad."
+                </p>
+              </blockquote>
+              <p className="text-lg leading-8 text-slate-600">
+                Creemos, con obstinación, que{" "}
+                <strong className="text-slate-800">ningún progreso es real</strong>{" "}
+                si quienes gobiernan no rinden cuentas de lo que hacen con los recursos de todos. No es un capricho ciudadano: es el mínimo que exige la democracia.
+              </p>
+              <p className="leading-8 text-slate-600">
+                Mientras otros normalizan el silencio oficial, nosotros documentamos, preguntamos y publicamos. Porque la transparencia no es un favor — es una obligación legal que muchos eligieron ignorar.
+              </p>
+              <div className="mt-2 grid grid-cols-2 gap-4">
+                <div className="rounded-2xl bg-[#eef7f8] p-5 text-center">
+                  <p className="text-3xl font-black text-[#024852]">4</p>
+                  <p className="mt-1 text-sm text-slate-600">municipios monitoreados</p>
+                </div>
+                <div className="rounded-2xl bg-[#eef7f8] p-5 text-center">
+                  <p className="text-3xl font-black text-[#024852]">2023</p>
+                  <p className="mt-1 text-sm text-slate-600">en actividad desde</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
