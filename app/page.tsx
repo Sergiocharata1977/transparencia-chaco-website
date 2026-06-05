@@ -139,6 +139,102 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* SECTION: La ley obliga */}
+      <section className="bg-white py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            {/* Imagen del libro — guardar como /public/libro-ley.jpg */}
+            <div className="relative flex items-center justify-center">
+              <Image
+                src="/libro-ley.jpg"
+                width={560}
+                height={720}
+                alt="Ley Orgánica de Municipios — Artículo 67"
+                className="w-full max-w-md rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.20)] ring-1 ring-slate-200"
+              />
+            </div>
+
+            {/* Texto de la ley con palabras clave destacadas */}
+            <div className="flex flex-col gap-6">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#08707b]">
+                  La ley vigente
+                </p>
+                <h2 className="mt-3 text-balance text-3xl font-black tracking-tight md:text-4xl">
+                  Ley Orgánica de Municipios — Art. 67
+                </h2>
+              </div>
+
+              <p className="leading-9 text-slate-600">
+                El Concejo Municipal deberá publicar en la página{" "}
+                <span className="text-[1.55em] font-black leading-none text-[#08707b]">WEB</span>{" "}
+                del Municipio el texto íntegro de las ordenanzas, resoluciones y declaraciones que
+                dicte. Además deberá publicar, en forma mensual, el estado de los ingresos y gastos
+                con cuadro de disponibilidades y un balance sintético de ejecución de presupuesto y
+                anualmente una memoria sobre la labor desarrollada y la cuenta anual del ejercicio.
+              </p>
+
+              <p className="leading-9 text-slate-600">
+                El Secretario del Concejo llevará un Protocolo de Ordenanzas con numeración
+                correlativa y un Protocolo de Resoluciones y Declaraciones con numeración
+                correlativa anual, debiendo{" "}
+                <span className="text-[1.55em] font-black leading-none text-[#08707b]">REMITIR</span>{" "}
+                copia certificada de aquellas ordenanzas que adhieran a leyes provinciales y/o que
+                modifiquen y/o que deroguen ordenanzas anteriores relacionadas a las citadas
+                adhesiones, para su incorporación al Registro de Leyes Provinciales que prevean
+                adhesión municipal conforme con la ley 1326-A.
+              </p>
+
+              <div className="mt-2 rounded-2xl border-l-4 border-[#08707b] bg-[#eef7f8] p-6">
+                <p className="text-2xl font-black text-[#024852] md:text-3xl">
+                  Están obligados a{" "}
+                  <span className="text-[1.25em] text-[#08707b]">RENDIR</span>{" "}
+                  en la{" "}
+                  <span className="text-[1.25em] text-[#08707b]">WEB</span>
+                </p>
+                <p className="mt-2 text-sm text-slate-500">
+                  Ley 2396-A consolidada por Ley 2857-A — Digesto Jurídico Provincia del Chaco
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION: El compromiso público */}
+      <section className="bg-[#024852] py-16 text-white md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            {/* Texto del compromiso — a completar */}
+            <div className="flex flex-col gap-6">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">
+                  El compromiso
+                </p>
+                <h2 className="mt-3 text-balance text-3xl font-black tracking-tight md:text-4xl">
+                  La palabra empeñada en campaña
+                </h2>
+              </div>
+              <p className="leading-9 text-cyan-50/80">
+                {/* Texto del compromiso público del intendente — pendiente de completar */}
+                Texto del compromiso público a completar.
+              </p>
+            </div>
+
+            {/* Video YouTube */}
+            <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+              <iframe
+                src="https://www.youtube.com/embed/xxdbT_z4X_0"
+                title="Compromiso público del intendente"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 h-full w-full border-0"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-white py-16 md:py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
