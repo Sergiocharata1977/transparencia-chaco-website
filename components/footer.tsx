@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Scale } from "lucide-react"
+import Image from "next/image"
 
 const footerGroups = [
   {
@@ -37,9 +37,9 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#024852] text-cyan-100">
-                <Scale className="h-5 w-5" />
-              </span>
+              <div className="flex h-10 w-10 items-center justify-center">
+                <Image src="/logo-cristal.png" alt="Transparencia Chaco" width={40} height={40} className="object-contain drop-shadow-sm" />
+              </div>
               <h4 className="text-lg font-black">Transparencia Chaco</h4>
             </div>
             <p className="max-w-sm text-sm leading-6 text-muted-foreground">

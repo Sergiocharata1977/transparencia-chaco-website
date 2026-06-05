@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { ChevronDown, Menu, Scale } from "lucide-react"
+import Image from "next/image"
+import { ChevronDown, Menu } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -43,9 +44,9 @@ export function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#024852] text-cyan-100 shadow-sm">
-              <Scale className="h-5 w-5" />
-            </span>
+            <div className="flex h-10 w-10 items-center justify-center">
+              <Image src="/logo-cristal.png" alt="Transparencia Chaco" width={40} height={40} className="object-contain drop-shadow-sm" />
+            </div>
             <span>
               <span className="block text-base font-black leading-none tracking-tight text-slate-950">
                 Transparencia Chaco
