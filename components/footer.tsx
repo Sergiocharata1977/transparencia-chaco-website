@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { Lock } from "lucide-react"
 
 const footerGroups = [
   {
@@ -69,6 +70,15 @@ export function Footer() {
             respondemos a ningun gobierno.
           </p>
           <p className="mt-1">© 2026 Transparencia Chaco. Iniciativa ciudadana independiente.</p>
+          <div className="mt-4">
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-600 transition-colors hover:border-[#08707b] hover:text-[#08707b]"
+            >
+              <Lock className="h-3.5 w-3.5" />
+              Panel de administracion
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
