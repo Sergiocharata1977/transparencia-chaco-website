@@ -12,6 +12,7 @@ async function verificarAutenticado(req: NextRequest): Promise<boolean> {
 const actualizarCiudadSchema = z.object({
   nombre: z.string().min(2).max(100).optional(),
   provincia: z.string().min(2).max(60).optional(),
+  departamento: z.string().min(2).max(60).optional(),
   activa: z.boolean().optional(),
   descripcion: z.string().max(500).optional(),
   poblacion: z.number().int().min(0).optional(),

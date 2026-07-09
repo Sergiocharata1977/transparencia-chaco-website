@@ -6,6 +6,7 @@ export interface Ciudad {
   slug: string
   nombre: string
   provincia: string
+  departamento?: string
   activa: boolean
   descripcion?: string
   poblacion?: number
@@ -14,10 +15,10 @@ export interface Ciudad {
 }
 
 export const CIUDADES_FALLBACK: Ciudad[] = [
-  { id: "charata", slug: "charata", nombre: "Charata", provincia: "Chaco", activa: true },
-  { id: "las-brenas", slug: "las-brenas", nombre: "Las Breñas", provincia: "Chaco", activa: true },
-  { id: "corzuela", slug: "corzuela", nombre: "Corzuela", provincia: "Chaco", activa: true },
-  { id: "presidencia-roque-saenz-pena", slug: "presidencia-roque-saenz-pena", nombre: "Presidencia Roque Sáenz Peña", provincia: "Chaco", activa: true },
+  { id: "charata", slug: "charata", nombre: "Charata", provincia: "Chaco", departamento: "Chacabuco", activa: true },
+  { id: "las-brenas", slug: "las-brenas", nombre: "Las Breñas", provincia: "Chaco", departamento: "Nueve de Julio", activa: true },
+  { id: "corzuela", slug: "corzuela", nombre: "Corzuela", provincia: "Chaco", departamento: "General Belgrano", activa: true },
+  { id: "presidencia-roque-saenz-pena", slug: "presidencia-roque-saenz-pena", nombre: "Presidencia Roque Sáenz Peña", provincia: "Chaco", departamento: "Comandante Fernández", activa: true },
 ]
 
 function normalizeCity(docId: string, data: Record<string, unknown>): Ciudad {
@@ -26,6 +27,7 @@ function normalizeCity(docId: string, data: Record<string, unknown>): Ciudad {
     slug: String(data.slug ?? docId),
     nombre: String(data.nombre ?? docId),
     provincia: String(data.provincia ?? "Chaco"),
+    departamento: data.departamento != null ? String(data.departamento) : undefined,
     activa: Boolean(data.activa ?? true),
     descripcion: data.descripcion != null ? String(data.descripcion) : undefined,
     poblacion: data.poblacion != null ? Number(data.poblacion) : undefined,

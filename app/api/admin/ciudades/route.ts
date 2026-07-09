@@ -13,6 +13,7 @@ const crearCiudadSchema = z.object({
   slug: z.string().min(2).max(60).regex(/^[a-z0-9-]+$/, "Solo minúsculas, números y guiones"),
   nombre: z.string().min(2).max(100),
   provincia: z.string().min(2).max(60).default("Chaco"),
+  departamento: z.string().min(2).max(60),
   activa: z.boolean().default(true),
   descripcion: z.string().max(500).optional(),
   poblacion: z.number().int().min(0).optional(),

@@ -72,6 +72,21 @@ service cloud.firestore {
       allow write: if isAuthenticated();
     }
 
+    // Notas enviadas al municipio (módulo formal/documental).
+    // El filtrado por `publico` lo hace el cliente.
+    match /notas_municipio/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // Reclamos por ente (módulo ciudadano/operativo).
+    // Creación pública para el futuro formulario ciudadano; gestión autenticada.
+    match /reclamos/{document=**} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAuthenticated();
+    }
+
     // Reportes ciudadanos: creación anónima, gestión solo autenticada.
     match /reportes_ciudadanos/{document=**} {
       allow create: if true;

@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
 import {
   BarChart2, BookOpen, Building2, FileCheck, FileText,
-  Globe, Home, LogOut, MapPin, Newspaper, Store, Users,
+  Globe, Home, LogOut, MapPin, Megaphone, Newspaper, Send, Store, Users,
 } from "lucide-react"
 import { subscribeAuthState, logoutAdmin, type User } from "@/lib/firebase/auth-client"
 
@@ -19,14 +19,21 @@ const NAV = [
   {
     group: "Gestión de Contenido",
     items: [
-      { href: "/admin/ciudades",     icon: MapPin,     label: "Ciudades Cubiertas" },
-      { href: "/admin/obras",        icon: Building2,  label: "Obras Públicas" },
-      { href: "/admin/reportes",     icon: FileCheck,  label: "Reportes Ciudadanos" },
-      { href: "/admin/publicaciones",icon: BookOpen,   label: "Publicaciones" },
-      { href: "/admin/pedidos",      icon: FileText,   label: "Pedidos de Info" },
-      { href: "/admin/medios",       icon: Newspaper,  label: "Medios y Pautas" },
-      { href: "/admin/proveedores",  icon: Store,      label: "Proveedores" },
-      { href: "/admin/ranking",      icon: BarChart2,  label: "Ranking" },
+      { href: "/admin/ciudades",       icon: MapPin,     label: "Ciudades Cubiertas" },
+      { href: "/admin/publicaciones",  icon: BookOpen,   label: "Noticias" },
+      { href: "/admin/obras",          icon: Building2,  label: "Obras Públicas" },
+      { href: "/admin/notas-municipio",icon: Send,       label: "Notas al Municipio" },
+      { href: "/admin/reclamos",       icon: Megaphone,  label: "Reclamos por Ente" },
+      { href: "/admin/medios",         icon: Newspaper,  label: "Medios y Pautas" },
+      { href: "/admin/proveedores",    icon: Store,      label: "Proveedores" },
+      { href: "/admin/ranking",        icon: BarChart2,  label: "Ranking" },
+    ],
+  },
+  {
+    group: "Legacy",
+    items: [
+      { href: "/admin/reportes", icon: FileCheck, label: "Reportes (legacy)" },
+      { href: "/admin/pedidos",  icon: FileText,  label: "Pedidos de Info (legacy)" },
     ],
   },
   {

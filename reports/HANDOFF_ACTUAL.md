@@ -162,3 +162,36 @@ La validacion pesada debe quedar para Vercel/CI o una maquina con dependencias i
   - `pedidos_informacion` debe evolucionar/mapearse a `notas_municipio` con `tipo: pedido_informacion`.
   - `reportes` debe evolucionar/mapearse a `reclamos`, clasificado por `enteResponsable`.
 - No se tocaron rutas ni codigo funcional en esta actualizacion; es documentacion de arquitectura/producto para la proxima ola.
+
+---
+
+## Actualizacion 2026-07-09 (2) - Implementacion admin del modelo canonico
+
+Plan ejecutado: `reports/PLAN_ADMIN_REGISTROS_2026-07-09.md` (4 olas, generado con /plan-olas).
+
+### Hecho
+
+- **Ola 1 — Ciudades con departamento (ABM madre):**
+  - `lib/firebase/ciudades.ts`: campo `departamento` en interfaz, normalizador y fallback (Charata -> Chacabuco, Las Brenas -> Nueve de Julio, Corzuela -> General Belgrano, Saenz Pena -> Comandante Fernandez).
+  - API ciudades: `departamento` requerido al crear, opcional al editar.
+  - `/admin/ciudades`: campo Departamento en formulario + columna en tabla.
+- **Ola 2 — Backend nuevos modulos:**
+  - `types/notas.ts` y `types/reclamos.ts` con enums y labels.
+  - API `/api/admin/notas-municipio` (+ `[id]`) sobre coleccion `notas_municipio`.
+  - API `/api/admin/reclamos` (+ `[id]`) sobre coleccion `reclamos`.
+  - `firestore.rules`: reglas para `notas_municipio` (read publico / write auth) y `reclamos` (create publico para futuro form ciudadano, read publico, update/delete auth).
+- **Ola 3 — Paginas admin:** `/admin/notas-municipio` y `/admin/reclamos` (ABM completo con Dialog + RHF + Zod, toggle publico, AlertDialog de borrado). Al guardar denormalizan `ciudadNombre`, `departamento` y `provincia` desde la ciudad seleccionada.
+- **Ola 4 — Navegacion:** sidebar con grupo "Legacy" (Reportes y Pedidos viejos), modulos nuevos en Gestion de Contenido; dashboard con 11 cards.
+
+### Pendientes
+
+- `firebase deploy --only firestore:rules` (correr en maquina con firebase-tools).
+- Frontend publico (Ola 5 del handoff de registros): paginas publicas de notas y reclamos, menu publico.
+- Migracion de datos legacy (`pedidos_informacion` -> `notas_municipio`, `reportes_ciudadanos` -> `reclamos`) — Ola 6.
+- Validacion pesada (type-check/build) queda para el deploy automatico de Vercel; este clon en D: no instala dependencias.
+
+### Riesgos
+
+- Colecciones `notas_municipio` y `reclamos` vacias hasta que se cargue contenido desde el admin.
+- Reglas Firestore nuevas no aplican hasta hacer el deploy de rules.
+- El campo `departamento` es requerido al crear ciudades nuevas; las existentes en Firestore no lo tienen hasta editarlas (la UI muestra "—").

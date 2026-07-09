@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { BarChart2, BookOpen, Building2, FileCheck, FileText, Loader2, MapPin, Newspaper, Store, Users } from "lucide-react"
+import { BarChart2, BookOpen, Building2, FileCheck, FileText, Loader2, MapPin, Megaphone, Newspaper, Send, Store, Users } from "lucide-react"
 import { subscribeAuthState, type User } from "@/lib/firebase/auth-client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -38,15 +38,17 @@ export default function AdminDashboardPage() {
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mb-10">
         {[
-          { href: "/admin/ciudades",      icon: MapPin,     titulo: "Ciudades Cubiertas",       desc: "Alta y gestión de municipios" },
-          { href: "/admin/reportes",      icon: FileCheck,  titulo: "Reportes Ciudadanos",      desc: "Revisar y aprobar reportes" },
-          { href: "/admin/obras",         icon: Building2,  titulo: "Obras Públicas",           desc: "Alta y edición de obras" },
-          { href: "/admin/pedidos",       icon: FileText,   titulo: "Pedidos de Información",   desc: "Solicitudes de acceso" },
-          { href: "/admin/medios",        icon: Newspaper,  titulo: "Medios y Pautas",          desc: "Medios y pauta oficial" },
-          { href: "/admin/proveedores",   icon: Store,      titulo: "Proveedores del Estado",   desc: "Contrataciones municipales" },
-          { href: "/admin/publicaciones", icon: BookOpen,   titulo: "Publicaciones",            desc: "Noticias del observatorio" },
-          { href: "/admin/ranking",       icon: BarChart2,  titulo: "Ranking de Transparencia", desc: "Índice por municipio" },
-          { href: "/admin/usuarios",      icon: Users,      titulo: "Usuarios",                 desc: "Administradores del panel" },
+          { href: "/admin/ciudades",       icon: MapPin,     titulo: "Ciudades Cubiertas",       desc: "ABM madre: municipios y departamentos" },
+          { href: "/admin/publicaciones",  icon: BookOpen,   titulo: "Noticias",                 desc: "Publicaciones del observatorio" },
+          { href: "/admin/obras",          icon: Building2,  titulo: "Obras Públicas",           desc: "Alta y edición de obras" },
+          { href: "/admin/notas-municipio",icon: Send,       titulo: "Notas al Municipio",       desc: "Pedidos de info, notas y solicitudes" },
+          { href: "/admin/reclamos",       icon: Megaphone,  titulo: "Reclamos por Ente",        desc: "Denuncias y reclamos por organismo" },
+          { href: "/admin/medios",         icon: Newspaper,  titulo: "Medios y Pautas",          desc: "Medios y pauta oficial" },
+          { href: "/admin/proveedores",    icon: Store,      titulo: "Proveedores del Estado",   desc: "Contrataciones municipales" },
+          { href: "/admin/ranking",        icon: BarChart2,  titulo: "Ranking de Transparencia", desc: "Índice por municipio" },
+          { href: "/admin/reportes",       icon: FileCheck,  titulo: "Reportes (legacy)",        desc: "Módulo anterior de reportes" },
+          { href: "/admin/pedidos",        icon: FileText,   titulo: "Pedidos de Info (legacy)", desc: "Módulo anterior de pedidos" },
+          { href: "/admin/usuarios",       icon: Users,      titulo: "Usuarios",                 desc: "Administradores del panel" },
         ].map(({ href, icon: Icon, titulo, desc }) => (
           <Link key={href} href={href} className="group">
             <Card className="h-full transition-shadow group-hover:shadow-md cursor-pointer border-primary/20">

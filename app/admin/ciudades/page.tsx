@@ -49,6 +49,7 @@ interface Ciudad {
   slug: string
   nombre: string
   provincia: string
+  departamento?: string
   activa: boolean
   descripcion?: string
   poblacion?: number
@@ -61,6 +62,7 @@ const ciudadFormSchema = z.object({
     .regex(/^[a-z0-9-]+$/, "Solo minúsculas, números y guiones"),
   nombre: z.string().min(2, "Mínimo 2 caracteres").max(100),
   provincia: z.string().min(2).max(60),
+  departamento: z.string().min(2, "Mínimo 2 caracteres").max(60),
   activa: z.boolean().default(true),
   descripcion: z.string().max(500).optional(),
   poblacion: z.coerce.number().int().min(0).optional(),
@@ -140,7 +142,7 @@ export default function AdminCiudadesPage() {
 
   const form = useForm<CiudadForm>({
     resolver: zodResolver(ciudadFormSchema),
-    defaultValues: { slug: "", nombre: "", provincia: "Chaco", activa: true, descripcion: "", poblacion: undefined },
+    defaultValues: { slug: "", nombre: "", provincia: "Chaco", departamento: "", activa: true, descripcion: "", poblacion: undefined },
   })
 
   const { watch, setValue } = form
@@ -154,7 +156,7 @@ export default function AdminCiudadesPage() {
 
   function abrirNueva() {
     setEditando(null)
-    form.reset({ slug: "", nombre: "", provincia: "Chaco", activa: true, descripcion: "", poblacion: undefined })
+    form.reset({ slug: "", nombre: "", provincia: "Chaco", departamento: "", activa: true, descripcion: "", poblacion: undefined })
     setDialogOpen(true)
   }
 
@@ -164,6 +166,7 @@ export default function AdminCiudadesPage() {
       slug: ciudad.slug,
       nombre: ciudad.nombre,
       provincia: ciudad.provincia,
+      departamento: ciudad.departamento ?? "",
       activa: ciudad.activa,
       descripcion: ciudad.descripcion ?? "",
       poblacion: ciudad.poblacion,
@@ -320,6 +323,7 @@ export default function AdminCiudadesPage() {
                   <TableRow>
                     <TableHead>Ciudad</TableHead>
                     <TableHead>Slug</TableHead>
+                    <TableHead>Departamento</TableHead>
                     <TableHead>Provincia</TableHead>
                     <TableHead>Población</TableHead>
                     <TableHead>Estado</TableHead>
@@ -331,6 +335,7 @@ export default function AdminCiudadesPage() {
                     <TableRow key={ciudad.id}>
                       <TableCell className="font-medium">{ciudad.nombre}</TableCell>
                       <TableCell className="font-mono text-sm text-muted-foreground">{ciudad.slug}</TableCell>
+                      <TableCell>{ciudad.departamento ?? "—"}</TableCell>
                       <TableCell>{ciudad.provincia}</TableCell>
                       <TableCell>{ciudad.poblacion ? ciudad.poblacion.toLocaleString("es-AR") : "—"}</TableCell>
                       <TableCell>
@@ -436,13 +441,26 @@ export default function AdminCiudadesPage() {
               )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="provincia">Provincia *</Label>
-              <Input
-                id="provincia"
-                {...form.register("provincia")}
-                placeholder="Chaco"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="provincia">Provincia *</Label>
+                <Input
+                  id="provincia"
+                  {...form.register("provincia")}
+                  placeholder="Chaco"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="departamento">Departamento *</Label>
+                <Input
+                  id="departamento"
+                  {...form.register("departamento")}
+                  placeholder="Ej: Chacabuco"
+                />
+                {form.formState.errors.departamento && (
+                  <p className="text-sm text-destructive">{form.formState.errors.departamento.message}</p>
+                )}
+              </div>
             </div>
 
             <div className="space-y-2">
