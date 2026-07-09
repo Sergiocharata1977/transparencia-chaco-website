@@ -148,3 +148,17 @@ Trabajar **sin instalar dependencias localmente**:
 - Hacer `git add` selectivo, commit corto y `git push origin main` cuando el cambio este revisado.
 
 La validacion pesada debe quedar para Vercel/CI o una maquina con dependencias instaladas.
+
+---
+
+## Actualizacion 2026-07-09 - Modelo canonico de registros
+
+- Se definio un handoff funcional para ordenar los registros del observatorio sin duplicar conceptos.
+- Documento rector: `reports/HANDOFF_REGISTROS_2026-07-09.md`.
+- Decision principal: `ciudades` queda como ABM madre y debe incluir `departamento`.
+- Ejemplo definido: Charata pertenece al departamento Chacabuco.
+- Jerarquia propuesta: Provincia -> Departamento -> Ciudad/Municipio -> Noticias, Obras Publicas, Notas enviadas al municipio y Reclamos por ente.
+- Unificacion propuesta:
+  - `pedidos_informacion` debe evolucionar/mapearse a `notas_municipio` con `tipo: pedido_informacion`.
+  - `reportes` debe evolucionar/mapearse a `reclamos`, clasificado por `enteResponsable`.
+- No se tocaron rutas ni codigo funcional en esta actualizacion; es documentacion de arquitectura/producto para la proxima ola.
