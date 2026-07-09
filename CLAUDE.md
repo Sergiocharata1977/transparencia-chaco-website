@@ -27,3 +27,14 @@ firebase deploy --only firestore:indexes
 3. Actualizar `reports/HANDOFF_ACTUAL.md` con lo hecho, archivos modificados, pendientes y riesgos.
 4. Hacer `git add` selectivo y `git commit -m "descripcion"`.
 5. Ejecutar `git push origin main` — **SIEMPRE pushear al terminar**. El deploy en Vercel es automático.
+
+## Excepcion operativa local en disco D:
+
+Si el repo esta clonado en `D:\Proyectos\transparencia-chaco-website` para ahorrar espacio en `C:`, trabajar sin instalar dependencias localmente:
+
+- No correr `pnpm install`, `npm install` ni crear `node_modules`.
+- No depender de `pnpm dev`, `pnpm build` ni `pnpm type-check` en esta maquina.
+- Validar con controles livianos: `git status`, `git diff`, `git diff --check`, `rg`, lectura de archivos y revision puntual.
+- Commit y push directo a GitHub cuando el cambio este revisado.
+
+La validacion pesada queda para Vercel/CI o una maquina con dependencias instaladas.

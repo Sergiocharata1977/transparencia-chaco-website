@@ -126,3 +126,25 @@
 - `ciudades` collection vacía en producción hasta que el admin cargue la primera ciudad
 - Sin rate limiting en API routes de admin (aceptable para uso interno)
 - Buscador global es client-side (carga todos los registros) — puede ser lento con >500 docs por colección
+
+---
+
+## Actualizacion 2026-07-09 - Clon local en disco D sin dependencias
+
+- Repo clonado en `D:\Proyectos\transparencia-chaco-website` desde `https://github.com/Sergiocharata1977/transparencia-chaco-website.git`.
+- Rama: `main`.
+- Ultimo commit observado al clonar: `cd448ac feat(admin): sidebar izquierdo + limpiar headers de todas las paginas admin`.
+- `node_modules`: no instalado.
+- Lockfile presente: `pnpm-lock.yaml`.
+- Git marco el repo como `dubious ownership` por estar en `D:`; se agrego `D:/Proyectos/transparencia-chaco-website` como `safe.directory`.
+
+### Regla operativa local
+
+Trabajar **sin instalar dependencias localmente**:
+
+- No correr `pnpm install`, `npm install` ni crear `node_modules`.
+- No depender de `pnpm dev`, `pnpm build` ni `pnpm type-check` en esta maquina.
+- Validar con controles livianos: `git status`, `git diff`, `git diff --check`, `rg`, lectura de archivos y revision puntual.
+- Hacer `git add` selectivo, commit corto y `git push origin main` cuando el cambio este revisado.
+
+La validacion pesada debe quedar para Vercel/CI o una maquina con dependencias instaladas.
