@@ -29,14 +29,12 @@ const municipiosLinks = [
 ]
 
 const observatorioLinks = [
-  { href: "/ranking-transparencia", label: "Ranking de Transparencia" },
   { href: "/obras-publicas", label: "Obras Publicas" },
-  { href: "/mapa-ciudadano", label: "Mapa Ciudadano" },
   { href: "/pedidos-informacion", label: "Pedidos de Informacion" },
   { href: "/medios", label: "Medios y Pauta" },
   { href: "/proveedores-estado", label: "Proveedores del Estado" },
-  { href: "/accidentes-seguridad", label: "Seguridad y Accidentes" },
-  { href: "/salud-hospital", label: "Salud / Hospital" },
+  { href: "/ranking-transparencia", label: "Ranking de Transparencia" },
+  { href: "/mapa-ciudadano", label: "Mapa Ciudadano" },
 ]
 
 export function Navbar() {

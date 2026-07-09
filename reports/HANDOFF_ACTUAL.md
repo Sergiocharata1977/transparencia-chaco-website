@@ -195,3 +195,36 @@ Plan ejecutado: `reports/PLAN_ADMIN_REGISTROS_2026-07-09.md` (4 olas, generado c
 - Colecciones `notas_municipio` y `reclamos` vacias hasta que se cargue contenido desde el admin.
 - Reglas Firestore nuevas no aplican hasta hacer el deploy de rules.
 - El campo `departamento` es requerido al crear ciudades nuevas; las existentes en Firestore no lo tienen hasta editarlas (la UI muestra "—").
+
+---
+
+## Actualizacion 2026-07-09 (3) - Limpieza de frontend + deploy Firestore
+
+### Datos hardcodeados eliminados
+
+Se vaciaron los arrays de fallback para que el sitio publico muestre solo datos reales de Firestore (estado vacio honesto en vez de contenido inventado). ~1000 lineas borradas.
+
+- `lib/fallback/obras-fallback.ts` -> `fallbackObras = []`
+- `lib/fallback/transparencia-fallback.ts` -> pedidos, medios, pautas, proveedores, ranking = []
+- `lib/fallback/reportes-fallback.ts` -> reportes, accidentes, salud = []
+- `lib/site-content.ts` -> municipios y publicaciones = [] (helpers by-slug intactos)
+- `CIUDADES_FALLBACK` se conserva (semilla real de las 4 ciudades cubiertas, no es contenido inventado).
+
+### Menu publico reordenado
+
+`components/navbar.tsx` -> dropdown Observatorio deja solo registros con ABM que funciona, en orden: Obras Publicas, Pedidos de Informacion, Medios y Pauta, Proveedores del Estado, Ranking de Transparencia, Mapa Ciudadano. Se quitaron del menu (no se borraron las paginas) "Seguridad y Accidentes" y "Salud / Hospital" porque no tienen ABM en el admin que los alimente.
+
+### Firestore desplegado (CLI, firebase-tools 15.3.1)
+
+- `firebase deploy --only firestore:rules` OK -> reglas de `notas_municipio` y `reclamos` ya activas en produccion.
+- `firebase deploy --only firestore:indexes` OK, tras quitar de `firestore.indexes.json` un indice invalido de campo unico en `ranking_municipios` (Firestore crea los single-field solos y rechazaba declararlo).
+
+### Pendientes / notas
+
+- `/municipios` (listado) queda vacio hasta poblar la coleccion `municipios` (no tiene admin; solo existe `/admin/ciudades` sobre `ciudades`). A futuro: unificar `/municipios` para leer de `ciudades` o sembrar `municipios`.
+- Los observatorios municipales `/municipios/[slug]/observatorio` siguen renderizando (nombre desde mapa hardcodeado NOMBRES_MUNICIPIO); muestran secciones vacias hasta cargar datos.
+- Falta cargar datos reales desde el admin para que el sitio publico deje de verse vacio.
+
+### SEGURIDAD - accion pendiente del usuario
+
+El usuario pego en el chat la clave privada del service account de Firebase Admin (private_key_id bf9e6d14...). Esa credencial quedo expuesta. Debe revocarse/rotarse en Firebase Console -> Cuentas de servicio (o Google Cloud IAM). No se guardo en ningun archivo del repo.

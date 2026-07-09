@@ -144,13 +144,6 @@
         { "fieldPath": "visibilidadPublica", "order": "ASCENDING" },
         { "fieldPath": "estadoEditorial", "order": "ASCENDING" }
       ]
-    },
-    {
-      "collectionGroup": "ranking_municipios",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "puntajeTotal", "order": "DESCENDING" }
-      ]
     }
   ],
   "fieldOverrides": []
