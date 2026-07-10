@@ -1,13 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { FieldValue } from "firebase-admin/firestore"
-import { getAdminAuth, getAdminDb } from "@/lib/firebase/admin-sdk"
+import { requireAdminAuth } from "@/lib/api/admin-auth"
+import { getAdminDb } from "@/lib/firebase/admin-sdk"
 
-async function verificarAutenticado(req: NextRequest): Promise<boolean> {
-  const token = req.headers.get("authorization")?.replace("Bearer ", "")
-  if (!token) return false
-  try { await getAdminAuth().verifyIdToken(token); return true } catch { return false }
-}
 
 const crearMedioSchema = z.object({
   nombre: z.string().min(2).max(100),
@@ -24,7 +20,8 @@ const crearMedioSchema = z.object({
 })
 
 export async function GET(req: NextRequest) {
-  if (!(await verificarAutenticado(req))) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+  const auth = await requireAdminAuth(req)
+  if (!auth.ok) return auth.response
   try {
     const snap = await getAdminDb().collection("medios").orderBy("createdAt", "desc").limit(100).get()
     const medios = snap.docs.map(d => ({ id: d.id, ...d.data() }))
@@ -36,7 +33,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  if (!(await verificarAutenticado(req))) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+  const auth = await requireAdminAuth(req)
+  if (!auth.ok) return auth.response
   try {
     const body = await req.json()
     const result = crearMedioSchema.safeParse(body)

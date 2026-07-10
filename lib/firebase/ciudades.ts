@@ -65,13 +65,14 @@ export async function getCiudadesActivas(): Promise<Ciudad[]> {
 }
 
 export async function getCiudadBySlug(slug: string): Promise<Ciudad | null> {
-  if (!hasFirebaseClientConfig) return CIUDADES_FALLBACK.find(c => c.slug === slug) ?? null
+  const fallback = CIUDADES_FALLBACK.find(c => c.slug === slug) ?? null
+  if (!hasFirebaseClientConfig) return fallback
   try {
     const db = getFirebaseDb()
-    if (!db) return CIUDADES_FALLBACK.find(c => c.slug === slug) ?? null
+    if (!db) return fallback
     const snap = await getDoc(doc(db, "ciudades", slug))
-    return snap.exists() ? normalizeCity(snap.id, snap.data()) : null
+    return snap.exists() ? normalizeCity(snap.id, snap.data()) : fallback
   } catch {
-    return null
+    return fallback
   }
 }

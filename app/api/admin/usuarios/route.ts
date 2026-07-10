@@ -1,23 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
+import { requireAdminAuth } from "@/lib/api/admin-auth"
 import { getAdminAuth } from "@/lib/firebase/admin-sdk"
-
-async function verificarAutenticado(req: NextRequest): Promise<boolean> {
-  const token = req.headers.get("authorization")?.replace("Bearer ", "")
-  if (!token) return false
-  try {
-    await getAdminAuth().verifyIdToken(token)
-    return true
-  } catch {
-    return false
-  }
-}
 
 // GET /api/admin/usuarios — listar todos los usuarios
 export async function GET(req: NextRequest) {
-  if (!(await verificarAutenticado(req))) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 })
-  }
+  const auth = await requireAdminAuth(req)
+  if (!auth.ok) return auth.response
   try {
     const result = await getAdminAuth().listUsers(100)
     const usuarios = result.users.map((u) => ({
@@ -43,9 +32,8 @@ const crearSchema = z.object({
 
 // POST /api/admin/usuarios — crear nuevo usuario
 export async function POST(req: NextRequest) {
-  if (!(await verificarAutenticado(req))) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 })
-  }
+  const auth = await requireAdminAuth(req)
+  if (!auth.ok) return auth.response
   try {
     const body = await req.json()
     const result = crearSchema.safeParse(body)

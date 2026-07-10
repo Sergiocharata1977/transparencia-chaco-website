@@ -14,6 +14,15 @@
 - Navegacion/footer: `components/navbar.tsx` y `components/footer.tsx` ahora usan el asset existente `/logo-modelo1.png` en lugar de `/logo-cristal.png`.
 - Validacion: `git diff --check` OK. No se corrio `pnpm type-check` por regla operativa local del clon en D: sin dependencias.
 
+## Actualizacion 2026-07-10 (2) - Registros y auth admin estabilizados
+
+- Se reviso el fix de la otra IA (`84057d2`): el `trim()` en `lib/firebase/admin-sdk.ts` es correcto y evita el 401 global causado por salto de linea en `FIREBASE_PROJECT_ID`.
+- Se corrigio el problema pendiente de registros publicos: `lib/firebase/public-site.ts` ya no consulta la coleccion legacy `municipios`; ahora deriva `getMunicipios()` y `getMunicipioBySlug()` desde `ciudades`, que es el ABM canonico.
+- Se ajusto `lib/firebase/ciudades.ts` para que `getCiudadBySlug()` use `CIUDADES_FALLBACK` cuando la coleccion esta vacia o falta un documento fallback, evitando listado con ciudades pero detalle "no encontrado".
+- Se agrego `lib/api/admin-auth.ts` y todas las rutas `app/api/admin/**` usan `requireAdminAuth`; token ausente/invalido sigue siendo 401, pero errores de configuracion del Admin SDK quedan logueados y responden 500.
+- Validacion liviana: `git diff --check` OK; `rg` confirmo que no quedan lecturas `collection(db, "municipios")` ni `verifyIdToken` duplicado en rutas admin.
+- No se corrio `pnpm type-check` por regla operativa local del clon en D: sin dependencias.
+
 ## Proyecto
 - Repo: `transparencia-chaco-website` (GitHub)
 - Rama: `main`

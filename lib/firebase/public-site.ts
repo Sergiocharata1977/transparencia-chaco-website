@@ -1,6 +1,7 @@
 import { addDoc, collection, doc, getDoc, getDocs, limit, orderBy, query, serverTimestamp } from "firebase/firestore"
 
 import { getFirebaseDb, hasFirebaseClientConfig } from "@/lib/firebase/config"
+import { getCiudadBySlug, getCiudadesActivas, type Ciudad } from "@/lib/firebase/ciudades"
 import {
   fallbackMunicipios,
   fallbackPublicaciones,
@@ -9,21 +10,25 @@ import {
 } from "@/lib/site-content"
 import type { DenunciaPayload, Municipio, Publicacion, VoluntarioPayload } from "@/types/site"
 
-function normalizeMunicipio(docId: string, data: Record<string, unknown>): Municipio {
+function normalizeCiudadAsMunicipio(ciudad: Ciudad): Municipio {
+  const departamento = ciudad.departamento ? `Departamento ${ciudad.departamento}` : "Chaco"
+
   return {
-    id: docId,
-    slug: String(data.slug ?? docId),
-    nombre: String(data.nombre ?? ""),
-    estado: (data.estado as Municipio["estado"]) ?? "parcial",
-    region: String(data.region ?? ""),
-    provincia: String(data.provincia ?? "Chaco"),
-    intendente: String(data.intendente ?? ""),
-    poblacion: String(data.poblacion ?? ""),
-    ultimaActualizacion: String(data.ultimaActualizacion ?? ""),
-    descripcion: String(data.descripcion ?? ""),
-    indicadores: Array.isArray(data.indicadores) ? (data.indicadores as Municipio["indicadores"]) : undefined,
-    ordenanzas: Array.isArray(data.ordenanzas) ? (data.ordenanzas as Municipio["ordenanzas"]) : undefined,
-    publicaciones: Array.isArray(data.publicaciones) ? (data.publicaciones as Municipio["publicaciones"]) : undefined,
+    id: ciudad.id,
+    slug: ciudad.slug,
+    nombre: ciudad.nombre,
+    estado: "parcial",
+    region: departamento,
+    provincia: ciudad.provincia,
+    intendente: "",
+    poblacion: ciudad.poblacion != null ? String(ciudad.poblacion) : "",
+    ultimaActualizacion: "",
+    descripcion:
+      ciudad.descripcion ??
+      `Municipio cubierto por el observatorio ciudadano de transparencia en ${departamento}.`,
+    indicadores: [],
+    ordenanzas: [],
+    publicaciones: [],
   }
 }
 
@@ -44,37 +49,18 @@ function normalizePublicacion(docId: string, data: Record<string, unknown>): Pub
 }
 
 export async function getMunicipios() {
-  if (!hasFirebaseClientConfig) {
-    return fallbackMunicipios
-  }
-
   try {
-    const db = getFirebaseDb()
-    if (!db) {
-      return fallbackMunicipios
-    }
-
-    const snapshot = await getDocs(query(collection(db, "municipios"), orderBy("nombre"), limit(50)))
-    const municipios = snapshot.docs.map((item) => normalizeMunicipio(item.id, item.data()))
-    return municipios.length > 0 ? municipios : fallbackMunicipios
+    const ciudades = await getCiudadesActivas()
+    return ciudades.map(normalizeCiudadAsMunicipio)
   } catch {
     return fallbackMunicipios
   }
 }
 
 export async function getMunicipioBySlug(slug: string) {
-  if (!hasFirebaseClientConfig) {
-    return getFallbackMunicipioBySlug(slug)
-  }
-
   try {
-    const db = getFirebaseDb()
-    if (!db) {
-      return getFallbackMunicipioBySlug(slug)
-    }
-
-    const snapshot = await getDoc(doc(db, "municipios", slug))
-    return snapshot.exists() ? normalizeMunicipio(snapshot.id, snapshot.data()) : getFallbackMunicipioBySlug(slug)
+    const ciudad = await getCiudadBySlug(slug)
+    return ciudad ? normalizeCiudadAsMunicipio(ciudad) : getFallbackMunicipioBySlug(slug)
   } catch {
     return getFallbackMunicipioBySlug(slug)
   }

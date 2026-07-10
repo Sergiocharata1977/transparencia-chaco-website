@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { FieldValue } from "firebase-admin/firestore"
-import { getAdminAuth, getAdminDb } from "@/lib/firebase/admin-sdk"
-
-async function verificarAutenticado(req: NextRequest): Promise<boolean> {
-  const token = req.headers.get("authorization")?.replace("Bearer ", "")
-  if (!token) return false
-  try { await getAdminAuth().verifyIdToken(token); return true } catch { return false }
-}
+import { requireAdminAuth } from "@/lib/api/admin-auth"
+import { getAdminDb } from "@/lib/firebase/admin-sdk"
 
 const actualizarCiudadSchema = z.object({
   nombre: z.string().min(2).max(100).optional(),
@@ -20,7 +15,8 @@ const actualizarCiudadSchema = z.object({
 
 // PATCH /api/admin/ciudades/[slug] — actualizar ciudad
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
-  if (!(await verificarAutenticado(req))) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+  const auth = await requireAdminAuth(req)
+  if (!auth.ok) return auth.response
   const { slug } = await params
   try {
     const body = await req.json()
@@ -36,7 +32,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ sl
 
 // DELETE /api/admin/ciudades/[slug] — eliminar ciudad
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
-  if (!(await verificarAutenticado(req))) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+  const auth = await requireAdminAuth(req)
+  if (!auth.ok) return auth.response
   const { slug } = await params
   try {
     await getAdminDb().collection("ciudades").doc(slug).delete()

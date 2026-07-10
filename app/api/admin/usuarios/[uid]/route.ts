@@ -1,17 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
+import { requireAdminAuth } from "@/lib/api/admin-auth"
 import { getAdminAuth } from "@/lib/firebase/admin-sdk"
-
-async function verificarAutenticado(req: NextRequest): Promise<string | null> {
-  const token = req.headers.get("authorization")?.replace("Bearer ", "")
-  if (!token) return null
-  try {
-    const decoded = await getAdminAuth().verifyIdToken(token)
-    return decoded.uid
-  } catch {
-    return null
-  }
-}
 
 const actualizarSchema = z.object({
   displayName: z.string().min(2).max(60).optional(),
@@ -21,8 +11,9 @@ const actualizarSchema = z.object({
 
 // PATCH /api/admin/usuarios/[uid] — actualizar usuario
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ uid: string }> }) {
-  const callerUid = await verificarAutenticado(req)
-  if (!callerUid) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+  const auth = await requireAdminAuth(req)
+  if (!auth.ok) return auth.response
+  const callerUid = auth.uid
 
   const { uid } = await params
   const body = await req.json()
@@ -57,8 +48,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ ui
 
 // DELETE /api/admin/usuarios/[uid] — eliminar usuario
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ uid: string }> }) {
-  const callerUid = await verificarAutenticado(req)
-  if (!callerUid) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+  const auth = await requireAdminAuth(req)
+  if (!auth.ok) return auth.response
+  const callerUid = auth.uid
 
   const { uid } = await params
 

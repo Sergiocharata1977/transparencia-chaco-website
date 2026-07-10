@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { FieldValue } from "firebase-admin/firestore"
-import { getAdminAuth, getAdminDb } from "@/lib/firebase/admin-sdk"
-
-async function verificarAutenticado(req: NextRequest): Promise<boolean> {
-  const token = req.headers.get("authorization")?.replace("Bearer ", "")
-  if (!token) return false
-  try { await getAdminAuth().verifyIdToken(token); return true } catch { return false }
-}
+import { requireAdminAuth } from "@/lib/api/admin-auth"
+import { getAdminDb } from "@/lib/firebase/admin-sdk"
 
 const crearReclamoSchema = z.object({
   ciudadSlug: z.string().min(2).max(60),
@@ -27,7 +22,8 @@ const crearReclamoSchema = z.object({
 
 // GET /api/admin/reclamos — listar reclamos por ente
 export async function GET(req: NextRequest) {
-  if (!(await verificarAutenticado(req))) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+  const auth = await requireAdminAuth(req)
+  if (!auth.ok) return auth.response
   try {
     const snap = await getAdminDb().collection("reclamos").orderBy("createdAt", "desc").limit(100).get()
     const reclamos = snap.docs.map(d => ({ id: d.id, ...d.data() }))
@@ -40,7 +36,8 @@ export async function GET(req: NextRequest) {
 
 // POST /api/admin/reclamos — crear reclamo
 export async function POST(req: NextRequest) {
-  if (!(await verificarAutenticado(req))) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+  const auth = await requireAdminAuth(req)
+  if (!auth.ok) return auth.response
   try {
     const body = await req.json()
     const result = crearReclamoSchema.safeParse(body)

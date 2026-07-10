@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getAdminAuth, getAdminDb } from "@/lib/firebase/admin-sdk"
+import { requireAdminAuth } from "@/lib/api/admin-auth"
+import { getAdminDb } from "@/lib/firebase/admin-sdk"
 
-async function verificarAutenticado(req: NextRequest): Promise<boolean> {
-  const token = req.headers.get("authorization")?.replace("Bearer ", "")
-  if (!token) return false
-  try { await getAdminAuth().verifyIdToken(token); return true } catch { return false }
-}
 
 // GET /api/admin/ranking — listar los 4 municipios del ranking
 export async function GET(req: NextRequest) {
-  if (!(await verificarAutenticado(req))) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+  const auth = await requireAdminAuth(req)
+  if (!auth.ok) return auth.response
   try {
     const snap = await getAdminDb().collection("ranking_municipios").get()
     const ranking = snap.docs.map(d => ({ municipioSlug: d.id, ...d.data() }))
