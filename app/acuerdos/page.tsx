@@ -61,14 +61,13 @@ const acuerdos: Acuerdo[] = [
 
 export default function AcuerdosPage() {
   return (
-    <div className="min-h-screen bg-[#f7f9fa] text-slate-950">
+    <div className="min-h-screen bg-[#f7fafb] text-slate-950">
       <Navbar />
 
       {/* Header */}
-      <section className="relative isolate overflow-hidden bg-[#024852] py-16 text-white md:py-20">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_40%,rgba(81,188,205,0.25),transparent_50%),linear-gradient(135deg,#013d46_0%,#075c66_60%,#03414a_100%)]" />
-        <div className="container mx-auto px-4 text-center">
-          <div className="mx-auto flex max-w-xl items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 backdrop-blur">
+      <section className="relative isolate overflow-hidden bg-[#005763] py-16 text-white md:py-20">
+        <div className="mx-auto max-w-6xl px-4 text-center">
+          <div className="mx-auto flex max-w-xl items-center justify-center gap-3 rounded-lg border border-white/10 bg-white/5 px-5 py-3 backdrop-blur">
             <AlertTriangle className="h-5 w-5 shrink-0 text-amber-300" />
             <p className="text-sm font-semibold text-cyan-50/90">
               Documentos firmados ante Escribana Pública — Charata, 2023
@@ -90,11 +89,11 @@ export default function AcuerdosPage() {
 
       {/* Cards */}
       <section className="py-16 md:py-20">
-        <div className="container mx-auto space-y-10 px-4">
+        <div className="mx-auto max-w-6xl space-y-10 px-4">
           {acuerdos.map((acuerdo) => (
             <div
               key={acuerdo.numero}
-              className={`overflow-hidden rounded-3xl border-l-4 bg-white shadow-md ${acuerdo.accentClass}`}
+              className={`overflow-hidden rounded-lg border-l-4 bg-white shadow-md ${acuerdo.accentClass}`}
             >
               {/* Card header */}
               <div className="flex flex-wrap items-center gap-4 border-b border-slate-100 px-6 py-4">
@@ -132,18 +131,18 @@ export default function AcuerdosPage() {
                 <div className="flex flex-col gap-5 p-6">
                   <p className="text-sm leading-7 text-slate-600">{acuerdo.descripcion}</p>
 
-                  <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-950 shadow-lg">
+                  <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-950 shadow-lg">
                     {/* Chrome bar */}
                     <div className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3">
                       <div className="flex items-center gap-2">
                         <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
                         <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
                         <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-                        <div className="ml-3 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-slate-300">
+                        <div className="ml-3 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-slate-300">
                           Declaración en campaña
                         </div>
                       </div>
-                      <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold ${acuerdo.chromeColor}`}>
+                      <span className={`rounded-md px-2.5 py-1 text-[10px] font-semibold ${acuerdo.chromeColor}`}>
                         {acuerdo.chromeTag}
                       </span>
                     </div>
@@ -170,7 +169,7 @@ export default function AcuerdosPage() {
                       )}
 
                       {/* Overlay card inferior derecha */}
-                      <div className="pointer-events-none absolute bottom-3 right-3 hidden rounded-xl border border-white/10 bg-white/95 p-3 text-left shadow-lg sm:block sm:w-[220px]">
+                      <div className="pointer-events-none absolute bottom-3 right-3 hidden rounded-lg border border-white/10 bg-white/95 p-3 text-left shadow-lg sm:block sm:w-[220px]">
                         <div className="flex items-center gap-2 text-xs font-semibold text-slate-900">
                           <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
                           Lo prometió en campaña
@@ -190,14 +189,14 @@ export default function AcuerdosPage() {
 
       {/* CTA final */}
       <section className="bg-[#024852] py-14 text-white">
-        <div className="container mx-auto px-4 text-center">
+        <div className="mx-auto max-w-6xl px-4 text-center">
           <h3 className="text-2xl font-black">¿Querés que lo cumplan?</h3>
           <p className="mx-auto mt-3 max-w-lg text-cyan-50/80">
             Pedí formalmente la información pública que prometieron publicar. Tenés derecho.
           </p>
           <a
             href="/pedidos-informacion"
-            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-cyan-100 px-6 py-3 text-sm font-bold text-[#024852] transition hover:bg-white"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-cyan-100 px-6 py-3 text-sm font-bold text-[#024852] transition hover:bg-white"
           >
             Hacer un pedido de información
           </a>

@@ -39,18 +39,24 @@ const observatorioLinks = [
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur">
-      <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between gap-4">
+    <nav className="sticky top-0 z-50 border-b border-cyan-950/10 bg-white/95 backdrop-blur">
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="flex h-14 items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center">
-              <Image src="/logo-cristal.png" alt="Transparencia Chaco" width={40} height={40} className="object-contain drop-shadow-sm" />
+            <div className="flex h-9 w-9 items-center justify-center">
+              <Image
+                src="/logo-modelo1.png"
+                alt="Transparencia Chaco"
+                width={36}
+                height={36}
+                className="object-contain drop-shadow-sm"
+              />
             </div>
             <span>
-              <span className="block text-base font-black leading-none tracking-tight text-slate-950">
+              <span className="block text-sm font-black leading-none text-cyan-950">
                 Transparencia Chaco
               </span>
-              <span className="mt-1 hidden text-xs font-medium text-muted-foreground sm:block">
+              <span className="mt-1 hidden text-[11px] font-medium text-slate-500 sm:block">
                 Control ciudadano municipal
               </span>
             </span>
@@ -105,12 +111,12 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <BuscadorGlobal />
             <Link href="/sumate" className="hidden lg:block">
-              <Button size="sm" className="bg-[#024852] px-5 hover:bg-[#08707b]">
+              <Button size="sm" className="bg-[#005763] px-5 hover:bg-[#08707b]">
                 Sumate
               </Button>
             </Link>
             <Link href="/cargar-reporte" className="hidden xl:block">
-              <Button size="sm" variant="outline" className="border-slate-300 bg-white">
+              <Button size="sm" variant="outline" className="border-cyan-900/20 bg-white text-cyan-950">
                 Cargar Reporte
               </Button>
             </Link>

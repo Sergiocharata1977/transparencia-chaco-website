@@ -46,9 +46,9 @@ function StatCard({ label, value }: StatItem) {
   const animated = useAnimatedCount(value)
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl bg-slate-800/50 px-6 py-8 text-center">
-      <p className="text-4xl font-bold tabular-nums text-emerald-400">{animated}</p>
-      <p className="mt-3 text-sm text-white/70">{label}</p>
+    <div className="flex min-h-24 flex-col items-center justify-center rounded-lg border border-cyan-950/10 bg-[#8f98a3] px-5 py-6 text-center shadow-sm">
+      <p className="text-3xl font-black tabular-nums text-[#00e0bd]">{animated}</p>
+      <p className="mt-2 text-xs font-bold text-white">{label}</p>
     </div>
   )
 }

@@ -5,6 +5,15 @@
 - Validacion: `npx tsc --noEmit` paso sin errores.
 - Verificacion visual local: bloqueada por conflicto preexistente de rutas dinamicas `app/publicaciones/[id]` y `app/publicaciones/[slug]`.
 
+## Actualizacion 2026-07-10 - Rediseño visual Stitch aplicado
+
+- Se aplico la direccion visual del mockup Stitch a la web publica: paleta teal/cristal, contenido mas centrado, bloques blancos y celestes claros, metricas compactas y radios discretos.
+- Home (`app/page.tsx`): hero simplificado, secciones centradas, tarjetas de metricas/herramientas alineadas al nuevo lenguaje y estados vacios para municipios/publicaciones cuando Firestore no tenga datos.
+- Monitoreo (`app/municipios/page.tsx`): pagina reescrita manteniendo la logica de Firestore, filtros y cards; ahora usa cabecera centrada, metricas grises con numeros turquesa, filtros en banda celeste y estado vacio.
+- Control de compromisos (`app/acuerdos/page.tsx`): header y cards ajustados a la identidad visual sin fondos radiales.
+- Navegacion/footer: `components/navbar.tsx` y `components/footer.tsx` ahora usan el asset existente `/logo-modelo1.png` en lugar de `/logo-cristal.png`.
+- Validacion: `git diff --check` OK. No se corrio `pnpm type-check` por regla operativa local del clon en D: sin dependencias.
+
 ## Proyecto
 - Repo: `transparencia-chaco-website` (GitHub)
 - Rama: `main`
