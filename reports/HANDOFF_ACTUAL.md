@@ -62,6 +62,15 @@
 - El buscador del header ahora dice "Buscar obras, pedidos, noticias o datos de Charata".
 - Validacion liviana: `git diff --check` OK y `rg` confirma que `Municipios`/`municipiosLinks` ya no aparecen en `components/navbar.tsx`.
 
+## Actualizacion 2026-07-10 (8) - Portada centrada en Charata y lenguaje positivo
+
+- `app/page.tsx`: portada reorientada a Charata con hero local, derecho a la informacion, categorias consultables, seguimientos, metodologia, estado de informacion, herramientas y participacion.
+- Se reemplazaron frases definidas por negacion por mensajes afirmativos: transparencia como obligacion publica, informacion verificable, independencia institucional y participacion ciudadana.
+- `components/navbar.tsx`: se agrego menu `Charata`, `Pedidos de informacion` queda como entrada principal y Participar usa etiquetas positivas.
+- `components/footer.tsx`: se reemplazo la columna Municipios por Charata y se ajusto la declaracion institucional.
+- `app/quienes-somos/page.tsx`: copy alineado a Charata, independencia en positivo y foco en documentacion verificable.
+- Validacion liviana: `git diff --check` OK y `rg` sin frases negativas principales en los archivos tocados. No se corrio build local por regla operativa del clon en D: sin `node_modules`.
+
 ## Proyecto
 - Repo: `transparencia-chaco-website` (GitHub)
 - Rama: `main`

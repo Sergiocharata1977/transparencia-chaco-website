@@ -7,35 +7,36 @@ const footerGroups = [
     title: "Observatorio",
     links: [
       { href: "/publicaciones", label: "Noticias e informes" },
-      { href: "/obras-publicas", label: "Obras públicas" },
+      { href: "/obras-publicas", label: "Obras publicas" },
       { href: "/calles-pavimento", label: "Calles y pavimento" },
-      { href: "/ranking-transparencia", label: "Ranking de transparencia" },
+      { href: "/ranking-transparencia", label: "Indicadores" },
       { href: "/mapa-ciudadano", label: "Mapa ciudadano" },
     ],
   },
   {
-    title: "Municipios",
+    title: "Charata",
     links: [
-      { href: "/municipios/charata/observatorio", label: "Charata" },
-      { href: "/municipios/las-brenas/observatorio", label: "Las Breñas" },
-      { href: "/municipios/corzuela/observatorio", label: "Corzuela" },
-      { href: "/municipios/presidencia-roque-saenz-pena/observatorio", label: "Pres. R. S. Peña" },
+      { href: "/municipios/charata/observatorio", label: "Informacion general" },
+      { href: "/rendicion", label: "Presupuesto y rendicion" },
+      { href: "/obras-publicas", label: "Obras publicas" },
+      { href: "/calles-pavimento", label: "Calles y pavimento" },
+      { href: "/marco-legal", label: "Concejo y marco legal" },
     ],
   },
   {
-    title: "Compromisos",
+    title: "Transparencia",
     links: [
-      { href: "/acuerdos", label: "Acuerdos firmados" },
-      { href: "/rendicion", label: "Rendición de cuentas" },
-      { href: "/marco-legal", label: "Marco legal" },
+      { href: "/pedidos-informacion", label: "Pedidos de informacion" },
+      { href: "/acuerdos", label: "Compromisos publicos" },
+      { href: "/proveedores-estado", label: "Contrataciones" },
       { href: "/quienes-somos", label: "Nosotros" },
     ],
   },
   {
     title: "Participar",
     links: [
-      { href: "/denuncias", label: "Denuncias" },
-      { href: "/cargar-reporte", label: "Cargar reporte" },
+      { href: "/denuncias", label: "Enviar informacion" },
+      { href: "/cargar-reporte", label: "Aportar documentacion" },
       { href: "/sumate", label: "Sumate" },
     ],
   },
@@ -60,7 +61,7 @@ export function Footer() {
               <h4 className="text-lg font-black text-cyan-950">Transparencia Chaco</h4>
             </div>
             <p className="max-w-sm text-sm leading-6 text-muted-foreground">
-              Iniciativa ciudadana independiente para la rendición de cuentas municipal.
+              Iniciativa ciudadana independiente para organizar informacion publica de Charata.
             </p>
           </div>
 
@@ -82,8 +83,8 @@ export function Footer() {
 
         <div className="mt-10 border-t border-cyan-950/10 pt-8 text-center text-xs leading-6 text-muted-foreground">
           <p>
-            <strong className="text-slate-700">Independencia política:</strong> No somos un partido político ni
-            respondemos a ningún gobierno.
+            <strong className="text-slate-700">Independencia institucional:</strong> trabajamos con criterio ciudadano,
+            fuentes identificadas y documentacion publica.
           </p>
           <p className="mt-1">© 2026 Transparencia Chaco. Iniciativa ciudadana independiente.</p>
           <div className="mt-4">
@@ -92,7 +93,7 @@ export function Footer() {
               className="inline-flex items-center gap-1.5 rounded-md border border-cyan-900/20 bg-white px-3 py-1.5 font-medium text-slate-600 transition-colors hover:border-[#08707b] hover:text-[#08707b]"
             >
               <Lock className="h-3.5 w-3.5" />
-              Panel de administración
+              Panel de administracion
             </Link>
           </div>
         </div>

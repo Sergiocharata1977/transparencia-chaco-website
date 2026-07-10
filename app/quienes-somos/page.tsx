@@ -15,17 +15,17 @@ const principios = [
   {
     icon: Shield,
     titulo: "Independencia",
-    descripcion: "No somos un partido politico ni respondemos a ningun gobierno, funcionario o bloque electoral.",
+    descripcion: "Trabajamos con criterio ciudadano, fuentes identificadas y autonomia institucional.",
   },
   {
     icon: FileText,
-    titulo: "Documentos antes que rumores",
+    titulo: "Informacion verificable",
     descripcion: "Trabajamos con pedidos, expedientes, publicaciones oficiales, fotos, actas y evidencia verificable.",
   },
   {
     icon: Users,
     titulo: "Control ciudadano",
-    descripcion: "La transparencia no depende solo del Estado: tambien se construye con vecinos atentos.",
+    descripcion: "La transparencia se fortalece con vecinos atentos, datos claros y participacion sostenida.",
   },
 ]
 
@@ -33,17 +33,17 @@ const hitos = [
   {
     titulo: "El punto de partida",
     texto:
-      "La iniciativa nace cuando vecinos de Charata empiezan a revisar compromisos publicos de transparencia y detectan que muchas obligaciones legales no estaban disponibles de forma clara en internet.",
+      "La iniciativa nace cuando vecinos de Charata empiezan a revisar compromisos publicos de transparencia y a ordenar informacion municipal de interes ciudadano.",
   },
   {
     titulo: "De reclamo aislado a observatorio",
     texto:
-      "Lo que antes era una pregunta suelta se transformo en una plataforma para ordenar municipios, obras, pedidos de informacion, reclamos y compromisos asumidos.",
+      "La participacion vecinal se transformo en una plataforma para ordenar obras, pedidos de informacion, reportes y compromisos asumidos en Charata.",
   },
   {
-    titulo: "Una herramienta para Chaco",
+    titulo: "Una herramienta para Charata",
     texto:
-      "El objetivo es que cualquier comunidad chaqueña pueda mirar su municipio con datos, exigir respuestas y dejar registro publico de lo que se promete y de lo que se cumple.",
+      "El objetivo es que los vecinos de Charata puedan mirar la gestion municipal con datos, formular preguntas y dejar registro publico de compromisos y avances.",
   },
 ]
 
@@ -57,7 +57,7 @@ export default function QuienesSomosPage() {
           <div className="max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-200">Nosotros</p>
             <h1 className="mt-4 text-balance text-4xl font-black leading-tight md:text-6xl">
-              Una historia ciudadana para que el poder rinda cuentas
+              Una historia ciudadana para fortalecer la rendicion de cuentas
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-cyan-50/85">
               Transparencia Chaco es una iniciativa independiente que documenta, ordena y publica informacion
@@ -73,13 +73,12 @@ export default function QuienesSomosPage() {
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#08707b]">Origen</p>
             <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">Por que existimos</h2>
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              Porque la rendicion de cuentas no deberia depender de la buena voluntad de un funcionario. La ley obliga
-              a publicar informacion, pero muchas veces esa informacion no esta, esta incompleta o resulta imposible de
-              encontrar.
+              Porque la rendicion de cuentas mejora cuando la informacion publica esta ordenada, disponible y puede ser
+              consultada por cualquier vecino.
             </p>
             <p className="mt-4 leading-8 text-slate-600">
-              Esta plataforma busca centralizar ese control: mostrar municipios monitoreados, compromisos firmados,
-              datos publicos y canales para que los vecinos participen con evidencia.
+              Esta plataforma centraliza informacion de Charata: compromisos firmados, datos publicos, obras, pedidos
+              de informacion y canales para que los vecinos participen con evidencia.
             </p>
           </div>
 
@@ -134,8 +133,8 @@ export default function QuienesSomosPage() {
               <Scale className="mb-5 h-9 w-9 text-[#08707b]" />
               <h3 className="text-xl font-black">Base legal</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                El eje del proyecto es que los municipios publiquen lo que la ley ya exige: ordenanzas, ingresos,
-                gastos, presupuesto y memoria de gestion.
+                El eje del proyecto es que la informacion municipal de Charata sea clara: ordenanzas, ingresos, gastos,
+                presupuesto y memoria de gestion.
               </p>
               <Link href="/marco-legal" className="mt-5 inline-block text-sm font-bold text-[#005763] hover:underline">
                 Ver marco legal
@@ -149,7 +148,7 @@ export default function QuienesSomosPage() {
               <h3 className="text-xl font-black">Compromisos publicos</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
                 Tambien registramos promesas hechas en campana, acuerdos firmados y compromisos de transparencia que
-                deben poder verificarse.
+                pueden verificarse con informacion publica y seguimiento ciudadano.
               </p>
               <Link href="/acuerdos" className="mt-5 inline-block text-sm font-bold text-[#005763] hover:underline">
                 Ver compromisos
@@ -162,8 +161,8 @@ export default function QuienesSomosPage() {
               <BookOpen className="mb-5 h-9 w-9 text-[#08707b]" />
               <h3 className="text-xl font-black">Memoria publica</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                Cada publicacion, pedido y reporte ayuda a construir una memoria ordenada para que las preguntas no se
-                pierdan.
+                Cada publicacion, pedido y reporte ayuda a construir una memoria ordenada para sostener preguntas,
+                respuestas y aprendizajes.
               </p>
               <Link href="/publicaciones" className="mt-5 inline-block text-sm font-bold text-[#005763] hover:underline">
                 Ver informes

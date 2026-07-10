@@ -20,22 +20,24 @@ const observatorioLinks = [
   { href: "/publicaciones", label: "Noticias e informes" },
   { href: "/obras-publicas", label: "Obras públicas" },
   { href: "/calles-pavimento", label: "Calles y pavimento" },
-  { href: "/pedidos-informacion", label: "Pedidos de información" },
   { href: "/medios", label: "Medios y pauta" },
   { href: "/proveedores-estado", label: "Proveedores del Estado" },
   { href: "/ranking-transparencia", label: "Ranking de transparencia" },
   { href: "/mapa-ciudadano", label: "Mapa ciudadano" },
 ]
 
-const compromisosLinks = [
-  { href: "/acuerdos", label: "Acuerdos firmados" },
-  { href: "/rendicion", label: "Rendición de cuentas" },
-  { href: "/marco-legal", label: "Marco legal" },
+const charataLinks = [
+  { href: "/municipios/charata/observatorio", label: "Informacion general" },
+  { href: "/rendicion", label: "Presupuesto y rendicion" },
+  { href: "/obras-publicas", label: "Obras publicas" },
+  { href: "/calles-pavimento", label: "Calles y pavimento" },
+  { href: "/marco-legal", label: "Concejo y marco legal" },
+  { href: "/proveedores-estado", label: "Compras y contrataciones" },
 ]
 
 const participarLinks = [
-  { href: "/denuncias", label: "Denuncias" },
-  { href: "/cargar-reporte", label: "Cargar reporte" },
+  { href: "/denuncias", label: "Enviar informacion" },
+  { href: "/cargar-reporte", label: "Aportar documentacion" },
   { href: "/sumate", label: "Sumate" },
 ]
 
@@ -174,8 +176,14 @@ export function Navbar() {
                   >
                     Nosotros
                   </Link>
+                  <MobileSection title="Charata" links={charataLinks} />
                   <MobileSection title="Observatorio" links={observatorioLinks} />
-                  <MobileSection title="Compromisos" links={compromisosLinks} />
+                  <Link
+                    href="/pedidos-informacion"
+                    className="border-t pt-5 text-lg font-semibold transition-colors hover:text-[#08707b]"
+                  >
+                    Pedidos de informacion
+                  </Link>
                   <MobileSection title="Participar" links={participarMobileLinks} />
                   <Link href="/sumate" className="border-t pt-5 text-lg font-semibold transition-colors hover:text-[#08707b]">
                     Sumate
@@ -194,8 +202,11 @@ export function Navbar() {
           <NavLink href="/quienes-somos" active={isActiveHref("/quienes-somos")}>
             Nosotros
           </NavLink>
+          <NavDropdown label="Charata" links={charataLinks} active={isActiveGroup(charataLinks)} />
           <NavDropdown label="Observatorio" links={observatorioLinks} active={isActiveGroup(observatorioLinks)} />
-          <NavDropdown label="Compromisos" links={compromisosLinks} active={isActiveGroup(compromisosLinks)} />
+          <NavLink href="/pedidos-informacion" active={isActiveHref("/pedidos-informacion")}>
+            Pedidos de informacion
+          </NavLink>
           <NavDropdown label="Participar" links={participarLinks} align="end" active={isActiveGroup(participarLinks)} />
         </div>
       </nav>
