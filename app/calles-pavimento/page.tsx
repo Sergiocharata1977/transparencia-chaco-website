@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic"
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { Map, Road, TrendingUp } from "lucide-react"
+import { Map, Route, TrendingUp } from "lucide-react"
 
 import { Footer } from "@/components/footer"
 import { Navbar } from "@/components/navbar"
@@ -127,7 +127,7 @@ export default function CallesPavimentoPage() {
         <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 lg:grid-cols-5">
           <Card className="border-cyan-950/10 shadow-sm">
             <CardContent className="p-5">
-              <Road className="mb-3 h-6 w-6 text-[#08707b]" />
+              <Route className="mb-3 h-6 w-6 text-[#08707b]" />
               <p className="text-3xl font-black">{metricas.totalTramos}</p>
               <p className="text-sm text-muted-foreground">Tramos relevados</p>
             </CardContent>

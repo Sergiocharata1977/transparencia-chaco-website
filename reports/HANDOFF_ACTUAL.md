@@ -41,6 +41,12 @@
 - Firestore: se agregaron y desplegaron reglas para `calles_municipio` (`read` publico, `write` autenticado) con `firebase deploy --only firestore:rules`.
 - Validacion liviana: `git diff --check` OK. No se corrio `pnpm type-check` ni build porque este clon en D: no tiene `node_modules` y la regla operativa local indica no instalar dependencias.
 
+## Actualizacion 2026-07-10 (5) - Fix deploy Calles y Pavimento
+
+- Se corrigieron dos deploys fallidos de Vercel: `lucide-react@0.454.0` no exporta `Road`.
+- Archivo: `app/calles-pavimento/page.tsx`; se reemplazo `Road` por `Route`.
+- Validacion liviana: `git diff --check` OK y `rg "\bRoad\b"` sin resultados. No se corrio build local por regla operativa del clon en D: sin `node_modules`.
+
 ## Proyecto
 - Repo: `transparencia-chaco-website` (GitHub)
 - Rama: `main`
