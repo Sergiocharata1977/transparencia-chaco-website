@@ -38,7 +38,7 @@
 - Historial: al crear y al actualizar campos de relevamiento se agrega un item en `historial`, para comparar el avance año a año sin perder el dato anterior.
 - Publico: nueva pagina `/calles-pavimento` con filtros por municipio/año, metricas de tramos/metros, tabla detalle y mapa Leaflet de lineas por estado.
 - Integracion: el modulo aparece en menu Observatorio, footer, home, dashboard admin, sidebar admin, observatorio municipal y como capa opcional dentro de `/mapa-ciudadano`.
-- Firestore: se agregaron reglas para `calles_municipio` (`read` publico, `write` autenticado).
+- Firestore: se agregaron y desplegaron reglas para `calles_municipio` (`read` publico, `write` autenticado) con `firebase deploy --only firestore:rules`.
 - Validacion liviana: `git diff --check` OK. No se corrio `pnpm type-check` ni build porque este clon en D: no tiene `node_modules` y la regla operativa local indica no instalar dependencias.
 
 ## Proyecto
