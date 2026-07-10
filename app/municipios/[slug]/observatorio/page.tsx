@@ -11,6 +11,7 @@ import {
   Home,
   MapPin,
   MessageSquare,
+  Route,
   Star,
   TrendingUp,
 } from "lucide-react"
@@ -21,6 +22,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getObrasPublicas } from "@/lib/firebase/obras"
+import { calcularMetricasCalles, getCallesMunicipio } from "@/lib/firebase/calles"
 import { getPublicaciones } from "@/lib/firebase/publicaciones"
 import { getReportes } from "@/lib/firebase/reportes"
 import { getPedidosInformacion, getRankingMunicipios } from "@/lib/firebase/transparencia"
@@ -165,6 +167,7 @@ interface PageData {
   pedidos: PedidoInformacion[]
   ranking: RankingMunicipio | null
   publicaciones: Publicacion[]
+  calles: Awaited<ReturnType<typeof getCallesMunicipio>>
 }
 
 export default function ObservatorioMunicipioPage({ params }: { params: { slug: string } }) {
@@ -178,18 +181,20 @@ export default function ObservatorioMunicipioPage({ params }: { params: { slug: 
     pedidos: [],
     ranking: null,
     publicaciones: [],
+    calles: [],
   })
 
   useEffect(() => {
     if (!nombreMunicipio) return
 
     void (async () => {
-      const [obrasRes, reportesRes, pedidosRes, rankingRes, pubsRes] = await Promise.allSettled([
+      const [obrasRes, reportesRes, pedidosRes, rankingRes, pubsRes, callesRes] = await Promise.allSettled([
         getObrasPublicas({ municipioSlug: slug }),
         getReportes(slug),
         getPedidosInformacion(slug),
         getRankingMunicipios(),
         getPublicaciones(slug),
+        getCallesMunicipio({ ciudadSlug: slug }),
       ])
 
       const obras = obrasRes.status === "fulfilled" ? obrasRes.value : []
@@ -197,10 +202,11 @@ export default function ObservatorioMunicipioPage({ params }: { params: { slug: 
       const pedidos = pedidosRes.status === "fulfilled" ? pedidosRes.value : []
       const todosRankings = rankingRes.status === "fulfilled" ? rankingRes.value : []
       const publicaciones = pubsRes.status === "fulfilled" ? pubsRes.value : []
+      const calles = callesRes.status === "fulfilled" ? callesRes.value : []
 
       const ranking = todosRankings.find((r) => r.municipioSlug === slug) ?? null
 
-      setData({ obras, reportes, pedidos, ranking, publicaciones })
+      setData({ obras, reportes, pedidos, ranking, publicaciones, calles })
       setLoading(false)
     })()
   }, [slug, nombreMunicipio])
@@ -230,6 +236,7 @@ export default function ObservatorioMunicipioPage({ params }: { params: { slug: 
   const recentObras = data.obras.slice(0, 3)
   const recentPubs = data.publicaciones.slice(0, 3)
   const puntaje = data.ranking?.puntajeTotal ?? 0
+  const callesMetricas = calcularMetricasCalles(data.calles)
 
   return (
     <div className="min-h-screen bg-background">
@@ -278,13 +285,13 @@ export default function ObservatorioMunicipioPage({ params }: { params: { slug: 
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             {loading ? (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {Array.from({ length: 4 }).map((_, i) => (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {Array.from({ length: 5 }).map((_, i) => (
                   <SkeletonCard key={i} />
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 <StatCard
                   icon={Building2}
                   label="Obras registradas"
@@ -309,6 +316,13 @@ export default function ObservatorioMunicipioPage({ params }: { params: { slug: 
                   value={puntaje}
                   suffix="/100"
                   color="bg-green-600"
+                />
+                <StatCard
+                  icon={Route}
+                  label="Metros asfaltados"
+                  value={Math.round(callesMetricas.metrosAsfaltados)}
+                  suffix=" m"
+                  color="bg-teal-600"
                 />
               </div>
             )}
@@ -401,7 +415,7 @@ export default function ObservatorioMunicipioPage({ params }: { params: { slug: 
               Explorar más sobre {nombreMunicipio}
             </h2>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <Link href={`/obras-publicas?municipio=${slug}`} className="group">
                 <Card className="h-full transition-shadow hover:shadow-md cursor-pointer">
                   <CardHeader className="pb-2">
@@ -436,6 +450,19 @@ export default function ObservatorioMunicipioPage({ params }: { params: { slug: 
                     </div>
                     <CardTitle className="text-sm font-semibold leading-tight">
                       Ranking completo
+                    </CardTitle>
+                  </CardHeader>
+                </Card>
+              </Link>
+
+              <Link href={`/calles-pavimento?municipio=${slug}`} className="group">
+                <Card className="h-full transition-shadow hover:shadow-md cursor-pointer">
+                  <CardHeader className="pb-2">
+                    <div className="w-10 h-10 rounded-lg bg-teal-100 flex items-center justify-center mb-2 group-hover:bg-teal-200 transition-colors">
+                      <Route className="h-5 w-5 text-teal-700" />
+                    </div>
+                    <CardTitle className="text-sm font-semibold leading-tight">
+                      Calles y pavimento
                     </CardTitle>
                   </CardHeader>
                 </Card>

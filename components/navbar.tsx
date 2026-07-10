@@ -23,6 +23,7 @@ const municipiosLinks = [
 const observatorioLinks = [
   { href: "/publicaciones", label: "Noticias e informes" },
   { href: "/obras-publicas", label: "Obras públicas" },
+  { href: "/calles-pavimento", label: "Calles y pavimento" },
   { href: "/pedidos-informacion", label: "Pedidos de información" },
   { href: "/medios", label: "Medios y pauta" },
   { href: "/proveedores-estado", label: "Proveedores del Estado" },

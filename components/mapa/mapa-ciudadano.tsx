@@ -1,12 +1,18 @@
 "use client"
 import "leaflet/dist/leaflet.css"
 import L from "leaflet"
-import { MapContainer, TileLayer, CircleMarker, Marker, Popup } from "react-leaflet"
+import { MapContainer, TileLayer, CircleMarker, Marker, Polyline, Popup } from "react-leaflet"
 import { useEffect, useState } from "react"
 import { getObrasPublicas } from "@/lib/firebase/obras"
 import { getReportes, getAccidentes } from "@/lib/firebase/reportes"
+import { getCallesMunicipio } from "@/lib/firebase/calles"
 import type { ObraPublica, ObraEstado } from "@/types/obras"
 import type { ReporteCiudadano, ReporteAccidente } from "@/types/reportes"
+import {
+  CALLE_ESTADO_SUPERFICIE_LABELS,
+  type CalleEstadoSuperficie,
+  type CalleMunicipio,
+} from "@/types/calles"
 
 // Fix Leaflet default icon in Next.js
 const iconDefault = L.icon({
@@ -36,6 +42,23 @@ function colorObra(estado: ObraEstado): string {
   return map[estado] ?? "#6b7280"
 }
 
+function colorSuperficie(estado: CalleEstadoSuperficie): string {
+  const map: Record<CalleEstadoSuperficie, string> = {
+    asfaltada: "#009f8b",
+    adoquin: "#0f766e",
+    no_asfaltada: "#64748b",
+    ripio: "#94a3b8",
+    tierra: "#a16207",
+    en_obra: "#f59e0b",
+    sin_dato: "#cbd5e1",
+  }
+  return map[estado]
+}
+
+function linePositions(calle: CalleMunicipio): [number, number][] {
+  return calle.geometry?.coordinates.map(([lng, lat]) => [lat, lng]) ?? []
+}
+
 const CIUDADES = [
   { name: "Charata", pos: [-27.433, -61.183] as [number, number] },
   { name: "Las Breñas", pos: [-27.083, -61.083] as [number, number] },
@@ -51,25 +74,32 @@ const LEYENDA = [
   { color: "#6b7280", label: "Anunciada" },
   { color: "#7c3aed", label: "Reporte ciudadano" },
   { color: "#f97316", label: "Accidente" },
+  { color: "#009f8b", label: "Calle asfaltada" },
+  { color: "#64748b", label: "Calle no asfaltada" },
+  { color: "#f59e0b", label: "Calle en obra" },
 ]
 
 export default function MapaCiudadano({ municipioSlug }: MapaCiudadanoProps) {
   const [obras, setObras] = useState<ObraPublica[]>([])
   const [reportes, setReportes] = useState<ReporteCiudadano[]>([])
   const [accidentes, setAccidentes] = useState<ReporteAccidente[]>([])
+  const [calles, setCalles] = useState<CalleMunicipio[]>([])
   const [mostrarObras, setMostrarObras] = useState(true)
   const [mostrarReportes, setMostrarReportes] = useState(true)
   const [mostrarAccidentes, setMostrarAccidentes] = useState(false)
+  const [mostrarCalles, setMostrarCalles] = useState(true)
 
   useEffect(() => {
     Promise.all([
       getObrasPublicas(municipioSlug ? { municipioSlug } : undefined),
       getReportes(municipioSlug),
       getAccidentes(municipioSlug),
-    ]).then(([o, r, a]) => {
+      getCallesMunicipio(municipioSlug ? { ciudadSlug: municipioSlug } : undefined),
+    ]).then(([o, r, a, c]) => {
       setObras(o.filter(x => x.coordenadas))
       setReportes(r.filter(x => x.coordenadas))
       setAccidentes(a.filter(x => x.coordenadas))
+      setCalles(c.filter(x => linePositions(x).length >= 2))
     })
   }, [municipioSlug])
 
@@ -103,6 +133,15 @@ export default function MapaCiudadano({ municipioSlug }: MapaCiudadanoProps) {
             onChange={e => setMostrarAccidentes(e.target.checked)}
           />
           <span>Accidentes</span>
+        </label>
+        <label className="flex items-center gap-2 text-sm cursor-pointer select-none">
+          <input
+            type="checkbox"
+            className="h-4 w-4 rounded border-gray-300 accent-teal-600"
+            checked={mostrarCalles}
+            onChange={e => setMostrarCalles(e.target.checked)}
+          />
+          <span>Calles y pavimento</span>
         </label>
       </div>
 
@@ -175,6 +214,26 @@ export default function MapaCiudadano({ municipioSlug }: MapaCiudadanoProps) {
                 {a.municipio} · {a.subtipo ?? a.tipo}
               </Popup>
             </CircleMarker>
+          ))}
+
+          {/* Calles y pavimento */}
+          {mostrarCalles && calles.map(calle => (
+            <Polyline
+              key={calle.id}
+              positions={linePositions(calle)}
+              pathOptions={{
+                color: colorSuperficie(calle.estadoSuperficie),
+                weight: 5,
+                opacity: 0.82,
+              }}
+            >
+              <Popup>
+                <strong>{calle.nombreCalle}</strong><br />
+                {calle.desde} - {calle.hasta}<br />
+                {CALLE_ESTADO_SUPERFICIE_LABELS[calle.estadoSuperficie]} - {calle.longitudMetros} m<br />
+                Año: {calle.anioRelevamiento}
+              </Popup>
+            </Polyline>
           ))}
         </MapContainer>
       </div>

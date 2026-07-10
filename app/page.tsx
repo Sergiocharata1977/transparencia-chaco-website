@@ -11,6 +11,7 @@ import {
   FileText,
   MapPin,
   Play,
+  Route,
   Scale,
   Search,
   ShieldAlert,
@@ -55,6 +56,12 @@ const observatorioHighlights = [
     title: "Obras publicas",
     description: "Seguimiento ciudadano de obras, montos, estados y responsables.",
     icon: Building2,
+  },
+  {
+    href: "/calles-pavimento",
+    title: "Calles y pavimento",
+    description: "Registro calle por calle del avance de asfalto y tramos en obra.",
+    icon: Route,
   },
   {
     href: "/mapa-ciudadano",
@@ -410,7 +417,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5">
             {observatorioHighlights.map((item) => {
               const Icon = item.icon
               return (

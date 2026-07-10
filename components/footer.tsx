@@ -8,6 +8,7 @@ const footerGroups = [
     links: [
       { href: "/publicaciones", label: "Noticias e informes" },
       { href: "/obras-publicas", label: "Obras públicas" },
+      { href: "/calles-pavimento", label: "Calles y pavimento" },
       { href: "/ranking-transparencia", label: "Ranking de transparencia" },
       { href: "/mapa-ciudadano", label: "Mapa ciudadano" },
     ],

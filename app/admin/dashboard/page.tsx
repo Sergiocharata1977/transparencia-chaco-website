@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { BarChart2, BookOpen, Building2, FileCheck, FileText, Loader2, MapPin, Megaphone, Newspaper, Send, Store, Users } from "lucide-react"
+import { BarChart2, BookOpen, Building2, FileCheck, FileText, Loader2, MapPin, Megaphone, Newspaper, Route, Send, Store, Users } from "lucide-react"
 import { subscribeAuthState, type User } from "@/lib/firebase/auth-client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -41,6 +41,7 @@ export default function AdminDashboardPage() {
           { href: "/admin/ciudades",       icon: MapPin,     titulo: "Ciudades Cubiertas",       desc: "ABM madre: municipios y departamentos" },
           { href: "/admin/publicaciones",  icon: BookOpen,   titulo: "Noticias",                 desc: "Publicaciones del observatorio" },
           { href: "/admin/obras",          icon: Building2,  titulo: "Obras Públicas",           desc: "Alta y edición de obras" },
+          { href: "/admin/calles",         icon: Route,      titulo: "Calles y Pavimento",       desc: "Tramos, estado de calles y mapa" },
           { href: "/admin/notas-municipio",icon: Send,       titulo: "Notas al Municipio",       desc: "Pedidos de info, notas y solicitudes" },
           { href: "/admin/reclamos",       icon: Megaphone,  titulo: "Reclamos por Ente",        desc: "Denuncias y reclamos por organismo" },
           { href: "/admin/medios",         icon: Newspaper,  titulo: "Medios y Pautas",          desc: "Medios y pauta oficial" },

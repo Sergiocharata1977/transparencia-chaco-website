@@ -31,6 +31,16 @@
 - No se borraron rutas publicas existentes; se unifico la experiencia desde el menu para evitar duplicacion visible.
 - Validacion liviana: `git diff --check` OK. No se corrio `pnpm type-check` por regla operativa local del clon en D: sin dependencias.
 
+## Actualizacion 2026-07-10 (4) - Registro Calles y Pavimento
+
+- Se implemento el modulo `calles_municipio` para relevar calle por calle el estado de superficie: asfaltada, no asfaltada, ripio, tierra, adoquin, en obra o sin dato.
+- Admin: nueva pagina `/admin/calles` y APIs `/api/admin/calles` + `/api/admin/calles/[id]` para crear, editar, publicar/ocultar y eliminar tramos. Cada tramo guarda ciudad, departamento, calle, desde/hasta, barrio, metros, estado de obra, fuente, evidencia, foto, obra relacionada y geometria LineString.
+- Historial: al crear y al actualizar campos de relevamiento se agrega un item en `historial`, para comparar el avance año a año sin perder el dato anterior.
+- Publico: nueva pagina `/calles-pavimento` con filtros por municipio/año, metricas de tramos/metros, tabla detalle y mapa Leaflet de lineas por estado.
+- Integracion: el modulo aparece en menu Observatorio, footer, home, dashboard admin, sidebar admin, observatorio municipal y como capa opcional dentro de `/mapa-ciudadano`.
+- Firestore: se agregaron reglas para `calles_municipio` (`read` publico, `write` autenticado).
+- Validacion liviana: `git diff --check` OK. No se corrio `pnpm type-check` ni build porque este clon en D: no tiene `node_modules` y la regla operativa local indica no instalar dependencias.
+
 ## Proyecto
 - Repo: `transparencia-chaco-website` (GitHub)
 - Rama: `main`
@@ -127,11 +137,11 @@
 ## Pendientes de desarrollo (próximas features)
 
 ### Prioridad alta
-1. **Métricas de calles** — Colección `calles_municipio`:
-   - Metros de calles asfaltadas vs ripio/tierra por municipio
-   - Evolución histórica (registros por año)
-   - Vista pública con gráfico de evolución
-   - ABM en admin para cargar datos por municipio y período
+1. **Mejoras de Calles y Pavimento**:
+   - Cargar datos reales desde `/admin/calles`
+   - Incorporar importacion masiva CSV/GeoJSON
+   - Agregar grafico de evolucion anual cuando haya suficientes registros historicos
+   - Vincular por selector directo con obras publicas existentes
 
 2. **Sistema documental** — Colección `documentos`:
    - Carga de leyes, ordenanzas, reglamentos, resoluciones
