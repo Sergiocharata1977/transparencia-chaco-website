@@ -23,6 +23,14 @@
 - Validacion liviana: `git diff --check` OK; `rg` confirmo que no quedan lecturas `collection(db, "municipios")` ni `verifyIdToken` duplicado en rutas admin.
 - No se corrio `pnpm type-check` por regla operativa local del clon en D: sin dependencias.
 
+## Actualizacion 2026-07-10 (3) - Menu publico simplificado + Nosotros consolidado
+
+- `components/navbar.tsx`: menu superior reorganizado en Inicio, Municipios, Observatorio, Compromisos, Participar y Nosotros. Noticias, Denuncias, Rendicion y Acuerdos quedan agrupados en dropdowns.
+- `components/footer.tsx`: footer alineado con la nueva arquitectura de navegacion.
+- `app/quienes-somos/page.tsx`: pagina consolidada para contar historia, origen, principios, independencia politica, base legal, compromisos y CTA de participacion.
+- No se borraron rutas publicas existentes; se unifico la experiencia desde el menu para evitar duplicacion visible.
+- Validacion liviana: `git diff --check` OK. No se corrio `pnpm type-check` por regla operativa local del clon en D: sin dependencias.
+
 ## Proyecto
 - Repo: `transparencia-chaco-website` (GitHub)
 - Rama: `main`

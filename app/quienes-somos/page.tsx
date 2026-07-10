@@ -1,165 +1,193 @@
-import { Navbar } from "@/components/navbar"
+import Link from "next/link"
+import { BookOpen, Eye, FileText, Handshake, Scale, Shield, Users } from "lucide-react"
+
 import { Footer } from "@/components/footer"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Shield, Eye, Users, Lightbulb } from "lucide-react"
+import { Navbar } from "@/components/navbar"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+
+const principios = [
+  {
+    icon: Eye,
+    titulo: "Claridad publica",
+    descripcion: "Ordenamos informacion dispersa para que cualquier vecino pueda entenderla sin tecnicismos.",
+  },
+  {
+    icon: Shield,
+    titulo: "Independencia",
+    descripcion: "No somos un partido politico ni respondemos a ningun gobierno, funcionario o bloque electoral.",
+  },
+  {
+    icon: FileText,
+    titulo: "Documentos antes que rumores",
+    descripcion: "Trabajamos con pedidos, expedientes, publicaciones oficiales, fotos, actas y evidencia verificable.",
+  },
+  {
+    icon: Users,
+    titulo: "Control ciudadano",
+    descripcion: "La transparencia no depende solo del Estado: tambien se construye con vecinos atentos.",
+  },
+]
+
+const hitos = [
+  {
+    titulo: "El punto de partida",
+    texto:
+      "La iniciativa nace cuando vecinos de Charata empiezan a revisar compromisos publicos de transparencia y detectan que muchas obligaciones legales no estaban disponibles de forma clara en internet.",
+  },
+  {
+    titulo: "De reclamo aislado a observatorio",
+    texto:
+      "Lo que antes era una pregunta suelta se transformo en una plataforma para ordenar municipios, obras, pedidos de informacion, reclamos y compromisos asumidos.",
+  },
+  {
+    titulo: "Una herramienta para Chaco",
+    texto:
+      "El objetivo es que cualquier comunidad chaqueña pueda mirar su municipio con datos, exigir respuestas y dejar registro publico de lo que se promete y de lo que se cumple.",
+  },
+]
 
 export default function QuienesSomosPage() {
-  const principios = [
-    {
-      icon: Eye,
-      titulo: "Transparencia",
-      descripcion:
-        "Creemos que toda información pública debe ser accesible, clara y comprensible para todos los ciudadanos.",
-    },
-    {
-      icon: Shield,
-      titulo: "Acceso a la información pública",
-      descripcion:
-        "Defendemos el derecho constitucional de acceder a información sobre la gestión de los recursos públicos.",
-    },
-    {
-      icon: Users,
-      titulo: "Participación ciudadana",
-      descripcion:
-        "Promovemos la participación activa de la ciudadanía en el control y seguimiento de la gestión municipal.",
-    },
-    {
-      icon: Lightbulb,
-      titulo: "Independencia política",
-      descripcion: "No respondemos a ningún partido político ni gobierno. Nuestra única lealtad es con la ciudadanía.",
-    },
-  ]
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#f7fafb] text-slate-950">
       <Navbar />
 
-      {/* Hero */}
-      <section className="bg-primary text-primary-foreground py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-balance">¿Quiénes Somos?</h1>
-            <p className="text-lg text-primary-foreground/90">
-              Una iniciativa ciudadana comprometida con la transparencia y la rendición de cuentas en el sudoeste
-              chaqueño
+      <section className="bg-[#005763] py-16 text-white md:py-20">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-200">Nosotros</p>
+            <h1 className="mt-4 text-balance text-4xl font-black leading-tight md:text-6xl">
+              Una historia ciudadana para que el poder rinda cuentas
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-cyan-50/85">
+              Transparencia Chaco es una iniciativa independiente que documenta, ordena y publica informacion
+              municipal para que el control ciudadano sea posible, concreto y sostenido.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Historia */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">Nuestra Historia</h2>
-            <div className="prose prose-lg max-w-none">
-              <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                Transparencia Chaco nació en 2024 como respuesta a la creciente necesidad de que los gobiernos
-                municipales del sudoeste chaqueño rindan cuentas de manera efectiva a sus ciudadanos. Observando que
-                muchos municipios no cumplían con las obligaciones establecidas en la Ley Orgánica de Municipios, un
-                grupo de vecinos decidió organizarse.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                Lo que comenzó como un esfuerzo informal de documentación se convirtió en una plataforma estructurada
-                que monitorea, documenta y visibiliza el cumplimiento (o incumplimiento) de las obligaciones de
-                transparencia municipal, con especial énfasis en el Artículo 67 de la Ley Orgánica de Municipios.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Hoy somos una red de ciudadanos, periodistas, organizaciones sociales y estudiantes que trabajamos
-                juntos para construir una cultura de transparencia en Chaco. Nuestro objetivo es simple: que la
-                información pública esté al alcance de todos y que los gobiernos locales respondan ante sus ciudadanos.
-              </p>
-            </div>
+      <section className="bg-white py-16 md:py-24">
+        <div className="mx-auto grid max-w-6xl gap-12 px-4 md:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#08707b]">Origen</p>
+            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">Por que existimos</h2>
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              Porque la rendicion de cuentas no deberia depender de la buena voluntad de un funcionario. La ley obliga
+              a publicar informacion, pero muchas veces esa informacion no esta, esta incompleta o resulta imposible de
+              encontrar.
+            </p>
+            <p className="mt-4 leading-8 text-slate-600">
+              Esta plataforma busca centralizar ese control: mostrar municipios monitoreados, compromisos firmados,
+              datos publicos y canales para que los vecinos participen con evidencia.
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* Principios */}
-      <section className="py-16 md:py-24 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Nuestros Principios</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {principios.map((principio) => {
-                const Icon = principio.icon
-                return (
-                  <Card key={principio.titulo}>
-                    <CardHeader>
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <Icon className="h-6 w-6 text-primary" />
-                        </div>
-                        <div>
-                          <CardTitle className="mb-2">{principio.titulo}</CardTitle>
-                          <CardContent className="p-0">
-                            <p className="text-sm text-muted-foreground leading-relaxed">{principio.descripcion}</p>
-                          </CardContent>
-                        </div>
-                      </div>
-                    </CardHeader>
-                  </Card>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Aclaración importante */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <Card className="border-primary/20 bg-primary/5">
-              <CardHeader>
-                <CardTitle className="text-2xl text-center">Independencia Política</CardTitle>
-                <CardContent className="p-0 pt-4">
-                  <p className="text-center text-lg leading-relaxed">
-                    <strong>No somos un partido político ni respondemos a ningún gobierno.</strong> Transparencia Chaco
-                    es una iniciativa ciudadana independiente que no está afiliada a ninguna organización política.
-                    Nuestro único compromiso es con la ciudadanía y la transparencia en la gestión pública.
-                  </p>
+          <div className="space-y-4">
+            {hitos.map((hito, index) => (
+              <Card key={hito.titulo} className="border-cyan-950/10 bg-[#f7fafb] shadow-sm">
+                <CardContent className="grid gap-4 p-6 sm:grid-cols-[48px_1fr]">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#dff5f8] text-lg font-black text-[#005763]">
+                    {index + 1}
+                  </div>
+                  <div>
+                    <h3 className="font-black text-slate-950">{hito.titulo}</h3>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{hito.texto}</p>
+                  </div>
                 </CardContent>
-              </CardHeader>
-            </Card>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Metodología */}
-      <section className="py-16 md:py-24 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">Nuestra Metodología</h2>
-            <div className="prose prose-lg max-w-none">
-              <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                Nuestro trabajo se basa en la documentación rigurosa y el análisis objetivo de información pública. No
-                hacemos acusaciones sin fundamento, sino que presentamos datos verificables y contrastables.
+      <section className="bg-[#eef7f8] py-16 md:py-20">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#08707b]">Principios</p>
+            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">Como trabajamos</h2>
+          </div>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {principios.map((principio) => {
+              const Icon = principio.icon
+              return (
+                <Card key={principio.titulo} className="h-full border-cyan-950/10 bg-white shadow-sm">
+                  <CardContent className="p-6">
+                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-[#dff5f8]">
+                      <Icon className="h-6 w-6 text-[#08707b]" />
+                    </div>
+                    <h3 className="font-black">{principio.titulo}</h3>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">{principio.descripcion}</p>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-16 md:py-24">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 md:grid-cols-3">
+          <Card className="border-cyan-950/10 bg-white shadow-sm">
+            <CardContent className="p-6">
+              <Scale className="mb-5 h-9 w-9 text-[#08707b]" />
+              <h3 className="text-xl font-black">Base legal</h3>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                El eje del proyecto es que los municipios publiquen lo que la ley ya exige: ordenanzas, ingresos,
+                gastos, presupuesto y memoria de gestion.
               </p>
-              <ul className="space-y-3 text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="text-primary font-bold mt-1">•</span>
-                  <span>
-                    Monitoreamos periódicamente el cumplimiento de las obligaciones de transparencia en cada municipio
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary font-bold mt-1">•</span>
-                  <span>Solicitamos información pública mediante los canales oficiales establecidos</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary font-bold mt-1">•</span>
-                  <span>Documentamos y publicamos nuestros hallazgos de manera clara y accesible</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary font-bold mt-1">•</span>
-                  <span>Facilitamos que los ciudadanos puedan hacer sus propias denuncias y consultas</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary font-bold mt-1">•</span>
-                  <span>Trabajamos con base en hechos y documentos, no en opiniones personales</span>
-                </li>
-              </ul>
-            </div>
+              <Link href="/marco-legal" className="mt-5 inline-block text-sm font-bold text-[#005763] hover:underline">
+                Ver marco legal
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="border-cyan-950/10 bg-white shadow-sm">
+            <CardContent className="p-6">
+              <Handshake className="mb-5 h-9 w-9 text-[#08707b]" />
+              <h3 className="text-xl font-black">Compromisos publicos</h3>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                Tambien registramos promesas hechas en campana, acuerdos firmados y compromisos de transparencia que
+                deben poder verificarse.
+              </p>
+              <Link href="/acuerdos" className="mt-5 inline-block text-sm font-bold text-[#005763] hover:underline">
+                Ver compromisos
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="border-cyan-950/10 bg-white shadow-sm">
+            <CardContent className="p-6">
+              <BookOpen className="mb-5 h-9 w-9 text-[#08707b]" />
+              <h3 className="text-xl font-black">Memoria publica</h3>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                Cada publicacion, pedido y reporte ayuda a construir una memoria ordenada para que las preguntas no se
+                pierdan.
+              </p>
+              <Link href="/publicaciones" className="mt-5 inline-block text-sm font-bold text-[#005763] hover:underline">
+                Ver informes
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="bg-[#024852] py-16 text-white">
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 px-4 text-center">
+          <h2 className="text-3xl font-black tracking-tight md:text-4xl">Tu participacion tambien deja huella</h2>
+          <p className="max-w-2xl text-cyan-50/80">
+            Si tenes documentos, fotos, reclamos o ganas de colaborar, podes sumarte al observatorio ciudadano.
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link href="/sumate">
+              <Button className="bg-cyan-100 text-[#024852] hover:bg-white">Sumate</Button>
+            </Link>
+            <Link href="/cargar-reporte">
+              <Button variant="outline" className="border-white/70 bg-transparent text-white hover:bg-white hover:text-[#024852]">
+                Cargar reporte
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
