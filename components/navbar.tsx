@@ -16,14 +16,6 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { BuscadorGlobal } from "@/components/busqueda/buscador-global"
 
-const municipiosLinks = [
-  { href: "/municipios", label: "Municipios monitoreados" },
-  { href: "/municipios/charata/observatorio", label: "Charata" },
-  { href: "/municipios/las-brenas/observatorio", label: "Las Breñas" },
-  { href: "/municipios/corzuela/observatorio", label: "Corzuela" },
-  { href: "/municipios/presidencia-roque-saenz-pena/observatorio", label: "Sáenz Peña" },
-]
-
 const observatorioLinks = [
   { href: "/publicaciones", label: "Noticias e informes" },
   { href: "/obras-publicas", label: "Obras públicas" },
@@ -154,7 +146,7 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <BuscadorGlobal
               className="w-[420px] max-w-[42vw]"
-              placeholder="Buscar obras, pedidos, noticias o municipios"
+              placeholder="Buscar obras, pedidos, noticias o datos de Charata"
             />
             <Link href="/sumate" className="hidden xl:block">
               <Button size="sm" className="bg-[#005763] px-5 hover:bg-[#08707b]">
@@ -182,7 +174,6 @@ export function Navbar() {
                   >
                     Nosotros
                   </Link>
-                  <MobileSection title="Municipios" links={municipiosLinks} />
                   <MobileSection title="Observatorio" links={observatorioLinks} />
                   <MobileSection title="Compromisos" links={compromisosLinks} />
                   <MobileSection title="Participar" links={participarMobileLinks} />
@@ -203,7 +194,6 @@ export function Navbar() {
           <NavLink href="/quienes-somos" active={isActiveHref("/quienes-somos")}>
             Nosotros
           </NavLink>
-          <NavDropdown label="Municipios" links={municipiosLinks} active={isActiveGroup(municipiosLinks)} />
           <NavDropdown label="Observatorio" links={observatorioLinks} active={isActiveGroup(observatorioLinks)} />
           <NavDropdown label="Compromisos" links={compromisosLinks} active={isActiveGroup(compromisosLinks)} />
           <NavDropdown label="Participar" links={participarLinks} align="end" active={isActiveGroup(participarLinks)} />

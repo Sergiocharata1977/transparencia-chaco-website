@@ -55,6 +55,13 @@
 - Mobile: menu en panel con secciones desplegables nativas (`details`) y `Sumate` separado sin duplicarse dentro de Participar.
 - Validacion liviana: `git diff --check` OK. No se corrio build local por regla operativa del clon en D: sin `node_modules`.
 
+## Actualizacion 2026-07-10 (7) - Header enfocado en Charata
+
+- Se quito la pestaña/dropdown `Municipios` del header publico porque el monitoreo inicial se concentra solo en Charata.
+- No se borraron rutas ni paginas de municipios; solo se oculto la entrada de navegacion para no comunicar cobertura de otras localidades.
+- El buscador del header ahora dice "Buscar obras, pedidos, noticias o datos de Charata".
+- Validacion liviana: `git diff --check` OK y `rg` confirma que `Municipios`/`municipiosLinks` ya no aparecen en `components/navbar.tsx`.
+
 ## Proyecto
 - Repo: `transparencia-chaco-website` (GitHub)
 - Rama: `main`
