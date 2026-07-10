@@ -1,5 +1,9 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
+import type { ReactNode } from "react"
 import { ChevronDown, Menu } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -47,15 +51,23 @@ function NavDropdown({
   label,
   links,
   align = "start",
+  active = false,
 }: {
   label: string
   links: { href: string; label: string }[]
   align?: "start" | "end" | "center"
+  active?: boolean
 }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-[#08707b]">
+        <button
+          className={`flex h-11 items-center gap-1 border-b-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08707b] focus-visible:ring-offset-2 ${
+            active
+              ? "border-[#08707b] text-[#005763]"
+              : "border-transparent text-slate-700 hover:text-[#08707b]"
+          }`}
+        >
           {label} <ChevronDown className="h-4 w-4" />
         </button>
       </DropdownMenuTrigger>
@@ -70,29 +82,58 @@ function NavDropdown({
   )
 }
 
+function NavLink({ href, children, active }: { href: string; children: ReactNode; active: boolean }) {
+  return (
+    <Link
+      href={href}
+      className={`flex h-11 items-center border-b-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#08707b] focus-visible:ring-offset-2 ${
+        active
+          ? "border-[#08707b] text-[#005763]"
+          : "border-transparent text-slate-700 hover:text-[#08707b]"
+      }`}
+    >
+      {children}
+    </Link>
+  )
+}
+
 function MobileSection({ title, links }: { title: string; links: { href: string; label: string }[] }) {
   return (
-    <div className="border-t pt-5">
-      <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">{title}</p>
-      {links.map((link) => (
-        <Link
-          key={link.href}
-          href={link.href}
-          className="block py-2 text-base font-medium transition-colors hover:text-[#08707b]"
-        >
-          {link.label}
-        </Link>
-      ))}
-    </div>
+    <details className="group border-t pt-5">
+      <summary className="flex cursor-pointer list-none items-center justify-between text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">
+        {title}
+        <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
+      </summary>
+      <div className="mt-3">
+        {links.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="block py-2 text-base font-medium transition-colors hover:text-[#08707b]"
+          >
+            {link.label}
+          </Link>
+        ))}
+      </div>
+    </details>
   )
 }
 
 export function Navbar() {
+  const pathname = usePathname()
+  const participarMobileLinks = participarLinks.filter((link) => link.href !== "/sumate")
+
+  const isActiveHref = (href: string) => (
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`)
+  )
+
+  const isActiveGroup = (links: { href: string }[]) => links.some((link) => isActiveHref(link.href))
+
   return (
-    <nav className="sticky top-0 z-50 border-b border-cyan-950/10 bg-white/95 backdrop-blur">
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="flex h-14 items-center justify-between gap-4">
-          <Link href="/" className="flex min-w-0 items-center gap-3">
+    <header className="sticky top-0 z-50 border-b border-cyan-950/10 bg-white/95 shadow-[0_8px_22px_rgba(15,23,42,0.04)] backdrop-blur">
+      <div className="border-b border-cyan-950/10">
+        <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:min-h-[72px]">
+          <Link href="/" className="flex min-w-0 items-center gap-3" aria-label="Transparencia Chaco, inicio">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center">
               <Image
                 src="/logo-modelo1.png"
@@ -110,27 +151,11 @@ export function Navbar() {
             </span>
           </Link>
 
-          <div className="hidden items-center gap-5 lg:flex">
-            <Link
-              href="/"
-              className="text-sm font-semibold text-slate-700 transition-colors hover:text-[#08707b]"
-            >
-              Inicio
-            </Link>
-            <NavDropdown label="Municipios" links={municipiosLinks} />
-            <NavDropdown label="Observatorio" links={observatorioLinks} />
-            <NavDropdown label="Compromisos" links={compromisosLinks} />
-            <NavDropdown label="Participar" links={participarLinks} align="end" />
-            <Link
-              href="/quienes-somos"
-              className="text-sm font-semibold text-slate-700 transition-colors hover:text-[#08707b]"
-            >
-              Nosotros
-            </Link>
-          </div>
-
           <div className="flex items-center gap-2">
-            <BuscadorGlobal />
+            <BuscadorGlobal
+              className="w-[420px] max-w-[42vw]"
+              placeholder="Buscar obras, pedidos, noticias o municipios"
+            />
             <Link href="/sumate" className="hidden xl:block">
               <Button size="sm" className="bg-[#005763] px-5 hover:bg-[#08707b]">
                 Sumate
@@ -151,15 +176,18 @@ export function Navbar() {
                   <Link href="/" className="text-lg font-semibold transition-colors hover:text-[#08707b]">
                     Inicio
                   </Link>
+                  <Link
+                    href="/quienes-somos"
+                    className="text-lg font-semibold transition-colors hover:text-[#08707b]"
+                  >
+                    Nosotros
+                  </Link>
                   <MobileSection title="Municipios" links={municipiosLinks} />
                   <MobileSection title="Observatorio" links={observatorioLinks} />
                   <MobileSection title="Compromisos" links={compromisosLinks} />
-                  <MobileSection title="Participar" links={participarLinks} />
-                  <Link
-                    href="/quienes-somos"
-                    className="border-t pt-5 text-lg font-semibold transition-colors hover:text-[#08707b]"
-                  >
-                    Nosotros
+                  <MobileSection title="Participar" links={participarMobileLinks} />
+                  <Link href="/sumate" className="border-t pt-5 text-lg font-semibold transition-colors hover:text-[#08707b]">
+                    Sumate
                   </Link>
                 </div>
               </SheetContent>
@@ -167,6 +195,20 @@ export function Navbar() {
           </div>
         </div>
       </div>
-    </nav>
+      <nav aria-label="Menu principal" className="hidden lg:block">
+        <div className="mx-auto flex h-12 max-w-7xl items-center gap-7 px-4">
+          <NavLink href="/" active={isActiveHref("/")}>
+            Inicio
+          </NavLink>
+          <NavLink href="/quienes-somos" active={isActiveHref("/quienes-somos")}>
+            Nosotros
+          </NavLink>
+          <NavDropdown label="Municipios" links={municipiosLinks} active={isActiveGroup(municipiosLinks)} />
+          <NavDropdown label="Observatorio" links={observatorioLinks} active={isActiveGroup(observatorioLinks)} />
+          <NavDropdown label="Compromisos" links={compromisosLinks} active={isActiveGroup(compromisosLinks)} />
+          <NavDropdown label="Participar" links={participarLinks} align="end" active={isActiveGroup(participarLinks)} />
+        </div>
+      </nav>
+    </header>
   )
 }

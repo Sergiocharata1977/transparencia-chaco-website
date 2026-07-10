@@ -47,6 +47,14 @@
 - Archivo: `app/calles-pavimento/page.tsx`; se reemplazo `Road` por `Route`.
 - Validacion liviana: `git diff --check` OK y `rg "\bRoad\b"` sin resultados. No se corrio build local por regla operativa del clon en D: sin `node_modules`.
 
+## Actualizacion 2026-07-10 (6) - Header publico en dos niveles
+
+- Se reorganizo `components/navbar.tsx` en header de dos filas: marca + buscador/Sumate arriba, navegacion principal abajo.
+- Orden desktop y mobile: Inicio, Nosotros, Municipios, Observatorio, Compromisos, Participar; `Nosotros` ya no queda al final.
+- `components/busqueda/buscador-global.tsx` ahora acepta placeholder/ancho desde props y usa formulario `role="search"`.
+- Mobile: menu en panel con secciones desplegables nativas (`details`) y `Sumate` separado sin duplicarse dentro de Participar.
+- Validacion liviana: `git diff --check` OK. No se corrio build local por regla operativa del clon en D: sin `node_modules`.
+
 ## Proyecto
 - Repo: `transparencia-chaco-website` (GitHub)
 - Rama: `main`

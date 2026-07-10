@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
+import type { FormEvent, KeyboardEvent } from "react"
 import { useRouter } from "next/navigation"
 import { Search, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -8,9 +9,13 @@ import { Button } from "@/components/ui/button"
 
 interface BuscadorGlobalProps {
   className?: string
+  placeholder?: string
 }
 
-export function BuscadorGlobal({ className }: BuscadorGlobalProps) {
+export function BuscadorGlobal({
+  className,
+  placeholder = "Buscar obras, pedidos, noticias...",
+}: BuscadorGlobalProps) {
   const router = useRouter()
   const [query, setQuery] = useState("")
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -29,7 +34,12 @@ export function BuscadorGlobal({ className }: BuscadorGlobalProps) {
     setMobileOpen(false)
   }
 
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    handleSearch()
+  }
+
+  function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") handleSearch()
     if (e.key === "Escape") {
       setMobileOpen(false)
@@ -40,12 +50,17 @@ export function BuscadorGlobal({ className }: BuscadorGlobalProps) {
   return (
     <>
       {/* Desktop: compact search bar, hidden on mobile */}
-      <div className={`hidden lg:flex items-center relative w-64 ${className ?? ""}`}>
+      <form
+        role="search"
+        aria-label="Buscar en el sitio"
+        onSubmit={handleSubmit}
+        className={`relative hidden items-center lg:flex ${className ?? "w-64"}`}
+      >
         <Search className="absolute left-2.5 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
         <Input
           ref={inputRef}
           type="search"
-          placeholder="Buscar obras, pedidos, noticias..."
+          placeholder={placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -53,6 +68,7 @@ export function BuscadorGlobal({ className }: BuscadorGlobalProps) {
         />
         {query && (
           <button
+            type="button"
             onClick={() => setQuery("")}
             className="absolute right-2 text-muted-foreground hover:text-slate-700"
             aria-label="Limpiar búsqueda"
@@ -60,18 +76,18 @@ export function BuscadorGlobal({ className }: BuscadorGlobalProps) {
             <X className="h-3.5 w-3.5" />
           </button>
         )}
-      </div>
+      </form>
 
       {/* Mobile: icon button that expands to full-width input */}
       <div className="flex lg:hidden items-center">
         {mobileOpen ? (
-          <div className="flex items-center gap-1">
+          <form role="search" aria-label="Buscar en el sitio" onSubmit={handleSubmit} className="flex items-center gap-1">
             <div className="relative">
               <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
               <Input
                 ref={inputRef}
                 type="search"
-                placeholder="Buscar..."
+                placeholder={placeholder}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -81,13 +97,14 @@ export function BuscadorGlobal({ className }: BuscadorGlobalProps) {
             <Button
               size="icon"
               variant="ghost"
+              type="button"
               className="h-8 w-8"
               onClick={() => { setMobileOpen(false); setQuery("") }}
               aria-label="Cerrar búsqueda"
             >
               <X className="h-4 w-4" />
             </Button>
-          </div>
+          </form>
         ) : (
           <Button
             size="icon"
