@@ -231,6 +231,7 @@ export default function MapaCiudadano({ municipioSlug }: MapaCiudadanoProps) {
                 <strong>{calle.nombreCalle}</strong><br />
                 {calle.desde} - {calle.hasta}<br />
                 {CALLE_ESTADO_SUPERFICIE_LABELS[calle.estadoSuperficie]} - {calle.longitudMetros} m<br />
+                Cuadras asfaltadas/tierra: {calle.cuadrasAsfaltadas ?? 0}/{calle.cuadrasTierra ?? 0}<br />
                 Año: {calle.anioRelevamiento}
               </Popup>
             </Polyline>

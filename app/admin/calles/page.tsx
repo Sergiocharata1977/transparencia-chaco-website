@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useMemo, useState } from "react"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
 import { Eye, EyeOff, Loader2, Pencil, Plus, Trash2 } from "lucide-react"
 
@@ -46,12 +47,22 @@ import {
 
 type CalleAdmin = CalleMunicipio
 
+const EditorTramoCalle = dynamic(() => import("@/components/mapa/editor-tramo-calle"), {
+  ssr: false,
+  loading: () => <div className="h-[320px] rounded-lg border bg-slate-100 animate-pulse" />,
+})
+
 interface CalleForm {
   ciudadSlug: string
   nombreCalle: string
   desde: string
   hasta: string
   barrio: string
+  orientacion: string
+  cuadras100: string
+  cuadras50: string
+  cuadrasAsfaltadas: string
+  cuadrasTierra: string
   estadoSuperficie: CalleEstadoSuperficie
   estadoObra: CalleEstadoObra
   anioRelevamiento: string
@@ -78,6 +89,11 @@ const DEFAULT_FORM: CalleForm = {
   desde: "",
   hasta: "",
   barrio: "",
+  orientacion: "",
+  cuadras100: "",
+  cuadras50: "",
+  cuadrasAsfaltadas: "",
+  cuadrasTierra: "",
   estadoSuperficie: "sin_dato",
   estadoObra: "sin_obra",
   anioRelevamiento: String(CURRENT_YEAR),
@@ -140,6 +156,11 @@ function buildGeometry(form: CalleForm): CalleGeometry | undefined {
   }
 
   return undefined
+}
+
+function numberFromForm(value: string): number {
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? parsed : 0
 }
 
 function superficieBadge(estado: CalleEstadoSuperficie) {
@@ -208,6 +229,10 @@ export default function AdminCallesPage() {
     return { total, asfaltadas, noAsfaltadas, enObra }
   }, [calles])
 
+  const metrosCalculados = useMemo(() => (
+    numberFromForm(form.cuadras100) * 100 + numberFromForm(form.cuadras50) * 50
+  ), [form.cuadras100, form.cuadras50])
+
   function setValue<K extends keyof CalleForm>(key: K, value: CalleForm[K]) {
     setForm((prev) => ({ ...prev, [key]: value }))
   }
@@ -227,6 +252,11 @@ export default function AdminCallesPage() {
       desde: calle.desde,
       hasta: calle.hasta,
       barrio: calle.barrio ?? "",
+      orientacion: calle.orientacion ?? "",
+      cuadras100: String(calle.cuadras100 ?? ""),
+      cuadras50: String(calle.cuadras50 ?? ""),
+      cuadrasAsfaltadas: String(calle.cuadrasAsfaltadas ?? ""),
+      cuadrasTierra: String(calle.cuadrasTierra ?? ""),
       estadoSuperficie: calle.estadoSuperficie,
       estadoObra: calle.estadoObra,
       anioRelevamiento: String(calle.anioRelevamiento),
@@ -269,11 +299,16 @@ export default function AdminCallesPage() {
         desde: form.desde.trim(),
         hasta: form.hasta.trim(),
         barrio: form.barrio.trim() || undefined,
+        orientacion: form.orientacion.trim() || undefined,
+        cuadras100: numberFromForm(form.cuadras100),
+        cuadras50: numberFromForm(form.cuadras50),
+        cuadrasAsfaltadas: numberFromForm(form.cuadrasAsfaltadas),
+        cuadrasTierra: numberFromForm(form.cuadrasTierra),
         estadoSuperficie: form.estadoSuperficie,
         estadoObra: form.estadoObra,
         anioRelevamiento: Number(form.anioRelevamiento),
         fechaRelevamientoISO: form.fechaRelevamientoISO || undefined,
-        longitudMetros: Number(form.longitudMetros || 0),
+        longitudMetros: numberFromForm(form.longitudMetros) || metrosCalculados,
         geometry: buildGeometry(form),
         fuente: form.fuente,
         evidenciaUrl: form.evidenciaUrl || undefined,
@@ -360,11 +395,11 @@ export default function AdminCallesPage() {
               Nuevo tramo
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
+          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-5xl">
             <DialogHeader>
               <DialogTitle>{modoEdicion ? "Editar tramo" : "Nuevo tramo de calle"}</DialogTitle>
               <DialogDescription>
-                Carga el tramo, estado de superficie, año de relevamiento y coordenadas para el mapa.
+                Carga los datos tipo planilla y marca visualmente el tramo sobre el mapa.
               </DialogDescription>
             </DialogHeader>
 
@@ -397,8 +432,37 @@ export default function AdminCallesPage() {
                 <Input value={form.barrio} onChange={(e) => setValue("barrio", e.target.value)} />
               </div>
               <div className="space-y-1.5">
+                <Label>Orientacion</Label>
+                <Input value={form.orientacion} onChange={(e) => setValue("orientacion", e.target.value)} placeholder="Ej: Este / oeste" />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Cuadras 100 m</Label>
+                <Input type="number" min="0" value={form.cuadras100} onChange={(e) => setValue("cuadras100", e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Cuadras 50 m</Label>
+                <Input type="number" min="0" value={form.cuadras50} onChange={(e) => setValue("cuadras50", e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Cuadras asfaltadas</Label>
+                <Input type="number" min="0" value={form.cuadrasAsfaltadas} onChange={(e) => setValue("cuadrasAsfaltadas", e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Cuadras tierra</Label>
+                <Input type="number" min="0" value={form.cuadrasTierra} onChange={(e) => setValue("cuadrasTierra", e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
                 <Label>Metros del tramo</Label>
-                <Input type="number" min="0" value={form.longitudMetros} onChange={(e) => setValue("longitudMetros", e.target.value)} />
+                <Input
+                  type="number"
+                  min="0"
+                  value={form.longitudMetros}
+                  onChange={(e) => setValue("longitudMetros", e.target.value)}
+                  placeholder={metrosCalculados > 0 ? String(metrosCalculados) : "Ej: 1000"}
+                />
+                {metrosCalculados > 0 ? (
+                  <p className="text-xs text-muted-foreground">Calculado por cuadras: {metrosCalculados} m</p>
+                ) : null}
               </div>
               <div className="space-y-1.5">
                 <Label>Superficie</Label>
@@ -425,6 +489,26 @@ export default function AdminCallesPage() {
               <div className="space-y-1.5">
                 <Label>Fecha de relevamiento</Label>
                 <Input type="date" value={form.fechaRelevamientoISO} onChange={(e) => setValue("fechaRelevamientoISO", e.target.value)} />
+              </div>
+              <div className="space-y-1.5 md:col-span-2">
+                <Label>Marcacion visual del tramo</Label>
+                <EditorTramoCalle
+                  latInicio={form.latInicio}
+                  lngInicio={form.lngInicio}
+                  latFin={form.latFin}
+                  lngFin={form.lngFin}
+                  onChange={(coords) => {
+                    setForm((prev) => ({ ...prev, ...coords }))
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setForm((prev) => ({ ...prev, latInicio: "", lngInicio: "", latFin: "", lngFin: "" }))}
+                >
+                  Limpiar marcacion
+                </Button>
               </div>
               <div className="space-y-1.5">
                 <Label>Lat inicio</Label>
@@ -520,8 +604,10 @@ export default function AdminCallesPage() {
               <TableHead>Calle</TableHead>
               <TableHead>Ciudad</TableHead>
               <TableHead>Tramo</TableHead>
+              <TableHead>Orientacion</TableHead>
               <TableHead>Superficie</TableHead>
               <TableHead>Año</TableHead>
+              <TableHead>Cuadras A/T</TableHead>
               <TableHead>Metros</TableHead>
               <TableHead>Mapa</TableHead>
               <TableHead className="text-right">Acciones</TableHead>
@@ -529,16 +615,18 @@ export default function AdminCallesPage() {
           </TableHeader>
           <TableBody>
             {cargando ? (
-              <TableRow><TableCell colSpan={8} className="py-10 text-center"><Loader2 className="mx-auto h-6 w-6 animate-spin" /></TableCell></TableRow>
+              <TableRow><TableCell colSpan={10} className="py-10 text-center"><Loader2 className="mx-auto h-6 w-6 animate-spin" /></TableCell></TableRow>
             ) : calles.length === 0 ? (
-              <TableRow><TableCell colSpan={8} className="py-10 text-center text-muted-foreground">No hay calles cargadas.</TableCell></TableRow>
+              <TableRow><TableCell colSpan={10} className="py-10 text-center text-muted-foreground">No hay calles cargadas.</TableCell></TableRow>
             ) : calles.map((calle) => (
               <TableRow key={calle.id}>
                 <TableCell className="font-medium">{calle.nombreCalle}</TableCell>
                 <TableCell>{calle.ciudadNombre}</TableCell>
                 <TableCell className="text-sm text-muted-foreground">{calle.desde} - {calle.hasta}</TableCell>
+                <TableCell>{calle.orientacion || "-"}</TableCell>
                 <TableCell>{superficieBadge(calle.estadoSuperficie)}</TableCell>
                 <TableCell>{calle.anioRelevamiento}</TableCell>
+                <TableCell>{calle.cuadrasAsfaltadas ?? 0}/{calle.cuadrasTierra ?? 0}</TableCell>
                 <TableCell>{calle.longitudMetros} m</TableCell>
                 <TableCell>{calle.geometry ? "Si" : "No"}</TableCell>
                 <TableCell className="text-right">

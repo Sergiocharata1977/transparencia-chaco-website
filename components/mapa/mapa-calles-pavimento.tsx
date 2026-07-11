@@ -76,7 +76,9 @@ export default function MapaCallesPavimento({ calles }: MapaCallesPavimentoProps
               <Popup>
                 <strong>{calle.nombreCalle}</strong><br />
                 {calle.desde} - {calle.hasta}<br />
+                {calle.orientacion ? <>{calle.orientacion}<br /></> : null}
                 {CALLE_ESTADO_SUPERFICIE_LABELS[calle.estadoSuperficie]} · {calle.longitudMetros} m<br />
+                Cuadras asfaltadas/tierra: {calle.cuadrasAsfaltadas ?? 0}/{calle.cuadrasTierra ?? 0}<br />
                 Obra: {CALLE_ESTADO_OBRA_LABELS[calle.estadoObra]}<br />
                 Año: {calle.anioRelevamiento}
                 {calle.obraNombre ? <><br />Obra relacionada: {calle.obraNombre}</> : null}

@@ -36,6 +36,9 @@ export interface CalleHistorialItem {
   anio: number
   estadoSuperficie: CalleEstadoSuperficie
   estadoObra?: CalleEstadoObra
+  longitudMetros?: number
+  cuadrasAsfaltadas?: number
+  cuadrasTierra?: number
   fechaRelevamientoISO?: string
   fuente?: CalleFuente
   observaciones?: string
@@ -51,6 +54,11 @@ export interface CalleMunicipio {
   desde: string
   hasta: string
   barrio?: string
+  orientacion?: string
+  cuadras100?: number
+  cuadras50?: number
+  cuadrasAsfaltadas?: number
+  cuadrasTierra?: number
   estadoSuperficie: CalleEstadoSuperficie
   estadoObra: CalleEstadoObra
   anioRelevamiento: number

@@ -190,34 +190,38 @@ export default function CallesPavimentoPage() {
           </div>
 
           <div className="overflow-x-auto rounded-lg border border-cyan-950/10 bg-white">
-            <table className="w-full min-w-[820px] text-sm">
+            <table className="w-full min-w-[980px] text-sm">
               <thead className="bg-[#f7fafb] text-left">
                 <tr>
                   <th className="px-4 py-3 font-semibold">Calle</th>
                   <th className="px-4 py-3 font-semibold">Ciudad</th>
                   <th className="px-4 py-3 font-semibold">Tramo</th>
+                  <th className="px-4 py-3 font-semibold">Orientacion</th>
                   <th className="px-4 py-3 font-semibold">Superficie</th>
                   <th className="px-4 py-3 font-semibold">Obra</th>
                   <th className="px-4 py-3 font-semibold">Año</th>
+                  <th className="px-4 py-3 font-semibold">Cuadras A/T</th>
                   <th className="px-4 py-3 font-semibold">Metros</th>
                 </tr>
               </thead>
               <tbody>
                 {cargando ? (
-                  <tr><td colSpan={7} className="px-4 py-10 text-center text-muted-foreground">Cargando relevamiento...</td></tr>
+                  <tr><td colSpan={9} className="px-4 py-10 text-center text-muted-foreground">Cargando relevamiento...</td></tr>
                 ) : callesFiltradas.length === 0 ? (
-                  <tr><td colSpan={7} className="px-4 py-10 text-center text-muted-foreground">Todavia no hay calles publicadas para este filtro.</td></tr>
+                  <tr><td colSpan={9} className="px-4 py-10 text-center text-muted-foreground">Todavia no hay calles publicadas para este filtro.</td></tr>
                 ) : callesFiltradas.map((calle) => (
                   <tr key={calle.id} className="border-t">
                     <td className="px-4 py-3 font-medium">{calle.nombreCalle}</td>
                     <td className="px-4 py-3 text-muted-foreground">{calle.ciudadNombre}</td>
                     <td className="px-4 py-3 text-muted-foreground">{calle.desde} - {calle.hasta}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{calle.orientacion || "-"}</td>
                     <td className="px-4 py-3">{superficieBadge(calle.estadoSuperficie)}</td>
                     <td className="px-4 py-3 text-muted-foreground">
                       {CALLE_ESTADO_OBRA_LABELS[calle.estadoObra]}
                       {calle.obraNombre ? <span className="block text-xs">{calle.obraNombre}</span> : null}
                     </td>
                     <td className="px-4 py-3">{calle.anioRelevamiento}</td>
+                    <td className="px-4 py-3">{calle.cuadrasAsfaltadas ?? 0}/{calle.cuadrasTierra ?? 0}</td>
                     <td className="px-4 py-3">{calle.longitudMetros} m</td>
                   </tr>
                 ))}

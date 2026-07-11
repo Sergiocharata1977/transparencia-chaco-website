@@ -71,6 +71,15 @@
 - `app/quienes-somos/page.tsx`: copy alineado a Charata, independencia en positivo y foco en documentacion verificable.
 - Validacion liviana: `git diff --check` OK y `rg` sin frases negativas principales en los archivos tocados. No se corrio build local por regla operativa del clon en D: sin `node_modules`.
 
+## Actualizacion 2026-07-11 - Calles con campos tipo planilla y marcado visual
+
+- `calles_municipio` ahora guarda campos tipo planilla: `orientacion`, `cuadras100`, `cuadras50`, `cuadrasAsfaltadas` y `cuadrasTierra`.
+- `/admin/calles`: el formulario se amplio para cargar esos datos, calcular metros por cuadras y mostrar orientacion/cuadras A/T en la tabla.
+- Se agrego `components/mapa/editor-tramo-calle.tsx`: editor visual Leaflet para marcar inicio y fin del tramo con clicks, emulando el enfoque GIS de SIG-Agro pero con lineas de calles.
+- APIs admin y normalizador publico actualizados para persistir y leer los nuevos campos; el historial registra metros y cuadras asfaltadas/tierra.
+- Vista publica `/calles-pavimento` y mapas muestran orientacion y cuadras asfaltadas/tierra en tabla y popups.
+- Validacion liviana: `git diff --check` OK. No se corrio build/type-check local por regla operativa del clon en D: sin `node_modules`.
+
 ## Proyecto
 - Repo: `transparencia-chaco-website` (GitHub)
 - Rama: `main`
