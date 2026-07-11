@@ -1,5 +1,14 @@
 # HANDOFF ACTUAL
 
+## Actualizacion 2026-07-11 - Repos externos bajados en disco D
+
+- Se bajaron como carpetas anidadas locales dentro de `D:\Proyectos\transparencia-chaco-website` los tres proyectos solicitados: `platform-empresa`, `finazas-landing` y `dra.casasola`.
+- Repos origen: `https://github.com/Sergiocharata1977/platform-empresa`, `https://github.com/Sergiocharata1977/finazas-landing` y `https://github.com/Sergiocharata1977/dra.casasola`.
+- Nota de nombre: el repositorio de GitHub figura como `finazas-landing` (sin la segunda `n`), aunque el pedido lo menciona como finanzas landing.
+- Se agregaron esos paths como `safe.directory` de Git por la regla de disco D.
+- No se instalo Node, no se instalaron dependencias y no se corrio `pnpm`, `npm`, dev server, build ni type-check.
+- Validacion liviana: `git status` y `git log -1` en cada repo clonado.
+
 ## Actualizacion rapida - 2026-05-25
 - Home: se corrigio la imagen principal del hero para usar `/foto-principal.png` en lugar de `/hero-transparency-glass.png`.
 - Validacion: `npx tsc --noEmit` paso sin errores.
