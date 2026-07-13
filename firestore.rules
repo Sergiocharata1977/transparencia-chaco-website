@@ -42,6 +42,11 @@ service cloud.firestore {
       allow write: if isAuthenticated();
     }
 
+    match /basurales/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
     match /accidentes/{document=**} {
       allow read: if true;
       allow write: if isAuthenticated();

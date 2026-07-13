@@ -46,6 +46,12 @@ function normalizeCalle(docId: string, data: Record<string, unknown>): CalleMuni
     observaciones: data.observaciones != null ? String(data.observaciones) : undefined,
     obraPublicaId: data.obraPublicaId != null ? String(data.obraPublicaId) : undefined,
     obraNombre: data.obraNombre != null ? String(data.obraNombre) : undefined,
+    sugerenciaSuperficie: data.sugerenciaSuperficie != null
+      ? (String(data.sugerenciaSuperficie) as CalleMunicipio["sugerenciaSuperficie"])
+      : undefined,
+    sugerenciaConfianza: data.sugerenciaConfianza != null ? Number(data.sugerenciaConfianza) : undefined,
+    sugerenciaFechaISO: data.sugerenciaFechaISO != null ? String(data.sugerenciaFechaISO) : undefined,
+    sugerenciaDetalle: data.sugerenciaDetalle != null ? String(data.sugerenciaDetalle) : undefined,
     publico: Boolean(data.publico ?? false),
     historial: Array.isArray(data.historial) ? (data.historial as CalleMunicipio["historial"]) : undefined,
     createdAt: data.createdAt != null ? String(data.createdAt) : undefined,

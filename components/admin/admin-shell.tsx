@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
 import {
   BarChart2, BookOpen, Building2, FileCheck, FileText,
-  Globe, Home, LogOut, MapPin, Megaphone, Newspaper, Route, Send, Store, Users,
+  Globe, Home, LogOut, MapPin, Megaphone, Newspaper, Route, Send, Store, Trash2, Users,
 } from "lucide-react"
 import { subscribeAuthState, logoutAdmin, type User } from "@/lib/firebase/auth-client"
 
@@ -23,6 +23,7 @@ const NAV = [
       { href: "/admin/publicaciones",  icon: BookOpen,   label: "Noticias" },
       { href: "/admin/obras",          icon: Building2,  label: "Obras Públicas" },
       { href: "/admin/calles",         icon: Route,      label: "Calles y Pavimento" },
+      { href: "/admin/basurales",      icon: Trash2,     label: "Basurales" },
       { href: "/admin/notas-municipio",icon: Send,       label: "Notas al Municipio" },
       { href: "/admin/reclamos",       icon: Megaphone,  label: "Reclamos por Ente" },
       { href: "/admin/medios",         icon: Newspaper,  label: "Medios y Pautas" },

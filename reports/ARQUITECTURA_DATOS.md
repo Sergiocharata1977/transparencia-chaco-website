@@ -283,6 +283,50 @@ puntajeTotal = Σ (criterio === true ? peso : 0)
 
 ---
 
+### 9. `basurales`
+
+Basurales a cielo abierto detectados por observatorio, reportes ciudadanos o modelo espectral Sentinel-2.
+
+**API admin:** `GET/POST /api/admin/basurales` Â· `PATCH/DELETE /api/admin/basurales/[id]`
+**API deteccion:** `POST /api/admin/deteccion/basurales`
+**Pagina admin:** `/admin/basurales`
+**Pagina publica:** `/basurales`
+
+| Campo | Tipo | Descripcion |
+|---|---|---|
+| `ciudadSlug` | string | Slug canonico de ciudad |
+| `ciudadNombre` | string | Nombre denormalizado |
+| `departamento` | string? | Departamento denormalizado |
+| `provincia` | string | Provincia |
+| `nombre` | string? | Nombre interno o publico del sitio |
+| `ubicacionTexto` | string? | Referencia territorial |
+| `geometry` | GeoJSON Polygon? | Poligono `[lon, lat]` |
+| `areaM2` | number | Area estimada |
+| `confianza` | number? | Score 0-1 del detector |
+| `fechaDeteccionISO` | string | `YYYY-MM-DD` |
+| `escenaId` | string? | Escena Sentinel-2 usada |
+| `estadoVerificacion` | enum | `candidato`, `verificado_foto`, `verificado_campo`, `descartado`, `erradicado` |
+| `fuente` | enum | `modelo_espectral`, `imagen_satelital`, `reporte_ciudadano`, `municipio`, `observatorio` |
+| `publico` | boolean | Solo lo publica el admin/verificador |
+| `historial` | array | Evolucion de area, estado, fuente y observaciones |
+
+El detector satelital crea documentos con `estadoVerificacion: "candidato"` y `publico: false`. La publicacion requiere verificacion humana.
+
+### Campos satelitales en `calles_municipio`
+
+El endpoint `POST /api/admin/deteccion/calles` analiza tramos existentes con Sentinel-2 y escribe solo sugerencias:
+
+| Campo | Tipo | Descripcion |
+|---|---|---|
+| `sugerenciaSuperficie` | `"asfaltada" \| "no_asfaltada" \| "sin_dato"` | Clasificacion espectral sugerida |
+| `sugerenciaConfianza` | number | Proporcion de puntos definidos que sostienen la mayoria |
+| `sugerenciaFechaISO` | string | Fecha de corrida |
+| `sugerenciaDetalle` | string | Conteo legible de puntos usados |
+
+La sugerencia nunca pisa `estadoSuperficie`; el admin debe aceptarla o corregir manualmente.
+
+---
+
 ## Relaciones entre colecciones
 
 ```

@@ -20,6 +20,7 @@ const observatorioLinks = [
   { href: "/publicaciones", label: "Noticias e informes" },
   { href: "/obras-publicas", label: "Obras públicas" },
   { href: "/calles-pavimento", label: "Calles y pavimento" },
+  { href: "/basurales", label: "Basurales" },
   { href: "/medios", label: "Medios y pauta" },
   { href: "/proveedores-estado", label: "Proveedores del Estado" },
   { href: "/ranking-transparencia", label: "Ranking de transparencia" },
@@ -31,6 +32,7 @@ const charataLinks = [
   { href: "/rendicion", label: "Presupuesto y rendicion" },
   { href: "/obras-publicas", label: "Obras publicas" },
   { href: "/calles-pavimento", label: "Calles y pavimento" },
+  { href: "/basurales", label: "Basurales" },
   { href: "/marco-legal", label: "Concejo y marco legal" },
   { href: "/proveedores-estado", label: "Compras y contrataciones" },
 ]

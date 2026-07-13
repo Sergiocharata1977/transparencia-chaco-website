@@ -1,5 +1,15 @@
 # HANDOFF ACTUAL
 
+## Actualizacion 2026-07-13 - Detector satelital propio (basurales + sugerencia calles)
+
+- Se implemento el plan `reports/PLAN_DETECTOR_SATELITAL_2026-07-13.md` en una version operativa sin dependencias nuevas: tipos `types/basurales.ts`, servicio CDSE `lib/satelital/copernicus.ts`, parser TIFF restringido y utilidades geo en `lib/satelital/`.
+- Backend: CRUD admin `basurales`, endpoint `POST /api/admin/deteccion/basurales` que crea candidatos privados, endpoint `POST /api/admin/deteccion/calles` que escribe solo `sugerencia*` en `calles_municipio`.
+- Frontend: pagina publica `/basurales`, mapa Leaflet de poligonos, admin inicial `/admin/basurales`, enlaces en navbar/footer/sidebar/dashboard.
+- Firestore/env: regla `basurales` agregada; `.env.example` documenta `CDSE_CLIENT_ID`, `CDSE_CLIENT_SECRET` y `CDSE_TOKEN_URL`.
+- Validacion local: `git diff --check` OK, `rg` confirma que no hay `@turf`/`geotiff` y que el endpoint satelital de calles no escribe `estadoSuperficie`. No se corrio type-check/build por regla operativa del clon en D sin `node_modules`.
+- Pendientes: cargar credenciales CDSE en `.env.local` y Vercel; desplegar `firebase deploy --only firestore:rules`; calibrar umbrales NDVI/BSI/brillo con primera corrida real en Charata; integrar UI de sugerencias en `/admin/calles`; agregar editor visual de poligonos si se necesita refinamiento manual.
+- Riesgos: Sentinel-2 a 10 m/px genera falsos positivos (canteras, campos arados, playones de tierra) y no distingue ripio vs tierra; el flujo candidato -> verificacion/descartado es obligatorio antes de publicar.
+
 ## Actualizacion 2026-07-11 - Repos externos al mismo nivel en disco D
 
 - Correccion de ubicacion: los proyectos externos deben quedar como carpetas hermanas de `transparencia-chaco-website`, no anidadas dentro de este repo.

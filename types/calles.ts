@@ -22,6 +22,8 @@ export type CalleFuente =
   | "observatorio"
   | "imagen_satelital"
 
+export type CalleSugerenciaSuperficie = "asfaltada" | "no_asfaltada" | "sin_dato"
+
 export interface CalleCoordinate {
   lat: number
   lng: number
@@ -71,6 +73,10 @@ export interface CalleMunicipio {
   observaciones?: string
   obraPublicaId?: string
   obraNombre?: string
+  sugerenciaSuperficie?: CalleSugerenciaSuperficie
+  sugerenciaConfianza?: number
+  sugerenciaFechaISO?: string
+  sugerenciaDetalle?: string
   publico: boolean
   historial?: CalleHistorialItem[]
   createdAt?: string
@@ -121,4 +127,10 @@ export const CALLE_FUENTE_LABELS: Record<CalleFuente, string> = {
   provincia: "Provincia",
   observatorio: "Observatorio",
   imagen_satelital: "Imagen satelital",
+}
+
+export const CALLE_SUGERENCIA_SUPERFICIE_LABELS: Record<CalleSugerenciaSuperficie, string> = {
+  asfaltada: "Asfaltada",
+  no_asfaltada: "No asfaltada",
+  sin_dato: "Sin dato",
 }
