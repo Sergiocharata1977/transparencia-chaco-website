@@ -124,12 +124,14 @@
   body {
     @apply text-foreground;
     background: #e7eff1;
+    overflow: hidden;
   }
 }
 
 .site-frame {
-  min-height: calc(100dvh - (var(--site-margin) * 2));
+  height: calc(100dvh - (var(--site-margin) * 2));
   margin: var(--site-margin);
-  overflow: clip;
+  overflow-x: clip;
+  overflow-y: auto;
   background: var(--background);
 }
