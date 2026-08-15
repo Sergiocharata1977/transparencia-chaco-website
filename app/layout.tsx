@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`font-sans antialiased`}>
-        {children}
+        <div className="site-frame">{children}</div>
         <Analytics />
       </body>
     </html>
